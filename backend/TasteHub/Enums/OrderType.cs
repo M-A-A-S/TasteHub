@@ -3,6 +3,7 @@
     public enum OrderType
     {
         DineIn,
-        Takeaway
+        Takeaway,
+        Delivery
     }
 }
