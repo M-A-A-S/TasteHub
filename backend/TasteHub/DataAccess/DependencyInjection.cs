@@ -8,6 +8,7 @@ namespace TasteHub.DataAccess
         public static IServiceCollection AddApplicationRepositories(this IServiceCollection services)
         {
             services.AddScoped<IMenuCategoryRepository, MenuCategoryRepository>();
+            services.AddScoped<IMenuItemRepository, MenuItemRepository>();
             return services;
         }
     }

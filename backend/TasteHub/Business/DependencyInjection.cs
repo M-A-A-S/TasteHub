@@ -8,6 +8,8 @@ namespace TasteHub.Business
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IMenuCategoryService, MenuCategoryService>();
+            services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IMenuItemService, MenuItemService>();
             return services;
         }
     }

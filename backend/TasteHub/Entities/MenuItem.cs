@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace TasteHub.Entities
 {
@@ -44,7 +45,7 @@ namespace TasteHub.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-
+        [JsonIgnore]
         public MenuCategory? MenuCategory { get; set; }
         public ICollection<MenuItemSize>? MenuItemSizes { get; set; }
         public ICollection<MenuItemExtra>? MenuItemExtras { get; set; }
