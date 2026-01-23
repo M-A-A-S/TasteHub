@@ -31,7 +31,7 @@ namespace TasteHub.DataAccess.Repositories
                     query = query.Where(x => x.MenuCategoryId == categoryId.Value);
                 }
 
-                // 2Search across fields
+                // Search across fields
                 if (!string.IsNullOrWhiteSpace(search))
                 {
                     search = search.ToLower();

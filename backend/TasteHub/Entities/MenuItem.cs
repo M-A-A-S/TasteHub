@@ -45,7 +45,7 @@ namespace TasteHub.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public MenuCategory? MenuCategory { get; set; }
         public ICollection<MenuItemSize>? MenuItemSizes { get; set; }
         public ICollection<MenuItemExtra>? MenuItemExtras { get; set; }

@@ -1,0 +1,14 @@
+{
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "categories": "Categories Management",
+    "menu": "Menu Management",
+    "orders": "Orders",
+    "analytics": "Analytics",
+    "settings": "Settings"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel"
+  }
+}

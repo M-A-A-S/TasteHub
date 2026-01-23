@@ -1,0 +1,14 @@
+{
+  "sidebar": {
+    "dashboard": "لوحة التحكم",
+    "categories": "إدارة الأصناف",
+    "menu": "إدارة القائمة",
+    "orders": "الطلبات",
+    "analytics": "الإحصائيات",
+    "settings": "الإعدادات"
+  },
+  "common": {
+    "save": "حفظ",
+    "cancel": "إلغاء"
+  }
+}
