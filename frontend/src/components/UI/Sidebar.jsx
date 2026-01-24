@@ -118,12 +118,12 @@ const Sidebar = () => {
       <div className="flex items-center justify-between gap-1 p-4 border-b h-16">
         {sidebarOpen && (
           <div className="flex items-center space-x-2">
-            <ChefHat className="h-8 w-8 text-indigo-600" />
+            <ChefHat className="h-8 w-8 text-orange-600" />
             <h3 className="text-xl font-bold">Bistro Manager</h3>
           </div>
         )}
         {!sidebarOpen && (
-          <ChefHat className="h-8 w-8 text-indigo-600 mx-auto" />
+          <ChefHat className="h-8 w-8 text-orange-600 mx-auto" />
         )}
         <button onClick={() => setSidebarOpen(!sidebarOpen)}>
           <MenuIcon className="h-5 w-5" />
@@ -141,8 +141,8 @@ const Sidebar = () => {
                   `flex items-center w-full p-3 rounded-lg mb-2 
                 transition-colors 
                 transition-all duration-300 
-                hover:bg-indigo-100 dark:hover:text-gray-950
-                ${isActive ? "bg-indigo-100 text-indigo-700" : ""}`
+                hover:bg-orange-100 dark:hover:text-gray-950
+                ${isActive ? "bg-orange-100 text-orange-700" : ""}`
                 }
               >
                 <span className="icon">{link.icon}</span>
