@@ -10,5 +10,21 @@
   "common": {
     "save": "Save",
     "cancel": "Cancel"
+  },
+  "pages": {
+    "menu_page": {
+      "title": "Menu Management",
+      "description": "Create and organize your restaurant's offerings.",
+      "categories_label": "Categories",
+      "add_new_item": "Add New Item"
+    },
+
+    "categories_page": {
+      "title": "Categories",
+      "description": "Manage and organize menu categories.",
+      "add_new_category": "Add New Category",
+      "edit_category": "Edit Category",
+      "empty_state": "No categories found."
+    }
   }
 }

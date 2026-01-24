@@ -1,3 +1,5 @@
+import { safeCall } from "../../utils/utils";
+
 const Button = ({
   onClick,
   children,
@@ -7,12 +9,7 @@ const Button = ({
   loading = false,
   ...props
 }) => {
-  const handleClick = (e) => {
-    if (typeof onClick === "function") {
-      onClick(e);
-    }
-  };
-
+  const handleClick = safeCall(onClick);
   return (
     <button
       type={type}

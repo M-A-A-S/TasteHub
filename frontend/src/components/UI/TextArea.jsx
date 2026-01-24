@@ -1,3 +1,5 @@
+import { safeCall } from "../../utils/utils";
+
 const TextArea = ({
   label,
   name,
@@ -14,11 +16,7 @@ const TextArea = ({
   showLabel,
   ...props
 }) => {
-  const handleChange = (e) => {
-    if (typeof onChange === "function") {
-      onChange(e);
-    }
-  };
+  const handleChange = safeCall(onChange);
 
   return (
     <div className={className}>

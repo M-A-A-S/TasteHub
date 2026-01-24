@@ -10,5 +10,21 @@
   "common": {
     "save": "حفظ",
     "cancel": "إلغاء"
+  },
+  "pages": {
+    "menu_page": {
+      "title": "إدارة القائمة",
+      "description": "أنشئ ونظّم أصناف مطعمك بسهولة.",
+      "categories_label": "التصنيفات",
+      "add_new_item": "إضافة صنف جديد"
+    },
+
+    "categories_page": {
+      "title": "التصنيفات",
+      "description": "إدارة وتنظيم تصنيفات القائمة.",
+      "add_new_category": "إضافة تصنيف جديد",
+      "edit_category": "تعديل التصنيف",
+      "empty_state": "لا توجد تصنيفات."
+    }
   }
 }
