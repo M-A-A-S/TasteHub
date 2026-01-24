@@ -17,9 +17,8 @@ export const ViewSwitcher = ({ view, setView }) => {
         title="Table View"
         className={`w-full
           h-full
-          bg-transparent
           p-3
-          rounded-xl ${view == "table" ? "bg-orange-500" : ""}`}
+          rounded-xl ${view === "table" ? "bg-orange-500" : "bg-transparent"}`}
       >
         <TextAlignJustify />
       </Button>
@@ -28,9 +27,8 @@ export const ViewSwitcher = ({ view, setView }) => {
         title="Table View"
         className={`w-full
           h-full
-          bg-transparent
           p-3
-          rounded-xl ${view == "card" ? "bg-orange-500 " : ""}`}
+          rounded-xl ${view === "card" ? "bg-orange-500 " : "bg-transparent"}`}
       >
         <Grid2x2 />
       </Button>

@@ -1,19 +1,16 @@
 import { Plus } from "lucide-react";
 import Button from "../components/UI/Button";
-import Input from "../components/UI/Input";
-import TextArea from "../components/UI/TextArea";
-import Modal from "../components/UI/Modal";
 import { useEffect, useState } from "react";
 import PageHeader from "../components/PageHeader";
 import { useLanguage } from "../hooks/useLanguage";
 import { ViewSwitcher } from "../components/UI/ViewSwitcher";
-import { read, remove } from "../api/apiWrapper";
+import { create, read, remove, update } from "../api/apiWrapper";
 import CardView from "../components/MenuCategoriesPage/CardView";
 import TableView from "../components/MenuCategoriesPage/TableView";
 import AddEditCategoryModal from "../components/MenuCategoriesPage/AddEditCategoryModal";
 import ConfirmModal from "../components/UI/ConfirmModal";
-import { toast } from "../utils/toastHelper";
 import { showFail, showSuccess } from "../utils/utils";
+import SpinnerLoader from "../components/UI/SpinnerLoader";
 
 const MenuCategoriesPage = () => {
   const [view, setView] = useState("card"); // 'table' or 'card'
@@ -39,6 +36,10 @@ const MenuCategoriesPage = () => {
     delete_category_title,
     delete_category_message,
     delete_label,
+    add_success,
+    add_fail,
+    update_success,
+    update_fail,
   } = translations.pages.categories_page;
 
   const { cancel } = translations.common;
@@ -86,6 +87,44 @@ const MenuCategoriesPage = () => {
     // toast.default("Default info message.");
   };
 
+  function addEditCategory(payload) {
+    if (selectedCategory) {
+      updateCategory(payload);
+    } else {
+      addCategory(payload);
+    }
+  }
+
+  async function addCategory(payload) {
+    let result;
+    try {
+      result = await create(`menu-categories`, payload);
+      setCategories((prev) => [...prev, result.data]);
+      showSuccess(result?.code, add_success);
+    } catch (error) {
+      console.log("error -> ", error);
+      showFail(result?.code, add_fail);
+    } finally {
+      closeModal();
+    }
+  }
+
+  async function updateCategory(payload) {
+    let result;
+    try {
+      result = await update(`menu-categories/${selectedCategory?.id}`, payload);
+      setCategories((prev) =>
+        prev.map((cat) => (cat.id === result?.data?.id ? result.data : cat)),
+      );
+      showSuccess(result?.code, update_success);
+    } catch (error) {
+      console.log("error -> ", error);
+      showFail(result?.code, update_fail);
+    } finally {
+      closeModal();
+    }
+  }
+
   async function deleteCategory() {
     let result;
     try {
@@ -104,13 +143,25 @@ const MenuCategoriesPage = () => {
     }
   }
 
+  if (loading) {
+    return (
+      <div className="grid place-items-center h-[60vh]">
+        <SpinnerLoader />
+      </div>
+    );
+  }
+
+  if (categories.length <= 0) {
+    return <h2>{empty_state}</h2>;
+  }
+
   return (
     <div>
       <PageHeader
         title={title}
         description={description}
         leftSection={
-          <Button>
+          <Button onClick={handleAddCategory}>
             <Plus /> {add_new_category}
           </Button>
         }
@@ -130,6 +181,12 @@ const MenuCategoriesPage = () => {
           handleDeleteCategory={handleDeleteCategory}
         />
       )}
+      <AddEditCategoryModal
+        show={isAddEditCategoryModalOpen}
+        onClose={closeModal}
+        onConfirm={addEditCategory}
+        category={selectedCategory}
+      />
       <ConfirmModal
         show={isDeleteCategoryConfirmModalOpen}
         onClose={closeModal}

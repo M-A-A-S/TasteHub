@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Cairo:wght@400;700&display=swap");
+
 @keyframes slideIn {
   from {
     transform: translateX(120%);

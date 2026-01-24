@@ -27,7 +27,7 @@ const Input = ({
         </label>
       )}
       <input
-        className="w-full px-4 py-2 bg-gray-50 dark:bg-slate-800 
+        className="w-full px-4 py-2 my-2 bg-gray-50 dark:bg-slate-800 
         border border-gray-200 dark:border-gray-700 
         rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
         id={name}
@@ -41,7 +41,7 @@ const Input = ({
         maxLength={maxLength}
         {...props}
       />
-      {errorMessage && <div>{errorMessage}</div>}
+      {errorMessage && <small className="text-red-500">{errorMessage}</small>}
     </div>
   );
 };

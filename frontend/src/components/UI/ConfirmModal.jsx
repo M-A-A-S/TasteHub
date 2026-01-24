@@ -26,11 +26,14 @@ const ConfirmModal = ({
 
       {/* Actions */}
       <div className="mt-6 flex justify-end gap-3">
-        <Button
+        {/* <Button
           onClick={handleClose}
           className="bg-transparent text-black dark:text-white shadow-none
            hover:bg-gray-200 dark:hover:bg-gray-700"
         >
+          {cancelLabel}
+        </Button> */}
+        <Button onClick={handleClose} isCancelBtn={true}>
           {cancelLabel}
         </Button>
 

@@ -119,7 +119,7 @@ const Sidebar = () => {
         {sidebarOpen && (
           <div className="flex items-center space-x-2">
             <ChefHat className="h-8 w-8 text-orange-600" />
-            <h3 className="text-xl font-bold">Bistro Manager</h3>
+            <h3 className="text-xl font-bold">TasteHub</h3>
           </div>
         )}
         {!sidebarOpen && (

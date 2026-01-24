@@ -43,5 +43,14 @@
       "delete_label": "Delete"
     }
   },
-  "server_codes": {}
+  "server_codes": {},
+  "validations": {
+    "required": "This field is required",
+    "invalid_email": "Please enter a valid email address",
+    "weak_password": "Password must be at least 8 characters long and include a number and a special character",
+    "invalid_phone": "Please enter a valid phone number",
+    "invalid_date": "Please enter a valid date",
+    "passwords_do_not_match": "Passwords do not match",
+    "default_message": "Please enter valid data"
+  }
 }

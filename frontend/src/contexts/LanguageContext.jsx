@@ -17,6 +17,14 @@ export const LanguageProvider = ({ children }) => {
     localStorage.setItem("tastehub-language", language);
   }, [language]);
 
+  if (language === "ar") {
+    document.documentElement.classList.add("font-arabic");
+    document.documentElement.classList.remove("font-sans");
+  } else {
+    document.documentElement.classList.add("font-sans");
+    document.documentElement.classList.remove("font-arabic");
+  }
+
   const translations =
     language === "en" ? translationsFiles.en : translationsFiles.ar;
 

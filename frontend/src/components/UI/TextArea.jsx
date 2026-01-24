@@ -43,7 +43,7 @@ const TextArea = ({
         cols={cols}
         {...props}
       />
-      {errorMessage && <div>{errorMessage}</div>}
+      {errorMessage && <small className="text-red-500">{errorMessage}</small>}
     </div>
   );
 };

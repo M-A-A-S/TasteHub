@@ -13,3 +13,10 @@
     @apply bg-gray-100 dark:bg-slate-900 text-gray-900 dark:text-gray-100;
   }
 }
+
+@layer components {
+  .cancel-btn {
+    @apply bg-transparent text-black dark:text-white shadow-none
+           hover:bg-gray-200 dark:hover:bg-gray-700;
+  }
+}

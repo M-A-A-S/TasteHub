@@ -14,17 +14,14 @@ namespace TasteHub.Entities
         [Column(TypeName = "varchar(50)")]
         public string NameEn { get; set; } = null!;
 
-        [Required]
         [StringLength(50)]
         [Column(TypeName = "nvarchar(50)")]
         public string NameAr { get; set; } = null!;
 
-        [Required]
         [StringLength(100)]
         [Column(TypeName = "varchar(100)")]
         public string? DescriptionEn { get; set; }
 
-        [Required]
         [StringLength(100)]
         [Column(TypeName = "nvarchar(100)")]
         public string? DescriptionAr { get; set; }

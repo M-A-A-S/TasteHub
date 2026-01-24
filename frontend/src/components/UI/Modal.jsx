@@ -40,8 +40,8 @@ const Modal = ({ show, onClose, title, children, footer, className }) => {
         {footer && (
           <div
             className="p-6 bg-gray-50 dark:bg-slate-800 
-          border-t border-gray-100 border-gray-700
-          flex gap-3"
+          border-t border-gray-200 dark:border-gray-700
+          flex items-center justify-end gap-3"
           >
             {footer}
           </div>

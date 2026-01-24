@@ -43,5 +43,16 @@
       "delete_category_message": "هل أنت متأكد أنك تريد حذف هذا التصنيف؟",
       "delete_label": "حذف"
     }
+  },
+  "server_codes": {},
+  "validations": {
+    "required": "هذا الحقل مطلوب",
+    "invalid_email": "الرجاء إدخال بريد إلكتروني صالح",
+    "weak_password": "يجب أن تكون كلمة المرور 8 أحرف على الأقل وتحتوي على رقم وحرف خاص",
+    "invalid_phone": "الرجاء إدخال رقم هاتف صالح",
+    "invalid_date": "الرجاء إدخال تاريخ صالح",
+    "general_error": "حدث خطأ ما. يرجى تصحيح الأخطاء.",
+    "passwords_do_not_match": "كلمات المرور غير متطابقة",
+    "default_message": "يرجى إدخال بيانات صالحة"
   }
 }
