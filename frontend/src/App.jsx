@@ -5,10 +5,12 @@ import MenuCategoriesPage from "./pages/MenuCategoriesPage";
 import Home from "./pages/Home";
 import MenuItemsPage from "./pages/MenuItemsPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ToastContainer from "./components/UI/ToastContainer";
 
 function App() {
   return (
     <div>
+      <ToastContainer />
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>

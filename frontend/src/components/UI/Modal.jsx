@@ -1,15 +1,12 @@
 import { X } from "lucide-react";
+import { safeCall } from "../../utils/utils";
 
 const Modal = ({ show, onClose, title, children, footer, className }) => {
   if (!show) {
     return null;
   }
 
-  const handleClose = (e) => {
-    if (typeof onClose === "function") {
-      onClose(e);
-    }
-  };
+  const handleClose = safeCall(onClose);
 
   return (
     <div
@@ -24,8 +21,8 @@ const Modal = ({ show, onClose, title, children, footer, className }) => {
       >
         {/* Header */}
         <header
-          className="p-6 border-b border-gray-100 
-        border-gray-700 flex justify-between items-center"
+          className="p-6 border-b border-gray-200 
+        dark:border-gray-700 flex justify-between items-center"
         >
           <h3 className="text-xl font-medium">{title}</h3>
           <button

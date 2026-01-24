@@ -7,10 +7,13 @@ import { useEffect, useState } from "react";
 import PageHeader from "../components/PageHeader";
 import { useLanguage } from "../hooks/useLanguage";
 import { ViewSwitcher } from "../components/UI/ViewSwitcher";
-import { read } from "../api/apiWrapper";
+import { read, remove } from "../api/apiWrapper";
 import CardView from "../components/MenuCategoriesPage/CardView";
 import TableView from "../components/MenuCategoriesPage/TableView";
 import AddEditCategoryModal from "../components/MenuCategoriesPage/AddEditCategoryModal";
+import ConfirmModal from "../components/UI/ConfirmModal";
+import { toast } from "../utils/toastHelper";
+import { showFail, showSuccess } from "../utils/utils";
 
 const MenuCategoriesPage = () => {
   const [view, setView] = useState("card"); // 'table' or 'card'
@@ -25,8 +28,20 @@ const MenuCategoriesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { translations } = useLanguage();
-  const { title, description, add_new_category, edit_category, empty_state } =
-    translations.pages.categories_page;
+  const {
+    title,
+    description,
+    add_new_category,
+    edit_category,
+    empty_state,
+    delete_success,
+    delete_fail,
+    delete_category_title,
+    delete_category_message,
+    delete_label,
+  } = translations.pages.categories_page;
+
+  const { cancel } = translations.common;
 
   const fetchCategories = async () => {
     try {
@@ -65,7 +80,29 @@ const MenuCategoriesPage = () => {
     setIsAddEditCategoryModalOpen(false);
     setIsDeleteCategoryConfirmModalOpen(false);
     setSelectedCategory(null);
+    // toast.success("Success! Operation completed.");
+    // toast.error("Error! Something went wrong.");
+    // toast.warning("Warning! Check this out.");
+    // toast.default("Default info message.");
   };
+
+  async function deleteCategory() {
+    let result;
+    try {
+      result = await remove(`menu-categories/${selectedCategory.id}`);
+
+      setCategories((prev) =>
+        prev.filter((cat) => cat.id != selectedCategory.id),
+      );
+
+      showSuccess(result?.code, delete_success);
+    } catch (error) {
+      console.log("error -> ", error);
+      showFail(result?.code, delete_fail);
+    } finally {
+      closeModal();
+    }
+  }
 
   return (
     <div>
@@ -93,7 +130,15 @@ const MenuCategoriesPage = () => {
           handleDeleteCategory={handleDeleteCategory}
         />
       )}
-      <h1>MenuCategoriesPage</h1>
+      <ConfirmModal
+        show={isDeleteCategoryConfirmModalOpen}
+        onClose={closeModal}
+        onConfirm={deleteCategory}
+        title={delete_category_title}
+        message={delete_category_message}
+        cancelLabel={cancel}
+        confirmLabel={delete_label}
+      />
     </div>
   );
 };

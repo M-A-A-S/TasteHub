@@ -10,7 +10,9 @@
   "common": {
     "save": "Save",
     "cancel": "Cancel",
-    "empty_state": "No Data Found"
+    "empty_state": "No Data Found",
+    "success": "Operation completed successfully!",
+    "fail": "Something went wrong. Please try again."
   },
   "pages": {
     "menu_page": {
@@ -19,7 +21,6 @@
       "categories_label": "Categories",
       "add_new_item": "Add New Item"
     },
-
     "categories_page": {
       "title": "Categories",
       "description": "Manage and organize menu categories.",
@@ -30,7 +31,17 @@
       "nameAr": "Category Name (AR)",
       "descriptionEn": "Description (EN)",
       "descriptionAr": "Description (AR)",
-      "actions": "Actions"
+      "actions": "Actions",
+      "delete_success": "Category deleted successfully!",
+      "delete_fail": "Failed to delete category. Try again.",
+      "add_success": "Category added successfully!",
+      "add_fail": "Failed to add category. Try again.",
+      "update_success": "Category updated successfully!",
+      "update_fail": "Failed to update category. Try again.",
+      "delete_category_title": "Delete Category",
+      "delete_category_message": "Are you sure you want to delete this category?",
+      "delete_label": "Delete"
     }
-  }
+  },
+  "server_codes": {}
 }
