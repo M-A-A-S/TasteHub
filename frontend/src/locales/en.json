@@ -9,7 +9,8 @@
   },
   "common": {
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "empty_state": "No Data Found"
   },
   "pages": {
     "menu_page": {
@@ -24,7 +25,12 @@
       "description": "Manage and organize menu categories.",
       "add_new_category": "Add New Category",
       "edit_category": "Edit Category",
-      "empty_state": "No categories found."
+      "empty_state": "No categories found.",
+      "nameEn": "Category Name (EN)",
+      "nameAr": "Category Name (AR)",
+      "descriptionEn": "Description (EN)",
+      "descriptionAr": "Description (AR)",
+      "actions": "Actions"
     }
   }
 }

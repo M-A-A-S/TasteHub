@@ -9,7 +9,8 @@
   },
   "common": {
     "save": "حفظ",
-    "cancel": "إلغاء"
+    "cancel": "إلغاء",
+    "empty_state": "لا توجد بيانات"
   },
   "pages": {
     "menu_page": {
@@ -24,7 +25,12 @@
       "description": "إدارة وتنظيم تصنيفات القائمة.",
       "add_new_category": "إضافة تصنيف جديد",
       "edit_category": "تعديل التصنيف",
-      "empty_state": "لا توجد تصنيفات."
+      "empty_state": "لا توجد تصنيفات.",
+      "nameEn": "اسم التصنيف (EN)",
+      "nameAr": "اسم التصنيف (AR)",
+      "descriptionEn": "الوصف (EN)",
+      "descriptionAr": "الوصف (AR)",
+      "actions": "الإجراءات"
     }
   }
 }

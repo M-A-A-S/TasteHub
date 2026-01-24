@@ -100,7 +100,7 @@ const menus = {
 // };
 
 const Sidebar = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { language, translations } = useLanguage();
 
   console.log("translations -> ", translations);
