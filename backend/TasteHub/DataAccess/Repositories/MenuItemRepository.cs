@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TasteHub.DataAccess.Interfaces;
+using TasteHub.DTOs.MenuCategory;
+using TasteHub.DTOs.MenuItem;
 using TasteHub.Entities;
 using TasteHub.Utilities;
 using TasteHub.Utilities.ResultCodes;
@@ -14,7 +16,7 @@ namespace TasteHub.DataAccess.Repositories
         {
         }
 
-        public async Task<Result<PagedResult<MenuItem>>> GetFilteredAsync(
+        public async Task<Result<PagedResult<MenuItemResponseDTO>>> GetFilteredAsync(
             int? categoryId = null,
             string? search = null,
             string? sort = null,
@@ -23,7 +25,8 @@ namespace TasteHub.DataAccess.Repositories
         {
             try
             {
-                IQueryable<MenuItem> query = _dbSet.AsNoTracking().Include(x => x.MenuCategory);
+                IQueryable<MenuItem> query = _dbSet
+                    .Include(x => x.MenuCategory);
 
                 //Filter by category
                 if (categoryId.HasValue)
@@ -67,11 +70,37 @@ namespace TasteHub.DataAccess.Repositories
                 pageNumber = pageNumber < 1 ? 1 : pageNumber;
                 pageSize = pageSize < 1 ? 10 : pageSize;
                 pageSize = pageSize > 100 ? 100 : pageSize;
-
+                Console.WriteLine(query.ToQueryString());
                 var total = await query.CountAsync();
-                var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+                var items = await query
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize).Select(
+                    i =>  new MenuItemResponseDTO
+                    {
+                        Id = i.Id,
+                        NameEn = i.NameEn,
+                        NameAr = i.NameAr,
+                        DescriptionEn = i.DescriptionEn,
+                        DescriptionAr = i.DescriptionAr,
+                        ImageUrl = i.ImageUrl,
+                        IsActive = i.IsActive,
+                        Price = i.Price,
+                        CreatedAt = i.CreatedAt,
+                        UpdatedAt = i.UpdatedAt,
+                        Category = new MenuCategoryResponseDTO
+                        {
+                            Id = i.MenuCategory!.Id,
+                            NameEn = i.MenuCategory.NameEn,
+                            NameAr = i.MenuCategory.NameAr,
+                            DescriptionEn = i.MenuCategory.DescriptionEn,
+                            DescriptionAr = i.MenuCategory.DescriptionAr,
+                            CreatedAt = i.MenuCategory.CreatedAt,
+                            UpdatedAt = i.MenuCategory.UpdatedAt,
+                        }
+                    })
+                    .ToListAsync();
 
-                return Result<PagedResult<MenuItem>>.Success(new PagedResult<MenuItem>
+                return Result<PagedResult<MenuItemResponseDTO>>.Success(new PagedResult<MenuItemResponseDTO>
                 {
                     Items = items,
                     Total = total,
@@ -82,7 +111,7 @@ namespace TasteHub.DataAccess.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while retrieving filtered menu items.");
-                return Result<PagedResult<MenuItem>>.Failure(ResultCodes.ServerError, 500, "Server error");
+                return Result<PagedResult<MenuItemResponseDTO>>.Failure(ResultCodes.ServerError, 500, "Server error");
             }
         }
     }

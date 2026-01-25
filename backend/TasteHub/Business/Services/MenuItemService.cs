@@ -101,7 +101,7 @@ namespace TasteHub.Business.Services
             return await _repo.GetByIdAsync(id);
         }
 
-        public async Task<Result<PagedResult<MenuItem>>> GetFilteredAsync(
+        public async Task<Result<PagedResult<MenuItemResponseDTO>>> GetFilteredAsync(
             int? categoryId = null,
             string? search = null,
             string? sort = null,

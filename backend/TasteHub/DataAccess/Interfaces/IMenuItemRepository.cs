@@ -1,11 +1,12 @@
-﻿using TasteHub.Entities;
+﻿using TasteHub.DTOs.MenuItem;
+using TasteHub.Entities;
 using TasteHub.Utilities;
 
 namespace TasteHub.DataAccess.Interfaces
 {
     public interface IMenuItemRepository : IRepository<MenuItem>
     {
-        Task<Result<PagedResult<MenuItem>>> GetFilteredAsync(
+        Task<Result<PagedResult<MenuItemResponseDTO>>> GetFilteredAsync(
                   int? categoryId = null,
                   string? search = null,
                   string? sort = null,  // e.g., "price_desc"

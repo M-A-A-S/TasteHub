@@ -10,7 +10,7 @@ namespace TasteHub.Business.Interfaces
         Task<Result<MenuItem>> UpdateAsync(int id, MenuItemDTO dto);
         Task<Result<bool>> DeleteAsync(int id);
         Task<Result<MenuItem>> GetByIdAsync(int id);
-        Task<Result<PagedResult<MenuItem>>> GetFilteredAsync(
+        Task<Result<PagedResult<MenuItemResponseDTO>>> GetFilteredAsync(
             int? categoryId = null,
             string? search = null,
             string? sort = null,
