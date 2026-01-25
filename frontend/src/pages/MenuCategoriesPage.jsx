@@ -29,7 +29,6 @@ const MenuCategoriesPage = () => {
     title,
     description,
     add_new_category,
-    edit_category,
     empty_state,
     delete_success,
     delete_fail,
