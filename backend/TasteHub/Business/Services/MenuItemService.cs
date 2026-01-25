@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.JSInterop.Infrastructure;
 using TasteHub.Business.Interfaces;
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.MenuItem;
@@ -46,15 +47,25 @@ namespace TasteHub.Business.Services
                 }
 
                 imageUrl = imageSaveResult.Data;
-                entity.ImageUrl = imageUrl;
             }
+            else if (!string.IsNullOrWhiteSpace(dto.ImageUrl) && dto.ImageUrl.IsValidImageUrl())
+            {
+                imageUrl = dto.ImageUrl;
+            }
+            else
+            {
+                imageUrl = null;
+            }
+
+            entity.ImageUrl = imageUrl;
 
             var result = await _repo.AddAsync(entity);
 
-            if (!result.IsSuccess && imageUrl != null)
+            if (!result.IsSuccess && imageUrl != null && dto.ImageFile != null)
             {
                 await _imageService.DeleteImage(imageUrl);
             }
+
 
             if (result.IsSuccess && result.Data != null)
             {
@@ -136,8 +147,6 @@ namespace TasteHub.Business.Services
             }
 
             var entity = existingResult.Data;
-
-
             string? finalImageUrl = entity.ImageUrl;
 
             // Delete Image Only
@@ -170,6 +179,14 @@ namespace TasteHub.Business.Services
                 }
 
                 finalImageUrl = replaceResult.Data;
+            }
+            else if (!string.IsNullOrWhiteSpace(dto.ImageUrl) && dto.ImageUrl.IsValidImageUrl())
+            {
+                finalImageUrl = dto.ImageUrl;
+            }
+            else
+            {
+                finalImageUrl = null;
             }
 
 
