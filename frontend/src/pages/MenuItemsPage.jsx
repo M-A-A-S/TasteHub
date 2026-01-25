@@ -168,7 +168,7 @@ const MenuItemsPage = () => {
       setMenuItems((prev) =>
         prev.filter((cat) => cat.id != selectedMenuItem.id),
       );
-
+      setTotalMenuItems((prev) => prev - 1);
       showSuccess(result?.code, menu_item_delete_success);
     } catch (error) {
       console.log("error -> ", error);
@@ -212,14 +212,14 @@ const MenuItemsPage = () => {
         <CardView
           menuItems={menuItems}
           handleEditMenuItem={handleEditMenuItem}
-          handleDeleteCategory={handleDeleteMenuItem}
+          handleDeleteMenuItem={handleDeleteMenuItem}
         />
       )}
       {view == "table" && (
         <TableView
           menuItems={menuItems}
           handleEditMenuItem={handleEditMenuItem}
-          handleDeleteCategory={handleDeleteMenuItem}
+          handleDeleteMenuItem={handleDeleteMenuItem}
         />
       )}
       <Pagination
