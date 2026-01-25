@@ -22,9 +22,12 @@ const TextArea = ({
     <div className={className}>
       {label && (
         <label
-          className={`${showLabel ? "" : "absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0 [clip:rect(0,0,0,0)] [clip-path:inset(50%)]"}`}
+          htmlFor={name}
+          className={`text-sm font-medium capitalize tracking-wide cursor-pointer ${
+            !showLabel ? "sr-only" : ""
+          }`}
         >
-          <span>{label}</span>
+          {label}
         </label>
       )}
       <textarea

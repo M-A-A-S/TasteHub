@@ -35,7 +35,22 @@ const MenuItemsPage = () => {
 
   const { translations } = useLanguage();
 
-  const { title, description, add_new_item } = translations.pages.menu_page;
+  const {
+    title,
+    description,
+    add_new_item,
+    menu_item_add_success,
+    menu_item_add_fail,
+    menu_item_update_success,
+    menu_item_update_fail,
+    menu_item_delete_success,
+    menu_item_delete_fail,
+    menu_item_delete_modal_title,
+    menu_item_delete_modal_message,
+    menu_item_delete_modal_confirm,
+  } = translations.pages.menu_page;
+
+  const { cancel } = translations.common;
 
   const debouncedSearch = useDebounce(searchText, 500);
 
@@ -118,12 +133,12 @@ const MenuItemsPage = () => {
   async function addMenuItem(payload) {
     let result;
     try {
-      result = await create(`menu-categories`, payload);
+      result = await create(`menu-items`, payload);
       setMenuItems((prev) => [...prev, result.data]);
-      showSuccess(result?.code, "add_success");
+      showSuccess(result?.code, menu_item_add_success);
     } catch (error) {
       console.log("error -> ", error);
-      showFail(result?.code, "add_fail");
+      showFail(result?.code, menu_item_add_fail);
     } finally {
       closeModal();
     }
@@ -132,14 +147,14 @@ const MenuItemsPage = () => {
   async function updateMenuItem(payload) {
     let result;
     try {
-      result = await update(`menu-categories/${selectedMenuItem?.id}`, payload);
+      result = await update(`menu-items/${selectedMenuItem?.id}`, payload);
       setMenuItems((prev) =>
         prev.map((cat) => (cat.id === result?.data?.id ? result.data : cat)),
       );
-      showSuccess(result?.code, "update_success");
+      showSuccess(result?.code, menu_item_update_success);
     } catch (error) {
       console.log("error -> ", error);
-      showFail(result?.code, "update_fail");
+      showFail(result?.code, menu_item_update_fail);
     } finally {
       closeModal();
     }
@@ -148,16 +163,16 @@ const MenuItemsPage = () => {
   async function deleteMenuItem() {
     let result;
     try {
-      result = await remove(`menu-categories/${selectedMenuItem.id}`);
+      result = await remove(`menu-items/${selectedMenuItem.id}`);
 
       setMenuItems((prev) =>
         prev.filter((cat) => cat.id != selectedMenuItem.id),
       );
 
-      showSuccess(result?.code, "delete_success");
+      showSuccess(result?.code, menu_item_delete_success);
     } catch (error) {
       console.log("error -> ", error);
-      showFail(result?.code, "delete_fail");
+      showFail(result?.code, menu_item_delete_fail);
     } finally {
       closeModal();
     }
@@ -214,7 +229,21 @@ const MenuItemsPage = () => {
         pageSize={pageSize}
       />
 
-      <AddEditMenuItemModal show={isAddEditMenuItemModalOpen} />
+      <AddEditMenuItemModal
+        show={isAddEditMenuItemModalOpen}
+        onClose={closeModal}
+        onConfirm={addEditMenuItem}
+        menuItem={selectedMenuItem}
+      />
+      <ConfirmModal
+        show={isDeleteMenuItemConfirmModalOpen}
+        onClose={closeModal}
+        onConfirm={deleteMenuItem}
+        title={menu_item_delete_modal_title}
+        message={menu_item_delete_modal_message}
+        cancelLabel={cancel}
+        confirmLabel={menu_item_delete_modal_confirm}
+      />
     </div>
   );
 };
