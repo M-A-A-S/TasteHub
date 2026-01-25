@@ -25,7 +25,18 @@
       "price_label": "السعر",
       "created_label": "تاريخ الإنشاء",
       "updated_label": "تاريخ التحديث",
-      "id_label": "المعرف"
+      "id_label": "المعرف",
+      "table_headers": {
+        "id": "المعرف",
+        "name": "الاسم",
+        "category": "الفئة",
+        "description": "الوصف",
+        "price": "السعر",
+        "status": "الحالة",
+        "created": "تاريخ الإنشاء",
+        "updated": "تاريخ التحديث",
+        "actions": "إجراءات"
+      }
     },
 
     "categories_page": {
