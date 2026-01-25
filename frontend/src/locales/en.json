@@ -19,7 +19,13 @@
       "title": "Menu Management",
       "description": "Create and organize your restaurant's offerings.",
       "categories_label": "Categories",
-      "add_new_item": "Add New Item"
+      "add_new_item": "Add New Item",
+      "active": "Active",
+      "inactive": "Inactive",
+      "price_label": "Price",
+      "created_label": "Created",
+      "updated_label": "Updated",
+      "id_label": "ID"
     },
     "categories_page": {
       "title": "Categories",

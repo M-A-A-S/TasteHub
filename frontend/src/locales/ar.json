@@ -19,7 +19,13 @@
       "title": "إدارة القائمة",
       "description": "أنشئ ونظّم أصناف مطعمك بسهولة.",
       "categories_label": "التصنيفات",
-      "add_new_item": "إضافة صنف جديد"
+      "add_new_item": "إضافة صنف جديد",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "price_label": "السعر",
+      "created_label": "تاريخ الإنشاء",
+      "updated_label": "تاريخ التحديث",
+      "id_label": "المعرف"
     },
 
     "categories_page": {

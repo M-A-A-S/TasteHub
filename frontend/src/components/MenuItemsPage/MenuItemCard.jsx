@@ -9,7 +9,10 @@ const MenuItemCard = ({
 }) => {
   console.log("item -> ", menuItem);
 
-  const { language } = useLanguage();
+  const { language, translations } = useLanguage();
+
+  const { active, inactive, created_label, updated_label, id_label } =
+    translations.pages.menu_page;
 
   const onEdit = safeCall(handleEditMenuItem);
   const onDelete = safeCall(handleDeleteMenuItem);
@@ -43,9 +46,18 @@ const MenuItemCard = ({
                 : "bg-red-100 text-red-700"
             }`}
           >
-            {menuItem?.isActive ? "Active" : "Inactive"}
+            {menuItem?.isActive ? active : inactive}
           </span>
         </div>
+
+        {/* Category */}
+        {menuItem?.category && (
+          <p className="text-xs px-2 py-1 rounded-full bg-orange-100 text-orange-700 w-fit">
+            {language === "en"
+              ? menuItem.category.nameEn
+              : menuItem.category.nameAr}
+          </p>
+        )}
 
         {/* Description */}
         <p className="text-sm text-gray-500 line-clamp-2">
@@ -57,16 +69,24 @@ const MenuItemCard = ({
           <span className="text-lg font-bold text-orange-600">
             ${Number(menuItem?.price ?? 0).toFixed(2)}
           </span>
-          <span className="text-xs text-gray-400">ID: {menuItem?.id}</span>
+          <span className="text-xs text-gray-400">
+            {id_label}: {menuItem?.id}
+          </span>
         </div>
 
         {/* Dates */}
         <div className="text-xs text-gray-400 pt-1">
           {menuItem?.createdAt && (
-            <p>Created: {new Date(menuItem.createdAt).toLocaleDateString()}</p>
+            <p>
+              {created_label}:{" "}
+              {new Date(menuItem.createdAt).toLocaleDateString()}
+            </p>
           )}
           {menuItem?.updatedAt && (
-            <p>Updated: {new Date(menuItem.updatedAt).toLocaleDateString()}</p>
+            <p>
+              {updated_label}:{" "}
+              {new Date(menuItem.updatedAt).toLocaleDateString()}
+            </p>
           )}
         </div>
 

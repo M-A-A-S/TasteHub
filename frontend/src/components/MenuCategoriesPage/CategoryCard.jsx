@@ -7,7 +7,22 @@ const CategoryCard = ({
   handleDeleteCategory,
   handleEditCategory,
 }) => {
-  const { language } = useLanguage();
+  const { language, translations } = useLanguage();
+  const {
+    title,
+    description,
+    add_new_category,
+    empty_state,
+    delete_success,
+    delete_fail,
+    delete_category_title,
+    delete_category_message,
+    delete_label,
+    add_success,
+    add_fail,
+    update_success,
+    update_fail,
+  } = translations.pages.categories_page;
 
   const onEdit = safeCall(handleEditCategory);
   const onDelete = safeCall(handleDeleteCategory);
