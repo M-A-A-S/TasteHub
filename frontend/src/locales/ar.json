@@ -12,6 +12,12 @@
     "cancel": "إلغاء",
     "edit": "تعديل",
     "delete": "حذف",
+    "clear": "مسح",
+    "Search": "بحث",
+    "loading": "جار التحميل...",
+    "start_searching": "ابدأ بالكتابة للبحث...",
+    "add_new": "إضافة جديد",
+    "update": "تحديث",
     "empty_state": "لا توجد بيانات",
     "success": "تمت العملية بنجاح!",
     "fail": "حدث خطأ. حاول مرة أخرى."
@@ -75,7 +81,8 @@
       "menu_item_delete_modal_title": "حذف عنصر من القائمة",
       "menu_item_delete_modal_message": "هل أنت متأكد من حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.",
       "menu_item_delete_modal_confirm": "نعم، حذف",
-      "menu_item_delete_modal_cancel": "إلغاء"
+      "menu_item_delete_modal_cancel": "إلغاء",
+      "menu_item_label": "عنصر القائمة"
     },
 
     "categories_page": {

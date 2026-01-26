@@ -12,6 +12,12 @@
     "cancel": "Cancel",
     "edit": "Edit",
     "delete": "Delete",
+    "clear": "Clear",
+    "Search": "Search",
+    "loading": "Loading...",
+    "start_searching": "Start typing to search...",
+    "add_new": "Add New",
+    "update": "Update",
     "empty_state": "No Data Found",
     "success": "Operation completed successfully!",
     "fail": "Something went wrong. Please try again."
@@ -74,7 +80,8 @@
       "menu_item_delete_fail": "Failed to delete menu item. Please try again.",
       "menu_item_delete_modal_title": "Delete Menu Item",
       "menu_item_delete_modal_message": "Are you sure you want to delete this menu item? This action cannot be undone.",
-      "menu_item_delete_modal_confirm": "Yes, Delete"
+      "menu_item_delete_modal_confirm": "Yes, Delete",
+      "menu_item_label": "Menu Item"
     },
     "categories_page": {
       "title": "Categories",

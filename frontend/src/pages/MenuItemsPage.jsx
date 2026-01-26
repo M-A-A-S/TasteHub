@@ -13,6 +13,7 @@ import TableView from "../components/MenuItemsPage/TableView";
 import ConfirmModal from "../components/UI/ConfirmModal";
 import { ViewSwitcher } from "../components/UI/ViewSwitcher";
 import Pagination from "../components/UI/Pagination";
+import FiltersContainer from "../components/MenuItemsPage/FiltersContainer";
 
 const MenuItemsPage = () => {
   const [view, setView] = useState("card"); // 'table' or 'card'
@@ -108,8 +109,23 @@ const MenuItemsPage = () => {
     setIsAddEditMenuItemModalOpen(true);
   }
 
+  const handleSearchInputChange = (e) => {
+    console.log("search -> ", e.target.value);
+    setSearchText(e.target.value);
+  };
+
+  const handleSortingTermChange = (e) => {
+    console.log("Sorting Term -> ", e.target.value);
+    setSortingTerm(e.target.value);
+  };
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleClearFilters = () => {
+    setSearchText("");
+    setSortingTerm("");
   };
 
   const closeModal = () => {
@@ -201,6 +217,15 @@ const MenuItemsPage = () => {
           </Button>
         }
       />
+
+      <FiltersContainer
+        searchText={searchText}
+        handleSearchInputChange={handleSearchInputChange}
+        sortingTerm={sortingTerm}
+        handleSortingTermChange={handleSortingTermChange}
+        handleClearFilters={handleClearFilters}
+      />
+
       <ViewSwitcher view={view} setView={setView} />
       <Pagination
         currentPage={currentPage}
