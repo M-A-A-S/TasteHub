@@ -9,6 +9,7 @@ namespace TasteHub.Entities
         public int Id { get; set; }
 
         [Required]
+        [ForeignKey("Group")]
         public int GroupId { get; set; }
 
         [Required]
@@ -28,7 +29,7 @@ namespace TasteHub.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        public ExtrasGroup? Group { get; set; }
+        public ExtrasGroup Group { get; set; }
         public ICollection<OrderItemExtra>? OrderItemExtras { get; set; }
     }
 }

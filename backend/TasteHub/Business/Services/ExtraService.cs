@@ -1,6 +1,7 @@
 ﻿using TasteHub.Business.Interfaces;
 using TasteHub.DataAccess.Interfaces;
-using TasteHub.DTOs.MenuCategory;
+using TasteHub.DTOs.Extra;
+using TasteHub.DTOs.ExtraGroup;
 using TasteHub.Entities;
 using TasteHub.Utilities;
 using TasteHub.Utilities.Extensions;
@@ -8,20 +9,20 @@ using TasteHub.Utilities.ResultCodes;
 
 namespace TasteHub.Business.Services
 {
-    public class MenuCategoryService : IMenuCategoryService
+    public class ExtraService : IExtraService
     {
 
-        private readonly IMenuCategoryRepository _repo;
+        private readonly IExtraRepository _repo;
 
-        public MenuCategoryService(IMenuCategoryRepository repo)
+        public ExtraService(IExtraRepository repo)
         {
             _repo = repo;
         }
 
-        public async Task<Result<MenuCategory>> AddAsync(MenuCategoryDTO categoryDTO)
+        public async Task<Result<Extra>> AddAsync(ExtraDTO extraDTO)
         {
-            var category = categoryDTO.ToEntity();
-            return await _repo.AddAsync(category);
+            var extra = extraDTO.ToEntity();
+            return await _repo.AddAsync(extra);
         }
 
         public async Task<Result<bool>> DeleteAsync(int id)
@@ -29,24 +30,24 @@ namespace TasteHub.Business.Services
             return await _repo.DeleteAsync(id);
         }
 
-        public async Task<Result<IEnumerable<MenuCategory>>> GetAllAsync()
+        public async Task<Result<IEnumerable<ExtraResponseDTO>>> GetAllAsync()
         {
             return await _repo.GetAllAsync();
         }
 
-        public async Task<Result<MenuCategory>> GetByIdAsync(int id)
+        public async Task<Result<Extra>> GetByIdAsync(int id)
         {
             return await _repo.GetByIdAsync(id);
         }
 
-        public async Task<Result<MenuCategory>> UpdateAsync(int id, MenuCategoryDTO categoryDTO)
+        public async Task<Result<Extra>> UpdateAsync(int id, ExtraDTO extraDTO)
         {
             var existingResult = await GetByIdAsync(id);
             if (!existingResult.IsSuccess || existingResult.Data == null)
             {
-                return Result<MenuCategory>.Failure(ResultCodes.ExtraGroupNotFound);
+                return Result<Extra>.Failure(ResultCodes.ExtraNotFound);
             }
-            existingResult.Data.UpdateFromDTO(categoryDTO);
+            existingResult.Data.UpdateFromDTO(extraDTO);
             return await _repo.UpdateAsync(existingResult.Data);
         }
     }

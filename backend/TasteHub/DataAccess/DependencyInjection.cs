@@ -9,6 +9,8 @@ namespace TasteHub.DataAccess
         {
             services.AddScoped<IMenuCategoryRepository, MenuCategoryRepository>();
             services.AddScoped<IMenuItemRepository, MenuItemRepository>();
+            services.AddScoped<IExtrasGroupRepository, ExtrasGroupRepository>();
+            services.AddScoped<IExtraRepository, ExtraRepository>();
             return services;
         }
     }

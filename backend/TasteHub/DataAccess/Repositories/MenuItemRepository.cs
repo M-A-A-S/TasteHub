@@ -114,5 +114,6 @@ namespace TasteHub.DataAccess.Repositories
                 return Result<PagedResult<MenuItemResponseDTO>>.Failure(ResultCodes.ServerError, 500, "Server error");
             }
         }
+
     }
 }

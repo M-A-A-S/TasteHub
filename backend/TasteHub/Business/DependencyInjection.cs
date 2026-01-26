@@ -10,6 +10,8 @@ namespace TasteHub.Business
             services.AddScoped<IMenuCategoryService, MenuCategoryService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IMenuItemService, MenuItemService>();
+            services.AddScoped<IExtrasGroupService, ExtrasGroupService>();
+            services.AddScoped<IExtraService, ExtraService>();
             return services;
         }
     }

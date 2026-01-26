@@ -67,7 +67,7 @@ const ImagePicker = ({ imageUrl, imageFile, onChange, label = "Image" }) => {
       </div>
 
       <div className="flex flex-items-center gap-4">
-        <div className="h-12 rounded-xl flex-1 overflow-hidden">
+        <div className="h-12 rounded-xl flex-1 ">
           {/* URL Input */}
           {type === "url" && (
             <input
@@ -78,7 +78,7 @@ const ImagePicker = ({ imageUrl, imageFile, onChange, label = "Image" }) => {
               className="w-full h-full bg-gray-50 dark:bg-slate-800
             rounded-xl px-4 py-2
             border border-gray-200 dark:border-gray-700
-            focus:ring-2 focus:ring-orange-500 outline-orange-500"
+            focus:ring-2 focus:ring-orange-500 outline-none"
             />
           )}
 

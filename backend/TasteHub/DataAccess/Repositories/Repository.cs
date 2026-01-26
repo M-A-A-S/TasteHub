@@ -5,6 +5,7 @@ using TasteHub.DataAccess.Interfaces;
 using TasteHub.Entities;
 using TasteHub.Utilities;
 using TasteHub.Utilities.ResultCodes;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TasteHub.DataAccess.Repositories
 {
