@@ -11,11 +11,7 @@ namespace TasteHub.Business.Interfaces
         Task<Result<bool>> DeleteAsync(int id);
         Task<Result<MenuItem>> GetByIdAsync(int id);
         Task<Result<PagedResult<MenuItemResponseDTO>>> GetFilteredAsync(
-            int? categoryId = null,
-            string? search = null,
-            string? sort = null,
-            int pageNumber = 1,
-            int pageSize = 10
+            MenuItemFiltersDTO filters
         );
     }
 }

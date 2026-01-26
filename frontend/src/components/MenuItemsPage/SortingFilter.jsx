@@ -1,5 +1,6 @@
 import { useLanguage } from "../../hooks/useLanguage";
 import Select from "../UI/Select";
+import { SORTING_TERMS } from "../../utils/constants";
 
 const SortingFilter = ({
   value,
@@ -12,16 +13,22 @@ const SortingFilter = ({
   const sortingOptions =
     language === "en"
       ? [
-          { value: "price_asc", label: "Price: Low to High" },
-          { value: "price_desc", label: "Price: High to Low" },
-          { value: "newest", label: "Newest" },
-          { value: "oldest", label: "Oldest" },
+          { value: SORTING_TERMS.PRICE_ASC, label: "Price: Low to High" },
+          { value: SORTING_TERMS.PRICE_DESC, label: "Price: High to Low" },
+          { value: SORTING_TERMS.NEWEST, label: "Newest" },
+          { value: SORTING_TERMS.OLDEST, label: "Oldest" },
         ]
       : [
-          { value: "price_asc", label: "السعر: من الأقل إلى الأعلى" },
-          { value: "price_desc", label: "السعر: من الأعلى إلى الأقل" },
-          { value: "newest", label: "الأحدث" },
-          { value: "oldest", label: "الأقدم" },
+          {
+            value: SORTING_TERMS.PRICE_ASC,
+            label: "السعر: من الأقل إلى الأعلى",
+          },
+          {
+            value: SORTING_TERMS.PRICE_DESC,
+            label: "السعر: من الأعلى إلى الأقل",
+          },
+          { value: SORTING_TERMS.NEWEST, label: "الأحدث" },
+          { value: SORTING_TERMS.OLDEST, label: "الأقدم" },
         ];
   return (
     <Select

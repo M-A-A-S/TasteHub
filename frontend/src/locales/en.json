@@ -19,6 +19,7 @@
     "add_new": "Add New",
     "update": "Update",
     "empty_state": "No Data Found",
+    "loading_error": "Failed to load data. Please try again.",
     "success": "Operation completed successfully!",
     "fail": "Something went wrong. Please try again."
   },

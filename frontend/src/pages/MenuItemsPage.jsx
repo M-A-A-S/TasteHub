@@ -14,11 +14,13 @@ import ConfirmModal from "../components/UI/ConfirmModal";
 import { ViewSwitcher } from "../components/UI/ViewSwitcher";
 import Pagination from "../components/UI/Pagination";
 import FiltersContainer from "../components/MenuItemsPage/FiltersContainer";
+import { SORTING_TERMS } from "../utils/constants";
 
 const MenuItemsPage = () => {
   const [view, setView] = useState("card"); // 'table' or 'card'
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errorCode, setErrorCode] = useState("");
   const [isAddEditMenuItemModalOpen, setIsAddEditMenuItemModalOpen] =
     useState(false);
   const [
@@ -28,7 +30,7 @@ const MenuItemsPage = () => {
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
   // Filters
   const [searchText, setSearchText] = useState("");
-  const [sortingTerm, setSortingTerm] = useState("");
+  const [sortBy, setSortBy] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [totalMenuItems, setTotalMenuItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,38 +53,38 @@ const MenuItemsPage = () => {
     menu_item_delete_modal_confirm,
   } = translations.pages.menu_page;
 
-  const { cancel } = translations.common;
+  const { cancel, loading_error, empty_state } = translations.common;
 
   const debouncedSearch = useDebounce(searchText, 500);
 
   const fetchMenuItems = async () => {
+    let result;
     try {
       setLoading(true);
+      setErrorCode("");
       const queryParams = new URLSearchParams();
 
       queryParams.append("pageNumber", currentPage);
       queryParams.append("pageSize", pageSize);
 
-      if (debouncedSearch && debouncedSearch.trim() !== "") {
+      if (debouncedSearch?.trim() !== "") {
         queryParams.append("searchTerm", debouncedSearch.trim());
       }
 
-      if (sortingTerm && sortingTerm.trim() !== "") {
-        queryParams.append("sortBy", sortingTerm.trim());
-      }
+      queryParams.append("sortBy", sortBy || SORTING_TERMS.NEWEST);
 
       if (categoryId > 0) {
         queryParams.append("categoryId", parseInt(categoryId));
       }
 
       const url = `menu-items?${queryParams.toString()}`;
-      const result = await read(url);
-      setMenuItems(result?.data?.items);
-      setTotalMenuItems(result?.data?.total);
-      console.log("data", result?.data);
-      console.log("total", result?.data?.total);
+      result = await read(url);
+      setMenuItems(result?.data?.items || []);
+      setTotalMenuItems(result?.data?.total || 0);
     } catch (error) {
       console.error("Failed to fetch menu items:", error);
+      setErrorCode(result?.code);
+      setMenuItems([]);
       setTotalMenuItems(0);
     } finally {
       setLoading(false);
@@ -91,7 +93,7 @@ const MenuItemsPage = () => {
 
   useEffect(() => {
     fetchMenuItems();
-  }, [debouncedSearch, categoryId, sortingTerm, currentPage, pageSize]);
+  }, [debouncedSearch, categoryId, sortBy, currentPage, pageSize]);
 
   function handleDeleteMenuItem(menuItem) {
     setSelectedMenuItem(menuItem);
@@ -112,11 +114,14 @@ const MenuItemsPage = () => {
   const handleSearchInputChange = (e) => {
     console.log("search -> ", e.target.value);
     setSearchText(e.target.value);
+    setSortBy(SORTING_TERMS.NEWEST);
+    setCurrentPage(1);
   };
 
-  const handleSortingTermChange = (e) => {
+  const handleSortByChange = (e) => {
     console.log("Sorting Term -> ", e.target.value);
-    setSortingTerm(e.target.value);
+    setSortBy(e.target.value);
+    setCurrentPage(1);
   };
 
   const handlePageChange = (page) => {
@@ -125,7 +130,8 @@ const MenuItemsPage = () => {
 
   const handleClearFilters = () => {
     setSearchText("");
-    setSortingTerm("");
+    setSortBy("");
+    setCurrentPage(1);
   };
 
   const closeModal = () => {
@@ -194,18 +200,6 @@ const MenuItemsPage = () => {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="grid place-items-center h-[60vh]">
-        <SpinnerLoader />
-      </div>
-    );
-  }
-
-  // if (menuItems.length <= 0) {
-  //   return <h2>{"empty_state"}</h2>;
-  // }
-
   return (
     <div>
       <PageHeader
@@ -221,38 +215,54 @@ const MenuItemsPage = () => {
       <FiltersContainer
         searchText={searchText}
         handleSearchInputChange={handleSearchInputChange}
-        sortingTerm={sortingTerm}
-        handleSortingTermChange={handleSortingTermChange}
+        sortBy={sortBy}
+        handleSortByChange={handleSortByChange}
         handleClearFilters={handleClearFilters}
       />
 
-      <ViewSwitcher view={view} setView={setView} />
-      <Pagination
-        currentPage={currentPage}
-        totalItems={totalMenuItems}
-        onPageChange={handlePageChange}
-        pageSize={pageSize}
-      />
-      {view == "card" && (
-        <CardView
-          menuItems={menuItems}
-          handleEditMenuItem={handleEditMenuItem}
-          handleDeleteMenuItem={handleDeleteMenuItem}
-        />
+      {loading ? (
+        <div className="grid place-items-center h-[60vh]">
+          <SpinnerLoader />
+        </div>
+      ) : errorCode ? (
+        <div className="grid place-items-center h-[60vh] text-red-500">
+          {translations.server_codes[errorCode] || loading_error}
+        </div>
+      ) : menuItems.length === 0 ? (
+        <div className="grid place-items-center h-[60vh] text-gray-500">
+          {empty_state}
+        </div>
+      ) : (
+        <>
+          <ViewSwitcher view={view} setView={setView} />
+          <Pagination
+            currentPage={currentPage}
+            totalItems={totalMenuItems}
+            onPageChange={handlePageChange}
+            pageSize={pageSize}
+          />
+          {view == "card" && (
+            <CardView
+              menuItems={menuItems}
+              handleEditMenuItem={handleEditMenuItem}
+              handleDeleteMenuItem={handleDeleteMenuItem}
+            />
+          )}
+          {view == "table" && (
+            <TableView
+              menuItems={menuItems}
+              handleEditMenuItem={handleEditMenuItem}
+              handleDeleteMenuItem={handleDeleteMenuItem}
+            />
+          )}
+          <Pagination
+            currentPage={currentPage}
+            totalItems={totalMenuItems}
+            onPageChange={handlePageChange}
+            pageSize={pageSize}
+          />
+        </>
       )}
-      {view == "table" && (
-        <TableView
-          menuItems={menuItems}
-          handleEditMenuItem={handleEditMenuItem}
-          handleDeleteMenuItem={handleDeleteMenuItem}
-        />
-      )}
-      <Pagination
-        currentPage={currentPage}
-        totalItems={totalMenuItems}
-        onPageChange={handlePageChange}
-        pageSize={pageSize}
-      />
 
       <AddEditMenuItemModal
         show={isAddEditMenuItemModalOpen}

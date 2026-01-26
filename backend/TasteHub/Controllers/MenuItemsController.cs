@@ -17,19 +17,11 @@ namespace TasteHub.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAll(
-          [FromQuery] int? categoryId,
-          [FromQuery] string? search,
-          [FromQuery] string? sort,
-          [FromQuery] int pageNumber = 1,
-          [FromQuery] int pageSize = 10)
+          [FromQuery] MenuItemFiltersDTO filters)
         {
             return FromResult(
                 await _service.GetFilteredAsync(
-                    categoryId,
-                    search,
-                    sort,
-                    pageNumber,
-                    pageSize));
+                    filters));
         }
 
         [HttpGet("{id}")]

@@ -113,13 +113,9 @@ namespace TasteHub.Business.Services
         }
 
         public async Task<Result<PagedResult<MenuItemResponseDTO>>> GetFilteredAsync(
-            int? categoryId = null,
-            string? search = null,
-            string? sort = null,
-            int pageNumber = 1,
-            int pageSize = 10)
+            MenuItemFiltersDTO filters)
         {
-            var result = await _repo.GetFilteredAsync(categoryId, search, sort, pageNumber, pageSize);
+            var result = await _repo.GetFilteredAsync(filters);
             
             if (result.IsSuccess && result.Data != null)
             {

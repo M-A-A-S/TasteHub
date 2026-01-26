@@ -3,6 +3,7 @@ using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.MenuCategory;
 using TasteHub.DTOs.MenuItem;
 using TasteHub.Entities;
+using TasteHub.Enums;
 using TasteHub.Utilities;
 using TasteHub.Utilities.ResultCodes;
 
@@ -17,64 +18,63 @@ namespace TasteHub.DataAccess.Repositories
         }
 
         public async Task<Result<PagedResult<MenuItemResponseDTO>>> GetFilteredAsync(
-            int? categoryId = null,
-            string? search = null,
-            string? sort = null,
-            int pageNumber = 1,
-            int pageSize = 10)
+            MenuItemFiltersDTO filters)
         {
             try
             {
-                IQueryable<MenuItem> query = _dbSet
-                    .Include(x => x.MenuCategory);
+                IQueryable<MenuItem> query = _dbSet.AsNoTracking();
 
                 //Filter by category
-                if (categoryId.HasValue)
+                if (filters.CategoryId.HasValue)
                 {
-                    query = query.Where(x => x.MenuCategoryId == categoryId.Value);
+                    query = query.Where(x => x.MenuCategoryId == filters.CategoryId);
                 }
 
                 // Search across fields
-                if (!string.IsNullOrWhiteSpace(search))
+                if (!string.IsNullOrWhiteSpace(filters.SearchTerm))
                 {
-                    search = search.ToLower();
+                    var term = $"%{filters.SearchTerm.Trim()}%";
+
                     query = query.Where(x =>
-                        x.NameEn.ToLower().Contains(search) ||
-                        x.NameAr.ToLower().Contains(search) ||
-                        (x.DescriptionEn != null && x.DescriptionEn.ToLower().Contains(search)) ||
-                        (x.DescriptionAr != null && x.DescriptionAr.ToLower().Contains(search))
+                        EF.Functions.Like(x.NameEn, term) ||
+                        EF.Functions.Like(x.NameAr, term) ||
+                        EF.Functions.Like(x.DescriptionEn, term) ||
+                        EF.Functions.Like(x.DescriptionAr, term)
                     );
                 }
 
                 // Sorting
-                if (!string.IsNullOrWhiteSpace(sort))
-                {
-                    var parts = sort.Split('_');
-                    var property = parts[0];
-                    var ascending = parts.Length < 2 || parts[1].ToLower() == "asc";
 
-                    var propInfo = typeof(MenuItem).GetProperty(property, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-                    if (propInfo != null)
-                    {
-                        query = ascending
-                            ? query.OrderBy(e => EF.Property<object>(e, propInfo.Name))
-                            : query.OrderByDescending(e => EF.Property<object>(e, propInfo.Name));
-                    }
-                }
-                else
+                query = filters.SortBy switch
                 {
-                    query = query.OrderBy(x => x.Id); // default
-                }
+                    MenuItemSortBy.PriceAsc =>
+                        query.OrderBy(x => x.Price).ThenBy(x => x.Id),
+
+                    MenuItemSortBy.PriceDesc =>
+                    query.OrderByDescending(x => x.Price).ThenByDescending(x => x.Id),
+
+
+                    MenuItemSortBy.Oldest =>
+                    query.OrderBy(x => x.Price),
+
+                    MenuItemSortBy.Newest =>
+                        query.OrderByDescending(x => x.Id),
+
+                    _ =>
+                       query.OrderByDescending(x => x.Id)
+
+                };
 
                 // Pagination
-                pageNumber = pageNumber < 1 ? 1 : pageNumber;
-                pageSize = pageSize < 1 ? 10 : pageSize;
-                pageSize = pageSize > 100 ? 100 : pageSize;
+                filters.PageNumber = filters.PageNumber < 1 ? 1 : filters.PageNumber;
+                filters.PageSize = filters.PageSize < 1 ? 10 : filters.PageSize;
+                filters.PageSize = filters.PageSize > 100 ? 100 : filters.PageSize;
                 Console.WriteLine(query.ToQueryString());
+                
                 var total = await query.CountAsync();
                 var items = await query
-                    .Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize).Select(
+                    .Skip((filters.PageNumber - 1) * filters.PageSize)
+                    .Take(filters.PageSize).Select(
                     i =>  new MenuItemResponseDTO
                     {
                         Id = i.Id,
@@ -104,8 +104,8 @@ namespace TasteHub.DataAccess.Repositories
                 {
                     Items = items,
                     Total = total,
-                    PageNumber = pageNumber,
-                    PageSize = pageSize
+                    PageNumber = filters.PageNumber,
+                    PageSize = filters.PageSize
                 });
             }
             catch (Exception ex)

@@ -1,4 +1,4 @@
-import { Search, X } from "lucide-react";
+import { X } from "lucide-react";
 import Input from "../UI/Input";
 import { useLanguage } from "../../hooks/useLanguage";
 import SortingFilter from "./SortingFilter";
@@ -6,22 +6,18 @@ import SortingFilter from "./SortingFilter";
 const FiltersContainer = ({
   searchText,
   handleSearchInputChange,
-  sortingTerm,
-  handleSortingTermChange,
+  sortBy,
+  handleSortByChange,
   handleClearFilters,
 }) => {
   const { translations } = useLanguage();
-  // const { search_order_placeholder } =
-  //   translations.general.pages.customer_orders;
-
   const { clear, Search, start_searching } = translations.common;
-  const { menu_item_label } = translations.pages.menu_page;
 
   return (
     <div className="flex flex-col items-start md:flex-row md:items-center md:justify-start gap-4 ">
       <Input
         className="flex-1 w-full"
-        label={menu_item_label}
+        label={Search}
         name="menu_item_search"
         placeholder={start_searching}
         type="search"
@@ -29,10 +25,9 @@ const FiltersContainer = ({
         onChange={handleSearchInputChange}
       />
       <div className="flex-1 w-full">
-        <SortingFilter value={sortingTerm} onChange={handleSortingTermChange} />
+        <SortingFilter value={sortBy} onChange={handleSortByChange} />
       </div>
-      {/* <SortingFilter value={sortingTerm} onChange={handleSortingTermChange} /> */}
-      {(searchText || sortingTerm) && (
+      {(searchText || sortBy) && (
         <button
           type="button"
           onClick={handleClearFilters}
