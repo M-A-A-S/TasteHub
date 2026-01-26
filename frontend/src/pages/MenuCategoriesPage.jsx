@@ -102,6 +102,7 @@ const MenuCategoriesPage = () => {
   async function addCategory(payload) {
     let result;
     try {
+      setActionLoading(true);
       result = await create(`menu-categories`, payload);
       setCategories((prev) => [...prev, result.data]);
       showSuccess(result?.code, add_success);
@@ -109,6 +110,7 @@ const MenuCategoriesPage = () => {
       console.log("error -> ", error);
       showFail(result?.code, add_fail);
     } finally {
+      setActionLoading(false);
       closeModal();
     }
   }
@@ -116,6 +118,7 @@ const MenuCategoriesPage = () => {
   async function updateCategory(payload) {
     let result;
     try {
+      setActionLoading(true);
       result = await update(`menu-categories/${selectedCategory?.id}`, payload);
       setCategories((prev) =>
         prev.map((cat) => (cat.id === result?.data?.id ? result.data : cat)),
@@ -125,6 +128,7 @@ const MenuCategoriesPage = () => {
       console.log("error -> ", error);
       showFail(result?.code, update_fail);
     } finally {
+      setActionLoading(false);
       closeModal();
     }
   }
@@ -198,6 +202,7 @@ const MenuCategoriesPage = () => {
         onClose={closeModal}
         onConfirm={addEditCategory}
         category={selectedCategory}
+        loading={actionLoading}
       />
       <ConfirmModal
         show={isDeleteCategoryConfirmModalOpen}

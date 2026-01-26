@@ -5,6 +5,7 @@ import Button from "../UI/Button";
 import Input from "../UI/Input";
 import Modal from "../UI/Modal";
 import { toast } from "../../utils/toastHelper";
+import AddEditModal from "../UI/AddEditModal";
 
 const initialFormState = {
   nameEn: "",
@@ -13,7 +14,13 @@ const initialFormState = {
   descriptionAr: "",
 };
 
-const AddEditCategoryModal = ({ show, onClose, onConfirm, category }) => {
+const AddEditCategoryModal = ({
+  show,
+  onClose,
+  onConfirm,
+  category,
+  loading,
+}) => {
   const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState({});
 
@@ -26,7 +33,6 @@ const AddEditCategoryModal = ({ show, onClose, onConfirm, category }) => {
     descriptionEn,
     descriptionAr,
   } = translations.pages.categories_page;
-  const { cancel, save } = translations.common;
   const { required, default_message } = translations.validations;
 
   const handleClose = safeCall(onClose);
@@ -96,20 +102,12 @@ const AddEditCategoryModal = ({ show, onClose, onConfirm, category }) => {
 
   return (
     <div>
-      <Modal
+      <AddEditModal
         show={show}
         onClose={handleClose}
         title={category ? edit_category : add_new_category}
-        footer={
-          <>
-            <Button isCancelBtn={true} onClick={onClose}>
-              {cancel}
-            </Button>
-            <Button className="btn btn-primary" onClick={handleSubmit}>
-              {save}
-            </Button>
-          </>
-        }
+        onSave={handleSubmit}
+        loading={loading}
       >
         <form onSubmit={(e) => e.preventDefault()}>
           <Input
@@ -145,7 +143,7 @@ const AddEditCategoryModal = ({ show, onClose, onConfirm, category }) => {
             onChange={(e) => updateField("descriptionAr", e.target.value)}
           />
         </form>
-      </Modal>
+      </AddEditModal>
     </div>
   );
 };
