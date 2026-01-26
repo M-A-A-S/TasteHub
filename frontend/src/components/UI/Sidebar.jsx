@@ -40,6 +40,16 @@ const menus = {
       icon: <ChefHat />,
     },
     {
+      key: "extras_groups",
+      path: "/extras-groups",
+      icon: <ChefHat />,
+    },
+    {
+      key: "extras",
+      path: "/extras",
+      icon: <ChefHat />,
+    },
+    {
       key: "orders",
       path: "/orders",
       icon: <Package />,

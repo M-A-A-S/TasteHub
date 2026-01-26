@@ -2,6 +2,8 @@
   "sidebar": {
     "dashboard": "لوحة التحكم",
     "categories": "إدارة الأصناف",
+    "extras_groups": "مجموعات الإضافات",
+    "extras": "الإضافات",
     "menu": "إدارة القائمة",
     "orders": "الطلبات",
     "analytics": "الإحصائيات",
@@ -106,6 +108,34 @@
       "delete_category_title": "حذف التصنيف",
       "delete_category_message": "هل أنت متأكد أنك تريد حذف هذا التصنيف؟",
       "delete_label": "حذف"
+    },
+    "extras_groups_page": {
+      "title": "مجموعات الإضافات",
+      "description": "إدارة مجموعات الإضافات (مثل إضافات البرجر، المشروبات).",
+      "add_new_group": "إضافة مجموعة جديدة",
+      "group_add_success": "تمت إضافة مجموعة الإضافات بنجاح!",
+      "group_add_fail": "فشل في إضافة مجموعة الإضافات.",
+      "group_update_success": "تم تحديث مجموعة الإضافات بنجاح!",
+      "group_update_fail": "فشل في تحديث مجموعة الإضافات.",
+      "group_delete_success": "تم حذف مجموعة الإضافات بنجاح!",
+      "group_delete_fail": "فشل في حذف مجموعة الإضافات.",
+      "group_delete_modal_title": "حذف مجموعة الإضافات",
+      "group_delete_modal_message": "هل أنت متأكد من حذف مجموعة الإضافات هذه؟",
+      "group_delete_modal_confirm": "حذف"
+    },
+    "extras_page": {
+      "title": "الإضافات",
+      "description": "إدارة الإضافات لكل مجموعة (مثل إضافات البرجر، الصلصات).",
+      "add_new_extra": "إضافة إضافة جديدة",
+      "extra_add_success": "تمت إضافة الإضافة بنجاح!",
+      "extra_add_fail": "فشل في إضافة الإضافة.",
+      "extra_update_success": "تم تحديث الإضافة بنجاح!",
+      "extra_update_fail": "فشل في تحديث الإضافة.",
+      "extra_delete_success": "تم حذف الإضافة بنجاح!",
+      "extra_delete_fail": "فشل في حذف الإضافة.",
+      "extra_delete_modal_title": "حذف الإضافة",
+      "extra_delete_modal_message": "هل أنت متأكد من حذف هذه الإضافة؟",
+      "extra_delete_modal_confirm": "حذف"
     }
   },
   "server_codes": {},

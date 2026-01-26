@@ -5,6 +5,8 @@ import MenuCategoriesPage from "./pages/MenuCategoriesPage";
 import Home from "./pages/Home";
 import MenuItemsPage from "./pages/MenuItemsPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ExtrasGroupsPage from "./pages/ExtrasGroupsPage";
+import ExtrasPage from "./pages/ExtrasPage";
 import ToastContainer from "./components/UI/ToastContainer";
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/menu-categories" element={<MenuCategoriesPage />} />
             <Route path="/menu-items" element={<MenuItemsPage />} />
+            <Route path="/extras-groups" element={<ExtrasGroupsPage />} />
+            <Route path="/extras" element={<ExtrasPage />} />
 
             <Route path="*" element={<NotFoundPage />} />
           </Route>

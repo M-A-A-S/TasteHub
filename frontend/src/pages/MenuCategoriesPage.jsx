@@ -16,6 +16,7 @@ const MenuCategoriesPage = () => {
   const [view, setView] = useState("card"); // 'table' or 'card'
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errorCode, setErrorCode] = useState("");
   const [isAddEditCategoryModalOpen, setIsAddEditCategoryModalOpen] =
     useState(false);
   const [
@@ -41,16 +42,19 @@ const MenuCategoriesPage = () => {
     update_fail,
   } = translations.pages.categories_page;
 
-  const { cancel } = translations.common;
+  const { cancel, loading_error } = translations.common;
 
   const fetchCategories = async () => {
+    let result;
     try {
       setLoading(true);
-      const result = await read("menu-categories");
+      setErrorCode("");
+      result = await read("menu-categories");
       console.log("result", result);
       setCategories(result.data);
     } catch (error) {
       console.error("Failed to fetch categories:", error);
+      setErrorCode(result?.code);
     } finally {
       setLoading(false);
     }
@@ -142,18 +146,6 @@ const MenuCategoriesPage = () => {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="grid place-items-center h-[60vh]">
-        <SpinnerLoader />
-      </div>
-    );
-  }
-
-  if (categories.length <= 0) {
-    return <h2>{empty_state}</h2>;
-  }
-
   return (
     <div>
       <PageHeader
@@ -165,21 +157,39 @@ const MenuCategoriesPage = () => {
           </Button>
         }
       />
-      <ViewSwitcher view={view} setView={setView} />
-      {view == "card" && (
-        <CardView
-          categories={categories}
-          handleEditCategory={handleEditCategory}
-          handleDeleteCategory={handleDeleteCategory}
-        />
+
+      {loading ? (
+        <div className="grid place-items-center h-[60vh]">
+          <SpinnerLoader />
+        </div>
+      ) : errorCode ? (
+        <div className="grid place-items-center h-[60vh] text-red-500">
+          {translations.server_codes[errorCode] || loading_error}
+        </div>
+      ) : categories.length === 0 ? (
+        <div className="grid place-items-center h-[60vh] text-gray-500">
+          {empty_state}
+        </div>
+      ) : (
+        <>
+          <ViewSwitcher view={view} setView={setView} />
+          {view == "card" && (
+            <CardView
+              categories={categories}
+              handleEditCategory={handleEditCategory}
+              handleDeleteCategory={handleDeleteCategory}
+            />
+          )}
+          {view == "table" && (
+            <TableView
+              categories={categories}
+              handleEditCategory={handleEditCategory}
+              handleDeleteCategory={handleDeleteCategory}
+            />
+          )}
+        </>
       )}
-      {view == "table" && (
-        <TableView
-          categories={categories}
-          handleEditCategory={handleEditCategory}
-          handleDeleteCategory={handleDeleteCategory}
-        />
-      )}
+
       <AddEditCategoryModal
         show={isAddEditCategoryModalOpen}
         onClose={closeModal}

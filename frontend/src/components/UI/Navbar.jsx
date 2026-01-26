@@ -13,6 +13,8 @@ const Navbar = () => {
     "/dashboard": "dashboard",
     "/menu-items": "menu",
     "/menu-categories": "categories",
+    "/extras-groups": "extras_groups",
+    "/extras": "extras",
     "/orders": "orders",
     "/analytics": "analytics",
     "/settings": "settings",
