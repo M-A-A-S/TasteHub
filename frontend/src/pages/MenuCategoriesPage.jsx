@@ -16,6 +16,7 @@ const MenuCategoriesPage = () => {
   const [view, setView] = useState("card"); // 'table' or 'card'
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
   const [errorCode, setErrorCode] = useState("");
   const [isAddEditCategoryModalOpen, setIsAddEditCategoryModalOpen] =
     useState(false);
@@ -131,6 +132,7 @@ const MenuCategoriesPage = () => {
   async function deleteCategory() {
     let result;
     try {
+      setActionLoading(true);
       result = await remove(`menu-categories/${selectedCategory.id}`);
 
       setCategories((prev) =>
@@ -142,6 +144,7 @@ const MenuCategoriesPage = () => {
       console.log("error -> ", error);
       showFail(result?.code, delete_fail);
     } finally {
+      setActionLoading(false);
       closeModal();
     }
   }
@@ -204,6 +207,7 @@ const MenuCategoriesPage = () => {
         message={delete_category_message}
         cancelLabel={cancel}
         confirmLabel={delete_label}
+        loading={actionLoading}
       />
     </div>
   );

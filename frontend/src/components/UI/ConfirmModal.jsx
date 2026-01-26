@@ -1,6 +1,7 @@
 import Modal from "./Modal";
 import Button from "./Button"; // your custom Button component
 import { safeCall } from "../../utils/utils";
+import { Loader2 } from "lucide-react";
 
 const ConfirmModal = ({
   show,
@@ -10,6 +11,7 @@ const ConfirmModal = ({
   title = "Are you sure you want to do this action?",
   cancelLabel = "Cancel",
   confirmLabel = "Confirm",
+  loading = false,
 }) => {
   const handleClose = safeCall(onClose);
   const handleConfirm = safeCall(onConfirm);
@@ -33,11 +35,13 @@ const ConfirmModal = ({
         >
           {cancelLabel}
         </Button> */}
-        <Button onClick={handleClose} isCancelBtn={true}>
+        <Button disabled={loading} onClick={handleClose} isCancelBtn={true}>
           {cancelLabel}
         </Button>
 
-        <Button onClick={handleConfirm}>{confirmLabel}</Button>
+        <Button disabled={loading} onClick={handleConfirm}>
+          {loading ? <Loader2 className="animate-spin" /> : confirmLabel}
+        </Button>
       </div>
     </Modal>
   );

@@ -286,6 +286,7 @@ const MenuItemsPage = () => {
         message={menu_item_delete_modal_message}
         cancelLabel={cancel}
         confirmLabel={menu_item_delete_modal_confirm}
+        loading={actionLoading}
       />
     </div>
   );
