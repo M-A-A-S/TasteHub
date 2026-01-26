@@ -166,7 +166,7 @@ const MenuCategoriesPage = () => {
         <div className="grid place-items-center h-[60vh] text-red-500">
           {translations.server_codes[errorCode] || loading_error}
         </div>
-      ) : categories.length === 0 ? (
+      ) : categories?.length === 0 ? (
         <div className="grid place-items-center h-[60vh] text-gray-500">
           {empty_state}
         </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useLanguage } from "../hooks/useLanguage";
 import { create, read, remove, update } from "../api/apiWrapper";
 import { showFail, showSuccess } from "../utils/utils";
@@ -20,6 +20,7 @@ const MenuItemsPage = () => {
   const [view, setView] = useState("card"); // 'table' or 'card'
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
   const [errorCode, setErrorCode] = useState("");
   const [isAddEditMenuItemModalOpen, setIsAddEditMenuItemModalOpen] =
     useState(false);
@@ -155,6 +156,7 @@ const MenuItemsPage = () => {
   async function addMenuItem(payload) {
     let result;
     try {
+      setActionLoading(true);
       result = await create(`menu-items`, payload);
       setMenuItems((prev) => [...prev, result.data]);
       showSuccess(result?.code, menu_item_add_success);
@@ -162,6 +164,7 @@ const MenuItemsPage = () => {
       console.log("error -> ", error);
       showFail(result?.code, menu_item_add_fail);
     } finally {
+      setActionLoading(false);
       closeModal();
     }
   }
@@ -169,6 +172,7 @@ const MenuItemsPage = () => {
   async function updateMenuItem(payload) {
     let result;
     try {
+      setActionLoading(true);
       result = await update(`menu-items/${selectedMenuItem?.id}`, payload);
       setMenuItems((prev) =>
         prev.map((cat) => (cat.id === result?.data?.id ? result.data : cat)),
@@ -178,6 +182,7 @@ const MenuItemsPage = () => {
       console.log("error -> ", error);
       showFail(result?.code, menu_item_update_fail);
     } finally {
+      setActionLoading(false);
       closeModal();
     }
   }
@@ -185,6 +190,7 @@ const MenuItemsPage = () => {
   async function deleteMenuItem() {
     let result;
     try {
+      setActionLoading(true);
       result = await remove(`menu-items/${selectedMenuItem.id}`);
 
       setMenuItems((prev) =>
@@ -196,6 +202,7 @@ const MenuItemsPage = () => {
       console.log("error -> ", error);
       showFail(result?.code, menu_item_delete_fail);
     } finally {
+      setActionLoading(false);
       closeModal();
     }
   }
@@ -269,6 +276,7 @@ const MenuItemsPage = () => {
         onClose={closeModal}
         onConfirm={addEditMenuItem}
         menuItem={selectedMenuItem}
+        loading={actionLoading}
       />
       <ConfirmModal
         show={isDeleteMenuItemConfirmModalOpen}

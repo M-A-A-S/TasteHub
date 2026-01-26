@@ -7,7 +7,6 @@ import Input from "../UI/Input";
 import Modal from "../UI/Modal";
 import MenuCategoriesSelect from "../MenuCategoriesSelect";
 import ImagePicker from "../ImagePicker";
-import AddEditModal from "../UI/AddEditModal";
 
 const initialFormState = {
   nameEn: "",
@@ -20,13 +19,7 @@ const initialFormState = {
   imageFile: null,
 };
 
-const AddEditMenuItemModal = ({
-  show,
-  onClose,
-  onConfirm,
-  menuItem,
-  loading,
-}) => {
+const AddEditMenuItemModal = ({ show, onClose, onConfirm, menuItem }) => {
   const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState({});
 
@@ -139,14 +132,23 @@ const AddEditMenuItemModal = ({
     // onConfirm?.(payload);
     safeCall(onConfirm)(payload);
   }
+
   return (
     <div>
-      <AddEditModal
+      <Modal
         show={show}
         onClose={handleClose}
         title={menuItem ? menu_item_edit_title : menu_item_add_title}
-        onSave={handleSubmit}
-        loading={loading}
+        footer={
+          <>
+            <Button isCancelBtn={true} onClick={onClose}>
+              {cancel}
+            </Button>
+            <Button className="btn btn-primary" onClick={handleSubmit}>
+              {save}
+            </Button>
+          </>
+        }
       >
         <form onSubmit={(e) => e.preventDefault()}>
           <Input
@@ -212,7 +214,7 @@ const AddEditMenuItemModal = ({
             </small>
           )}
         </form>
-      </AddEditModal>
+      </Modal>
     </div>
   );
 };
