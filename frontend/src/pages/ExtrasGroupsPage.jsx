@@ -48,7 +48,6 @@ const ExtrasGroupsPage = () => {
     let result;
     try {
       result = await read("extras-groups");
-      console.log("result", result);
       setExtrasGroups(result.data);
     } catch (error) {
       console.error("Failed to fetch extras groups:", error);
@@ -96,7 +95,6 @@ const ExtrasGroupsPage = () => {
   async function updateExtrasGroup(payload) {
     let result;
     try {
-      console.log(selectedExtrasGroup);
       setActionLoading(true);
       result = await update(
         `extras-groups/${selectedExtrasGroup?.id}`,
@@ -124,12 +122,10 @@ const ExtrasGroupsPage = () => {
   function handleEditExtrasGroup(extrasGroup) {
     setSelectedExtrasGroup(extrasGroup);
     setIsAddEditExtrasGroupModalOpen(true);
-    console.log("ExtrasGroup -> ", extrasGroup);
   }
   async function deleteExtrasGroup() {
     let result;
     try {
-      console.log(selectedExtrasGroup);
       setActionLoading(true);
       result = await remove(`extras-groups/${selectedExtrasGroup.id}`);
 
