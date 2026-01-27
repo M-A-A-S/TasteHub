@@ -6,7 +6,7 @@ namespace TasteHub.DataAccess.Interfaces
 {
     public interface IMenuItemRepository : IRepository<MenuItem>
     {
-        Task<Result<PagedResult<MenuItemResponseDTO>>> GetFilteredAsync(
+        Task<Result<PagedResult<MenuItemDTO>>> GetFilteredAsync(
                   MenuItemFiltersDTO filters
               );
 

@@ -6,11 +6,11 @@ namespace TasteHub.Business.Interfaces
 {
     public interface IMenuItemService
     {
-        Task<Result<MenuItem>> AddAsync(MenuItemDTO dto);
-        Task<Result<MenuItem>> UpdateAsync(int id, MenuItemDTO dto);
+        Task<Result<MenuItemDTO>> AddAsync(MenuItemDTO dto);
+        Task<Result<MenuItemDTO>> UpdateAsync(int id, MenuItemDTO dto);
         Task<Result<bool>> DeleteAsync(int id);
-        Task<Result<MenuItem>> GetByIdAsync(int id);
-        Task<Result<PagedResult<MenuItemResponseDTO>>> GetFilteredAsync(
+        Task<Result<MenuItemDTO>> GetByIdAsync(int id);
+        Task<Result<PagedResult<MenuItemDTO>>> GetFilteredAsync(
             MenuItemFiltersDTO filters
         );
     }

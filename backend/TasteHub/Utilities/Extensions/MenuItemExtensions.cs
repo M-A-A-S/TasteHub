@@ -19,7 +19,10 @@ namespace TasteHub.Utilities.Extensions
                 MenuCategoryId = item.MenuCategoryId,
                 Price = item.Price,
                 ImageUrl = item.ImageUrl,
-                IsActive = item.IsActive
+                IsActive = item.IsActive,
+                CreatedAt = item.CreatedAt,
+                UpdatedAt = item.UpdatedAt,
+                MenuCategory = item.MenuCategory.ToDTO(),
             };
         }
 

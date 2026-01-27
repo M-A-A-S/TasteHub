@@ -1,4 +1,5 @@
-﻿using TasteHub.DTOs.MenuCategory;
+﻿using System.Runtime.CompilerServices;
+using TasteHub.DTOs.MenuCategory;
 using TasteHub.Entities;
 
 namespace TasteHub.Utilities.Extensions
@@ -53,6 +54,13 @@ namespace TasteHub.Utilities.Extensions
             menuCategory.DescriptionAr = menuCategoryDTO.DescriptionAr ?? null;
             menuCategory.UpdatedAt = DateTime.UtcNow;
         }
-
+        public static void UpdateFromDTO(this MenuCategoryDTO existMenuCategory, MenuCategoryDTO updatedData)
+        {
+            existMenuCategory.NameEn = updatedData.NameEn;
+            existMenuCategory.NameAr= updatedData.NameAr;
+            existMenuCategory.DescriptionEn = updatedData.DescriptionEn;
+            existMenuCategory.DescriptionAr= updatedData.DescriptionAr;
+            existMenuCategory.UpdatedAt= DateTime.UtcNow;   
+        }
     }
 }

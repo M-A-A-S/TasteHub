@@ -18,10 +18,11 @@ namespace TasteHub.Business.Services
             _repo = repo;
         }
 
-        public async Task<Result<MenuCategory>> AddAsync(MenuCategoryDTO categoryDTO)
+        public async Task<Result<MenuCategoryDTO>> AddAsync(MenuCategoryDTO categoryDTO)
         {
             var category = categoryDTO.ToEntity();
-            return await _repo.AddAsync(category);
+            var result = await _repo.AddAsync(category);
+            return Result<MenuCategoryDTO>.Success(result.Data.ToDTO());
         }
 
         public async Task<Result<bool>> DeleteAsync(int id)
@@ -34,20 +35,30 @@ namespace TasteHub.Business.Services
             return await _repo.GetAllAsync();
         }
 
-        public async Task<Result<MenuCategory>> GetByIdAsync(int id)
+        public async Task<Result<MenuCategoryDTO>> GetByIdAsync(int id)
+        {
+            var result = await _repo.FindByAsync(eg => eg.Id, id);
+            if (!result.IsSuccess)
+                return Result<MenuCategoryDTO>.Failure(result.Message,result.StatusCode);
+            return Result<MenuCategoryDTO>.Success(result.Data.ToDTO());
+        }
+        private async Task<Result<MenuCategory>> _getEntityByIdAsync(int id)
         {
             return await _repo.FindByAsync(eg => eg.Id, id);
         }
 
-        public async Task<Result<MenuCategory>> UpdateAsync(int id, MenuCategoryDTO categoryDTO)
+        public async Task<Result<MenuCategoryDTO>> UpdateAsync(int id, MenuCategoryDTO categoryDTO)
         {
-            var existingResult = await GetByIdAsync(id);
+            var existingResult = await _getEntityByIdAsync(id);
             if (!existingResult.IsSuccess || existingResult.Data == null)
             {
-                return Result<MenuCategory>.Failure(ResultCodes.ExtraGroupNotFound);
+                return Result<MenuCategoryDTO>.Failure(ResultCodes.ExtraGroupNotFound);
             }
             existingResult.Data.UpdateFromDTO(categoryDTO);
-            return await _repo.UpdateAsync(existingResult.Data);
+            var updatingResult = await _repo.UpdateAsync(existingResult.Data);
+            if (!updatingResult.IsSuccess)
+                return Result<MenuCategoryDTO>.Failure(updatingResult.Message,updatingResult.StatusCode);
+            return Result<MenuCategoryDTO>.Success(updatingResult.Data.ToDTO());
         }
     }
 }

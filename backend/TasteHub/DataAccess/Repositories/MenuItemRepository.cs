@@ -17,7 +17,7 @@ namespace TasteHub.DataAccess.Repositories
         {
         }
 
-        public async Task<Result<PagedResult<MenuItemResponseDTO>>> GetFilteredAsync(
+        public async Task<Result<PagedResult<MenuItemDTO>>> GetFilteredAsync(
             MenuItemFiltersDTO filters)
         {
             try
@@ -75,19 +75,21 @@ namespace TasteHub.DataAccess.Repositories
                 var items = await query
                     .Skip((filters.PageNumber - 1) * filters.PageSize)
                     .Take(filters.PageSize).Select(
-                    i =>  new MenuItemResponseDTO
+                    i =>  new MenuItemDTO
                     {
                         Id = i.Id,
                         NameEn = i.NameEn,
                         NameAr = i.NameAr,
                         DescriptionEn = i.DescriptionEn,
+                        MenuCategoryId = i.MenuCategoryId,
                         DescriptionAr = i.DescriptionAr,
                         ImageUrl = i.ImageUrl,
                         IsActive = i.IsActive,
                         Price = i.Price,
                         CreatedAt = i.CreatedAt,
                         UpdatedAt = i.UpdatedAt,
-                        Category = new MenuCategoryResponseDTO
+                        
+                        MenuCategory = new MenuCategoryDTO
                         {
                             Id = i.MenuCategory!.Id,
                             NameEn = i.MenuCategory.NameEn,
@@ -100,7 +102,7 @@ namespace TasteHub.DataAccess.Repositories
                     })
                     .ToListAsync();
 
-                return Result<PagedResult<MenuItemResponseDTO>>.Success(new PagedResult<MenuItemResponseDTO>
+                return Result<PagedResult<MenuItemDTO>>.Success(new PagedResult<MenuItemDTO>
                 {
                     Items = items,
                     Total = total,
@@ -111,7 +113,7 @@ namespace TasteHub.DataAccess.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while retrieving filtered menu items.");
-                return Result<PagedResult<MenuItemResponseDTO>>.Failure(ResultCodes.ServerError, 500, "Server error");
+                return Result<PagedResult<MenuItemDTO>>.Failure(ResultCodes.ServerError, 500, "Server error");
             }
         }
 

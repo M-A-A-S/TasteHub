@@ -10,5 +10,7 @@ namespace TasteHub.DTOs.MenuCategory
         public string NameAr { get; set; } = null!;
         public string? DescriptionEn { get; set; }
         public string? DescriptionAr { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

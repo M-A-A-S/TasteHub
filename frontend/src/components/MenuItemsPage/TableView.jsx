@@ -103,8 +103,8 @@ updatedAt
         category: (
           <small className="text-xs px-2 py-1 rounded-full bg-orange-100 text-orange-700 w-fit">
             {language == "en"
-              ? menuItem?.category?.nameEn
-              : menuItem?.category?.nameAr}
+              ? menuItem?.menuCategory?.nameEn
+              : menuItem?.menuCategory?.nameAr}
           </small>
         ),
         description: (

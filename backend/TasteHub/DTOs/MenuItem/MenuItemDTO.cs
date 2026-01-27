@@ -1,4 +1,6 @@
-﻿namespace TasteHub.DTOs.MenuItem
+﻿using TasteHub.DTOs.MenuCategory;
+
+namespace TasteHub.DTOs.MenuItem
 {
     public class MenuItemDTO
     {
@@ -13,5 +15,8 @@
         public string? ImageUrl { get; set; } // stored filename
         public bool IsActive { get; set; } = true;
         public bool DeleteImage { get; set; } = false;
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public MenuCategoryDTO? MenuCategory { get; set; } = null;
     }
 }

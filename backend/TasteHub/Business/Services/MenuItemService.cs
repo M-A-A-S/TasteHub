@@ -16,16 +16,18 @@ namespace TasteHub.Business.Services
         private readonly IMenuItemRepository _repo;
         private readonly IImageService _imageService;
         private readonly IOptions<ImageSettings> _imageSettings;
+        private readonly IMenuCategoryService _menuCategoryService;
 
         public MenuItemService(IMenuItemRepository repo, IImageService imageService,
-            IOptions<ImageSettings> imageSettings)
+            IOptions<ImageSettings> imageSettings, IMenuCategoryService menuCategoryService)
         {
             _repo = repo;
             _imageService = imageService;
             _imageSettings = imageSettings;
+            _menuCategoryService = menuCategoryService;
         }
 
-        public async Task<Result<MenuItem>> AddAsync(MenuItemDTO dto)
+        public async Task<Result<MenuItemDTO>> AddAsync(MenuItemDTO dto)
         {
             var entity = dto.ToEntity();
 
@@ -40,7 +42,7 @@ namespace TasteHub.Business.Services
 
                 if (!imageSaveResult.IsSuccess)
                 {
-                    return Result<MenuItem>.Failure(
+                    return Result<MenuItemDTO>.Failure(
                         imageSaveResult.Code, 
                         imageSaveResult.StatusCode);
 
@@ -72,7 +74,7 @@ namespace TasteHub.Business.Services
                 result.Data.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(result.Data.ImageUrl);
             }
 
-            return result;
+            return Result<MenuItemDTO>.Success(result.Data.ToDTO());
         }
 
         public async Task<Result<bool>> DeleteAsync(int id)
@@ -101,7 +103,7 @@ namespace TasteHub.Business.Services
             return await _repo.DeleteAsync(id);
         }
 
-        public async Task<Result<MenuItem>> GetByIdAsync(int id)
+        public async Task<Result<MenuItemDTO>> GetByIdAsync(int id)
         {
             var result = await _repo.FindByAsync(m => m.Id, id);
 
@@ -109,10 +111,10 @@ namespace TasteHub.Business.Services
             {
                 result.Data.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(result.Data.ImageUrl);
             }
-            return result;
+            return Result<MenuItemDTO>.Success(result.Data.ToDTO());
         }
 
-        public async Task<Result<PagedResult<MenuItemResponseDTO>>> GetFilteredAsync(
+        public async Task<Result<PagedResult<MenuItemDTO>>> GetFilteredAsync(
             MenuItemFiltersDTO filters)
         {
             var result = await _repo.GetFilteredAsync(filters);
@@ -131,12 +133,12 @@ namespace TasteHub.Business.Services
             return result;
         }
 
-        public async Task<Result<MenuItem>> UpdateAsync(int id, MenuItemDTO dto)
+        public async Task<Result<MenuItemDTO>> UpdateAsync(int id, MenuItemDTO dto)
         {
             var existingResult = await _repo.FindByAsync(m => m.Id, id);
             if (!existingResult.IsSuccess || existingResult.Data == null)
             {
-                return Result<MenuItem>.Failure(
+                return Result<MenuItemDTO>.Failure(
                     ResultCodes.MenuItemNotFound, 
                     existingResult.StatusCode, 
                     "Menu item not found");
@@ -151,7 +153,7 @@ namespace TasteHub.Business.Services
                 var deleteResult = await _imageService.DeleteImage(entity.ImageUrl);
                 if (!deleteResult.IsSuccess)
                 {
-                    return Result<MenuItem>.Failure(
+                    return Result<MenuItemDTO>.Failure(
                         deleteResult.Code, 
                         deleteResult.StatusCode);
                 }
@@ -169,7 +171,7 @@ namespace TasteHub.Business.Services
 
                 if (!replaceResult.IsSuccess)
                 {
-                    return Result<MenuItem>.Failure(
+                    return Result<MenuItemDTO>.Failure(
                         replaceResult.Code,
                         replaceResult.StatusCode);
                 }
@@ -189,12 +191,18 @@ namespace TasteHub.Business.Services
             entity.UpdateFromDTO(dto);
             entity.ImageUrl = finalImageUrl;
 
-            var  result = await _repo.UpdateAsync(existingResult.Data);
-            if (result.IsSuccess && result.Data != null)
+            var  updateResult = await _repo.UpdateAsync(existingResult.Data);
+            if (updateResult.IsSuccess && updateResult.Data != null)
             {
-                result.Data.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(result.Data.ImageUrl);
+                updateResult.Data.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(updateResult.Data.ImageUrl);
             }
-            return result;
+
+            var categoryResult = await _menuCategoryService.GetByIdAsync(updateResult.Data.MenuCategoryId);
+            var result = updateResult.Data.ToDTO();
+            result.MenuCategory = categoryResult.Data;
+
+
+            return Result<MenuItemDTO>.Success(result); 
 
         }
     
