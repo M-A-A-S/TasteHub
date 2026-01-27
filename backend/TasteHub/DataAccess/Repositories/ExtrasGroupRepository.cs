@@ -16,7 +16,7 @@ namespace TasteHub.DataAccess.Repositories
         }
 
 
-        public async Task<Result<IEnumerable<ExtraGroupResponseDTO>>> GetAllAsync()
+        public async Task<Result<IEnumerable<ExtraGroupDTO>>> GetAllAsync()
         {
             try
             {
@@ -26,14 +26,14 @@ namespace TasteHub.DataAccess.Repositories
                 var data = await _context.ExtrasGroups
                         .AsNoTracking()
                         .Include(x => x.Extras)
-                        .Select(g => new ExtraGroupResponseDTO
+                        .Select(g => new ExtraGroupDTO
                         {
                             Id = g.Id,
                             NameEn = g.NameEn,
                             NameAr = g.NameAr,
                             MaxSelect = g.MaxSelect,
                             Required = g.Required,
-                            Extras = g.Extras.Select(e => new ExtraResponseDTO
+                            Extras = g.Extras.Select(e => new ExtraDTO
                             {
                                 Id = e.Id,
                                 NameEn = e.NameEn,
@@ -44,12 +44,12 @@ namespace TasteHub.DataAccess.Repositories
                         })
                         .ToListAsync();
 
-                return Result<IEnumerable<ExtraGroupResponseDTO>>.Success(data);
+                return Result<IEnumerable<ExtraGroupDTO>>.Success(data);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error while retrieving all entities.");
-                return Result<IEnumerable<ExtraGroupResponseDTO>>.Failure(ResultCodes.ServerError, 500, "Server error");
+                return Result<IEnumerable<ExtraGroupDTO>>.Failure(ResultCodes.ServerError, 500, "Server error");
             }
         }
 

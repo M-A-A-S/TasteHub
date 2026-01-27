@@ -96,6 +96,7 @@ const ExtrasGroupsPage = () => {
   async function updateExtrasGroup(payload) {
     let result;
     try {
+      console.log(selectedExtrasGroup);
       setActionLoading(true);
       result = await update(
         `extras-groups/${selectedExtrasGroup?.id}`,

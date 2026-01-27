@@ -7,10 +7,10 @@ namespace TasteHub.Business.Interfaces
 {
     public interface IExtrasGroupService
     {
-        Task<Result<IEnumerable<ExtraGroupResponseDTO>>> GetAllAsync();
-        Task<Result<ExtrasGroup>> GetByIdAsync(int id);
-        Task<Result<ExtrasGroup>> AddAsync(ExtraGroupDTO extrasGroupDTO);
-        Task<Result<ExtrasGroup>> UpdateAsync(int id, ExtraGroupDTO extrasGroupDTO);
+        Task<Result<IEnumerable<ExtraGroupDTO>>> GetAllAsync();
+        Task<Result<ExtraGroupDTO>> GetByIdAsync(int id);
+        Task<Result<ExtraGroupDTO>> AddAsync(ExtraGroupDTO extrasGroupDTO);
+        Task<Result<ExtraGroupDTO>> UpdateAsync(int id, ExtraGroupDTO extrasGroupDTO);
         Task<Result<bool>> DeleteAsync(int id);
 
     }

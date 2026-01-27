@@ -6,6 +6,6 @@ namespace TasteHub.DataAccess.Interfaces
 {
     public interface IExtraRepository : IRepository<Extra>
     {
-        Task<Result<IEnumerable<ExtraResponseDTO>>> GetAllAsync();
+        Task<Result<IEnumerable<ExtraDTO>>> GetAllAsync();
     }
 }

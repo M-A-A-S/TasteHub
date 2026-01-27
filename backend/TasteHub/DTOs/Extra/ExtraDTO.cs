@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TasteHub.DTOs.ExtraGroup;
 
 namespace TasteHub.DTOs.Extra
 {
@@ -10,6 +11,7 @@ namespace TasteHub.DTOs.Extra
         public string NameEn { get; set; } = null!;
         public string NameAr { get; set; } = null!;
         public decimal Price { get; set; }
+        public ExtraGroupDTO? Group { get; set; } = null;
 
     }
 }

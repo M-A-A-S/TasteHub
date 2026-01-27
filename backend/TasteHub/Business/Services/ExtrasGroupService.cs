@@ -18,10 +18,15 @@ namespace TasteHub.Business.Services
             _repo = repo;
         }
 
-        public async Task<Result<ExtrasGroup>> AddAsync(ExtraGroupDTO extrasGroupDTO)
+        public async Task<Result<ExtraGroupDTO>> AddAsync(ExtraGroupDTO extrasGroupDTO)
         {
             var extrasGroup = extrasGroupDTO.ToEntity();
-            return await _repo.AddAsync(extrasGroup);
+            var result = await _repo.AddAsync(extrasGroup);
+            if (!result.IsSuccess)
+            {
+                return Result<ExtraGroupDTO>.Failure(result.Code, result.StatusCode, result.Message);
+            }
+            return Result<ExtraGroupDTO>.Success(result.Data.ToDTO());
         }
 
         public async Task<Result<bool>> DeleteAsync(int id)
@@ -29,25 +34,39 @@ namespace TasteHub.Business.Services
             return await _repo.DeleteAsync(id);
         }
 
-        public async Task<Result<IEnumerable<ExtraGroupResponseDTO>>> GetAllAsync()
+        public async Task<Result<IEnumerable<ExtraGroupDTO>>> GetAllAsync()
         {
             return await _repo.GetAllAsync();
         }
 
-        public async Task<Result<ExtrasGroup>> GetByIdAsync(int id)
+        public async Task<Result<ExtraGroupDTO>> GetByIdAsync(int id)
+        {
+            var result =  await _repo.FindByAsync(eg => eg.Id, id);
+            if (!result.IsSuccess)
+            {
+                return Result<ExtraGroupDTO>.Failure(result.Code, result.StatusCode,result.Message);
+            }
+            return Result<ExtraGroupDTO>.Success(result.Data.ToDTO());
+        }
+        private async Task<Result<ExtrasGroup>> _getEntityById(int id)
         {
             return await _repo.FindByAsync(eg => eg.Id, id);
         }
 
-        public async Task<Result<ExtrasGroup>> UpdateAsync(int id, ExtraGroupDTO extrasGroupDTO)
+        public async Task<Result<ExtraGroupDTO>> UpdateAsync(int id, ExtraGroupDTO extrasGroupDTO)
         {
-            var existingResult = await GetByIdAsync(id);
+            var existingResult = await _getEntityById(id);
             if (!existingResult.IsSuccess || existingResult.Data == null)
             {
-                return Result<ExtrasGroup>.Failure(ResultCodes.CategoryNotFound);
+                return Result<ExtraGroupDTO>.Failure(ResultCodes.CategoryNotFound);
             }
             existingResult.Data.UpdateFromDTO(extrasGroupDTO);
-            return await _repo.UpdateAsync(existingResult.Data);
+            var result = await _repo.UpdateAsync(existingResult.Data);
+            if (!result.IsSuccess)
+            {
+                return Result<ExtraGroupDTO>.Failure(result.Code, result.StatusCode, result.Message);
+            }
+            return Result<ExtraGroupDTO>.Success(result.Data.ToDTO());
         }
     }
 }

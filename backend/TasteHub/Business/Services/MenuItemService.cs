@@ -61,20 +61,23 @@ namespace TasteHub.Business.Services
 
             entity.ImageUrl = imageUrl;
 
-            var result = await _repo.AddAsync(entity);
+            var addResult = await _repo.AddAsync(entity);
 
-            if (!result.IsSuccess && imageUrl != null && dto.ImageFile != null)
+            if (!addResult.IsSuccess && imageUrl != null && dto.ImageFile != null)
             {
                 await _imageService.DeleteImage(imageUrl);
             }
 
 
-            if (result.IsSuccess && result.Data != null)
+            if (addResult.IsSuccess && addResult.Data != null)
             {
-                result.Data.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(result.Data.ImageUrl);
+                addResult.Data.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(addResult.Data.ImageUrl);
             }
+            var catagoryResult = await _menuCategoryService.GetByIdAsync(addResult.Data.MenuCategoryId);
+            var result = addResult.Data.ToDTO();
+            result.MenuCategory = catagoryResult.Data;
 
-            return Result<MenuItemDTO>.Success(result.Data.ToDTO());
+            return Result<MenuItemDTO>.Success(result);
         }
 
         public async Task<Result<bool>> DeleteAsync(int id)
@@ -113,6 +116,7 @@ namespace TasteHub.Business.Services
             }
             return Result<MenuItemDTO>.Success(result.Data.ToDTO());
         }
+        
 
         public async Task<Result<PagedResult<MenuItemDTO>>> GetFilteredAsync(
             MenuItemFiltersDTO filters)

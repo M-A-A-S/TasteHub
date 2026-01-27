@@ -100,6 +100,7 @@ const ExtrasPage = () => {
     let result;
     try {
       setActionLoading(true);
+      console.log(payload);
       result = await create(`extras`, payload);
       setExtras((prev) => [...prev, result.data]);
       showSuccess(result?.code, extra_add_success);
