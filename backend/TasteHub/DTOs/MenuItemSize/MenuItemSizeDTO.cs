@@ -13,8 +13,8 @@ namespace TasteHub.DTOs.MenuItemSize
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public MenuItemDTO? MenuItem { get; set; }
-        public SizeDTO? Size { get; set; }
-        public ICollection<OrderItem>? OrderItems { get; set; }
+        public MenuItemDTO? MenuItem { get; set; } = null;
+        public SizeDTO? Size { get; set; } = null;
+        public ICollection<OrderItem>? OrderItems { get; set; } = null;
     }
 }

@@ -23,11 +23,11 @@ namespace TasteHub.Business.Services
         {
             var menuItemSize = menuItemSizeDTO.ToEntity();
             var addResult = await _repo.AddAsync(menuItemSize);
-            if (!addResult.IsSuccess)
+            if (!addResult.IsSuccess || addResult.Data == null)
             {
                 return Result<MenuItemSizeDTO>.Failure();
             }
-            return Result<MenuItemSizeDTO>.Success(menuItemSizeDTO);
+            return Result<MenuItemSizeDTO>.Success(addResult?.Data?.ToDTO());
         }
 
         public async Task<Result<bool>> DeleteAsync(int id)
