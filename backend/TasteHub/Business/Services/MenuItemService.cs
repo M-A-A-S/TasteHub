@@ -103,13 +103,13 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<MenuItem>> GetByIdAsync(int id)
         {
-            var result = await _repo.GetByIdAsync(id);
+            var result = await _repo.FindByAsync(m => m.Id, id);
 
             if (result.IsSuccess && result.Data != null)
             {
                 result.Data.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(result.Data.ImageUrl);
             }
-            return await _repo.GetByIdAsync(id);
+            return result;
         }
 
         public async Task<Result<PagedResult<MenuItemResponseDTO>>> GetFilteredAsync(
@@ -133,7 +133,7 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<MenuItem>> UpdateAsync(int id, MenuItemDTO dto)
         {
-            var existingResult = await _repo.GetByIdAsync(id);
+            var existingResult = await _repo.FindByAsync(m => m.Id, id);
             if (!existingResult.IsSuccess || existingResult.Data == null)
             {
                 return Result<MenuItem>.Failure(

@@ -37,7 +37,7 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<Extra>> GetByIdAsync(int id)
         {
-            return await _repo.GetByIdAsync(id);
+            return await _repo.FindByAsync(e => e.Id, id);
         }
 
         public async Task<Result<Extra>> UpdateAsync(int id, ExtraDTO extraDTO)
