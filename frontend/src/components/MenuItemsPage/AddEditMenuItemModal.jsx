@@ -8,6 +8,8 @@ import Modal from "../UI/Modal";
 import MenuCategoriesSelect from "../MenuCategoriesSelect";
 import ImagePicker from "../ImagePicker";
 import AddEditModal from "../UI/AddEditModal";
+import Select from "../UI/Select";
+import Checkbox from "../UI/Checkbox";
 
 const initialFormState = {
   nameEn: "",
@@ -17,6 +19,7 @@ const initialFormState = {
   menuCategoryId: "",
   price: "",
   imageUrl: "",
+  isActive: true,
   imageFile: null,
 };
 
@@ -29,7 +32,7 @@ const AddEditMenuItemModal = ({
 }) => {
   const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState({});
-
+  console.log("menuItem", menuItem);
   const { translations, language } = useLanguage();
   const {
     menu_item_add_title,
@@ -51,8 +54,8 @@ const AddEditMenuItemModal = ({
     menu_item_price_error,
     menu_item_image_label,
     menu_item_image_error,
+    menu_item_is_active_label,
   } = translations.pages.menu_page;
-  const { cancel, save } = translations.common;
   const { default_message } = translations.validations;
 
   const handleClose = safeCall(onClose);
@@ -70,6 +73,7 @@ const AddEditMenuItemModal = ({
         descriptionAr: menuItem?.descriptionAr || "",
         menuCategoryId: menuItem?.menuCategoryId || "",
         price: menuItem?.price || "",
+        isActive: menuItem?.isActive || false,
         imageUrl: menuItem?.imageUrl || "",
         imageFile: null,
       });
@@ -127,6 +131,7 @@ const AddEditMenuItemModal = ({
     payload.append("descriptionAr", formData.descriptionAr);
     payload.append("menuCategoryId", formData.menuCategoryId);
     payload.append("price", formData.price);
+    payload.append("isActive", formData.isActive);
 
     if (formData.imageFile) {
       payload.append("imageFile", formData.imageFile);
@@ -197,6 +202,12 @@ const AddEditMenuItemModal = ({
             value={formData.price}
             errorMessage={errors.price}
             onChange={(e) => updateField("price", e.target.value)}
+          />
+          <Checkbox
+            label={menu_item_is_active_label}
+            checked={formData.isActive}
+            onChange={(e) => updateField("isActive", e.target.checked)}
+            className="accent-orange-600"
           />
           <ImagePicker
             label={menu_item_image_label}
