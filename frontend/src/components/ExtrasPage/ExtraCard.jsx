@@ -20,6 +20,15 @@ const ExtraCard = ({ extra, handleEditExtra, handleDeleteExtra }) => {
         {language === "en" ? extra.nameEn : extra.nameAr}
       </h3>
 
+      {extra?.group && (
+        <p
+          className="text-xs px-2 py-1 my-1
+        rounded-full bg-orange-100 text-orange-700 w-fit"
+        >
+          {language === "en" ? extra.group.nameEn : extra.group.nameAr}
+        </p>
+      )}
+
       <div className="flex items-center justify-between pt-2">
         <span className="text-lg font-bold text-orange-600">
           ${Number(extra?.price ?? 0).toFixed(2)}

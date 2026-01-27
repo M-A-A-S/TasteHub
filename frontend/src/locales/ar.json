@@ -135,7 +135,18 @@
       "extra_delete_fail": "فشل في حذف الإضافة.",
       "extra_delete_modal_title": "حذف الإضافة",
       "extra_delete_modal_message": "هل أنت متأكد من حذف هذه الإضافة؟",
-      "extra_delete_modal_confirm": "حذف"
+      "extra_delete_modal_confirm": "حذف",
+      "table_headers": {
+        "id": "المعرّف",
+        "name": "الاسم",
+        "extra_group": "مجموعة الإضافات",
+        "description": "الوصف",
+        "price": "السعر",
+        "status": "الحالة",
+        "created": "تاريخ الإنشاء",
+        "updated": "تاريخ التحديث",
+        "actions": "الإجراءات"
+      }
     }
   },
   "server_codes": {},

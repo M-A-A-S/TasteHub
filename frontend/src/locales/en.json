@@ -133,7 +133,18 @@
       "extra_delete_fail": "Failed to delete extra.",
       "extra_delete_modal_title": "Delete Extra",
       "extra_delete_modal_message": "Are you sure you want to delete this extra?",
-      "extra_delete_modal_confirm": "Delete"
+      "extra_delete_modal_confirm": "Delete",
+      "table_headers": {
+        "id": "ID",
+        "name": "Name",
+        "extra_group": "Extra Group",
+        "description": "Description",
+        "price": "Price",
+        "status": "Status",
+        "created": "Created",
+        "updated": "Updated",
+        "actions": "Actions"
+      }
     }
   },
   "server_codes": {},

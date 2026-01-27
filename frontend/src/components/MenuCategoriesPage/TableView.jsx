@@ -15,9 +15,6 @@ const TableView = ({
   const onEdit = safeCall(handleEditCategory);
   const onDelete = safeCall(handleDeleteCategory);
 
-  const onEdit = safeCall(handleEditExtra);
-  const onDelete = safeCall(handleDeleteExtra);
-
   return (
     <Table
       headers={[nameEn, nameAr, descriptionEn, descriptionAr, actions]}
