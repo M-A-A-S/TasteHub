@@ -7,7 +7,10 @@ namespace TasteHub.DataAccess.Interfaces
     public interface IRepository<T> where T : class
     {
         Task<Result<IEnumerable<T>>> GetAllAsync(params Expression<Func<T, object>>[] includes);
-        Task<Result<T>> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes);
+        Task<Result<T>> FindByAsync<TValue>(
+    Expression<Func<T, TValue>> propertySelector,
+    TValue value,
+    params Expression<Func<T, object>>[] includes);
         Task<Result<PagedResult<T>>> GetPagedAsync(
     Expression<Func<T, bool>>? filter = null,
     Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,

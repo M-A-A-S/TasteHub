@@ -109,32 +109,39 @@ namespace TasteHub.DataAccess.Repositories
             }
         }
 
-        public virtual async Task<Result<T>> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes)
+        public virtual async Task<Result<T>> FindByAsync<TValue>(
+    Expression<Func<T, TValue>> propertySelector,
+    TValue value,
+    params Expression<Func<T, object>>[] includes)
         {
             try
             {
                 IQueryable<T> query = _dbSet.AsNoTracking().AsSplitQuery();
 
+                // Apply includes
                 foreach (var include in includes)
-                {
                     query = query.Include(include);
-                }
 
-                var entity = await query
-                         .FirstOrDefaultAsync(x => EF.Property<int>(x, "Id") == id);
+                // Build the predicate: entity => entity.Property == value
+                var predicate = Expression.Lambda<Func<T, bool>>(
+                    Expression.Equal(propertySelector.Body, Expression.Constant(value)),
+                    propertySelector.Parameters
+                );
+
+                var entity = await query.FirstOrDefaultAsync(predicate);
 
                 if (entity == null)
-                {
                     return Result<T>.Failure(ResultCodes.NotFound);
-                }
+
                 return Result<T>.Success(entity);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while retrieving entity by id.");
+                _logger.LogError(ex, "Unexpected error while retrieving entity.");
                 return Result<T>.Failure(ResultCodes.ServerError, 500, "Server error");
             }
         }
+
 
         public virtual async Task<Result<PagedResult<T>>> GetPagedAsync(
 Expression<Func<T, bool>>? filter = null,
