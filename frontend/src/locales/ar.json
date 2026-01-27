@@ -127,6 +127,7 @@
       "title": "الإضافات",
       "description": "إدارة الإضافات لكل مجموعة (مثل إضافات البرجر، الصلصات).",
       "add_new_extra": "إضافة إضافة جديدة",
+      "edit_extra": "تعديل الصنف الإضافي",
       "extra_add_success": "تمت إضافة الإضافة بنجاح!",
       "extra_add_fail": "فشل في إضافة الإضافة.",
       "extra_update_success": "تم تحديث الإضافة بنجاح!",
@@ -146,6 +147,24 @@
         "created": "تاريخ الإنشاء",
         "updated": "تاريخ التحديث",
         "actions": "الإجراءات"
+      },
+      "form": {
+        "extra_name_en_label": "اسم الصنف (EN)",
+        "extra_name_en_placeholder": "أدخل اسم الصنف بالإنجليزية",
+        "extra_name_en_error": "اسم الصنف بالإنجليزية مطلوب",
+
+        "extra_name_ar_label": "اسم الصنف (AR)",
+        "extra_name_ar_placeholder": "أدخل اسم الصنف بالعربية",
+        "extra_name_ar_error": "اسم الصنف بالعربية مطلوب",
+
+        "extra_price_label": "السعر",
+        "extra_price_placeholder": "أدخل سعر الصنف",
+        "extra_price_error": "السعر مطلوب",
+        "extra_price_invalid_error": "يجب أن يكون السعر أكبر من 0",
+
+        "extra_extra_group_label": "المجموعة الإضافية",
+        "extra_extra_group_placeholder": "اختر المجموعة الإضافية",
+        "extra_extra_group_error": "المجموعة الإضافية مطلوبة"
       }
     }
   },

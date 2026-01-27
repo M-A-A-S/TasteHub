@@ -125,6 +125,7 @@
       "title": "Extras",
       "description": "Manage extras for each group (e.g., burger toppings, sauces).",
       "add_new_extra": "Add New Extra",
+      "edit_extra": "Edit Extra",
       "extra_add_success": "Extra added successfully!",
       "extra_add_fail": "Failed to add extra.",
       "extra_update_success": "Extra updated successfully!",
@@ -144,6 +145,24 @@
         "created": "Created",
         "updated": "Updated",
         "actions": "Actions"
+      },
+      "form": {
+        "extra_name_en_label": "Item Name (EN)",
+        "extra_name_en_placeholder": "Enter item name in English",
+        "extra_name_en_error": "Item name in English is required",
+
+        "extra_name_ar_label": "Item Name (AR)",
+        "extra_name_ar_placeholder": "Enter item name in Arabic",
+        "extra_name_ar_error": "Item name in Arabic is required",
+
+        "extra_price_label": "Price",
+        "extra_price_placeholder": "Enter item price",
+        "extra_price_error": "Price is required",
+        "extra_price_invalid_error": "Price must be greater than 0",
+
+        "extra_extra_group_label": "Extra Group",
+        "extra_extra_group_placeholder": "Select extra group",
+        "extra_extra_group_error": "Extra group is required"
       }
     }
   },
