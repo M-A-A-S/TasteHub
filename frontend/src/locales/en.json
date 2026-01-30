@@ -8,7 +8,8 @@
     "menu": "Menu Management",
     "orders": "Orders",
     "analytics": "Analytics",
-    "settings": "Settings"
+    "settings": "Settings",
+    "sizes": "Sizes"
   },
   "common": {
     "save": "Save",
@@ -202,6 +203,43 @@
       "charge": "Charge Bill",
       "clear": "Clear Cart",
       "pay": "Pay"
+    },
+    "sizes_page": {
+      "title": "Sizes",
+      "description": "Manage sizes and their price modifiers.",
+      "add_new_size": "Add New Size",
+      "edit_size": "Edit Size",
+
+      "size_add_success": "Size added successfully!",
+      "size_add_fail": "Failed to add size.",
+      "size_update_success": "Size updated successfully!",
+      "size_update_fail": "Failed to update size.",
+      "size_delete_success": "Size deleted successfully!",
+      "size_delete_fail": "Failed to delete size.",
+
+      "size_delete_modal_title": "Delete Size",
+      "size_delete_modal_message": "Are you sure you want to delete this size?",
+      "size_delete_modal_confirm": "Delete",
+
+      "table_headers": {
+        "name": "Name",
+        "actions": "Actions",
+        "price_modifier": "Price Modifier"
+      },
+      "form": {
+        "size_name_en_label": "Size Name (EN)",
+        "size_name_en_placeholder": "Enter size name in English",
+        "size_name_en_error": "Size name in English is required",
+
+        "size_name_ar_label": "Size Name (AR)",
+        "size_name_ar_placeholder": "Enter size name in Arabic",
+        "size_name_ar_error": "Size name in Arabic is required",
+
+        "size_price_modifier_label": "Price Modifier",
+        "size_price_modifier_placeholder": "Enter price modifier",
+        "size_price_modifier_error": "Price modifier is required",
+        "size_price_modifier_invalid_error": "Price modifier must be greater than 0"
+      }
     }
   },
   "server_codes": {},

@@ -1,8 +1,6 @@
 import {
   ChartColumn,
   ChefHat,
-  Heart,
-  House,
   LayoutDashboard,
   MenuIcon,
   Package,
@@ -11,6 +9,7 @@ import {
   ShoppingCart,
   UtensilsCrossed,
   X,
+  PencilRuler,
 } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -56,10 +55,16 @@ const menus = {
       icon: <ChefHat />,
     },
     {
+      key: "sizes",
+      path: "/sizes",
+      icon: <PencilRuler />,
+    },
+    {
       key: "orders",
       path: "/orders",
       icon: <Package />,
     },
+
     {
       key: "analytics",
       path: "/analytics",

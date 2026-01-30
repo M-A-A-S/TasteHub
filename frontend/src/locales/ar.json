@@ -8,7 +8,8 @@
     "menu": "إدارة القائمة",
     "orders": "الطلبات",
     "analytics": "الإحصائيات",
-    "settings": "الإعدادات"
+    "settings": "الإعدادات",
+    "sizes": "الأحجام"
   },
   "common": {
     "save": "حفظ",
@@ -204,6 +205,44 @@
       "charge": "تحصيل الفاتورة",
       "clear": "مسح العربة",
       "pay": "دفع"
+    },
+    "sizes_page": {
+      "title": "الأحجام",
+      "description": "إدارة الأحجام وتعديلات الأسعار الخاصة بها.",
+      "add_new_size": "إضافة حجم جديد",
+      "edit_size": "تعديل الحجم",
+
+      "size_add_success": "تمت إضافة الحجم بنجاح!",
+      "size_add_fail": "فشل في إضافة الحجم.",
+      "size_update_success": "تم تحديث الحجم بنجاح!",
+      "size_update_fail": "فشل في تحديث الحجم.",
+      "size_delete_success": "تم حذف الحجم بنجاح!",
+      "size_delete_fail": "فشل في حذف الحجم.",
+
+      "size_delete_modal_title": "حذف الحجم",
+      "size_delete_modal_message": "هل أنت متأكد من أنك تريد حذف هذا الحجم؟",
+      "size_delete_modal_confirm": "حذف",
+
+      "table_headers": {
+        "name": "الاسم",
+        "actions": "الإجراءات",
+        "price_modifier": "قيمة تعديل السعر"
+      },
+
+      "form": {
+        "size_name_en_label": "اسم الحجم (إنجليزي)",
+        "size_name_en_placeholder": "أدخل اسم الحجم باللغة الإنجليزية",
+        "size_name_en_error": "اسم الحجم باللغة الإنجليزية مطلوب",
+
+        "size_name_ar_label": "اسم الحجم (عربي)",
+        "size_name_ar_placeholder": "أدخل اسم الحجم باللغة العربية",
+        "size_name_ar_error": "اسم الحجم باللغة العربية مطلوب",
+
+        "size_price_modifier_label": "قيمة تعديل السعر",
+        "size_price_modifier_placeholder": "أدخل قيمة تعديل السعر",
+        "size_price_modifier_error": "قيمة تعديل السعر مطلوبة",
+        "size_price_modifier_invalid_error": "يجب أن تكون قيمة تعديل السعر أكبر من 0"
+      }
     }
   },
   "server_codes": {},
