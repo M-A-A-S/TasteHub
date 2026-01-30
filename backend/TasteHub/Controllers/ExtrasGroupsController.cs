@@ -19,6 +19,7 @@ namespace TasteHub.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            await Task.Delay(1000);
             return FromResult(await _service.GetAllAsync());
         }
 
