@@ -8,6 +8,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import ExtrasGroupsPage from "./pages/ExtrasGroupsPage";
 import ExtrasPage from "./pages/ExtrasPage";
 import ToastContainer from "./components/UI/ToastContainer";
+import PointOfSalePage from "./pages/PointOfSalePage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
+            <Route path="/point-of-sale" element={<PointOfSalePage />} />
             <Route path="/menu-categories" element={<MenuCategoriesPage />} />
             <Route path="/menu-items" element={<MenuItemsPage />} />
             <Route path="/extras-groups" element={<ExtrasGroupsPage />} />

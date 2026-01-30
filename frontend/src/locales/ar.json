@@ -1,6 +1,7 @@
 {
   "sidebar": {
     "dashboard": "لوحة التحكم",
+    "point_of_sale": "نقطة البيع",
     "categories": "إدارة الأصناف",
     "extras_groups": "مجموعات الإضافات",
     "extras": "الإضافات",
@@ -196,6 +197,13 @@
         "extra_extra_group_placeholder": "اختر المجموعة الإضافية",
         "extra_extra_group_error": "المجموعة الإضافية مطلوبة"
       }
+    },
+    "point_of_sale_page": {
+      "title": "الفاتورة الحية",
+      "empty": "العربة فارغة",
+      "charge": "تحصيل الفاتورة",
+      "clear": "مسح العربة",
+      "pay": "دفع"
     }
   },
   "server_codes": {},

@@ -9,6 +9,7 @@ import {
   Settings,
   ShoppingBag,
   ShoppingCart,
+  UtensilsCrossed,
   X,
 } from "lucide-react";
 import { useState } from "react";
@@ -28,6 +29,11 @@ const menus = {
       key: "dashboard",
       path: "/dashboard",
       icon: <LayoutDashboard />,
+    },
+    {
+      key: "point_of_sale",
+      path: "/point-of-sale",
+      icon: <UtensilsCrossed />,
     },
     {
       key: "categories",

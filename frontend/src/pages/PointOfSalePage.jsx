@@ -1,0 +1,312 @@
+import { CreditCard, ShoppingBag } from "lucide-react";
+import Button from "../components/ui/Button";
+import Counter from "../components/Counter";
+import CategoryFilterButtons from "../components/CategoryFilterButtons";
+import { useEffect, useState } from "react";
+import { useDebounce } from "../hooks/useDebounce";
+import { read } from "../api/apiWrapper";
+import { SORTING_TERMS } from "../utils/constants";
+import FiltersContainer from "../components/PointOfSalePage/FiltersContainer";
+import CardView from "../components/PointOfSalePage/CardView";
+import Pagination from "../components/UI/Pagination";
+import { useLanguage } from "../hooks/useLanguage";
+import SpinnerLoader from "../components/UI/SpinnerLoader";
+import { saveCart } from "../utils/cartStorage";
+import Cart from "./Cart";
+
+// const carItems = [
+//   {
+//     id: 1,
+//     name: "Tiramisu",
+//     size: "Large",
+//     price: 71.0,
+//     quantity: 2,
+//     extras: ["Whipped Cream", "Extra Chocolate"],
+//   },
+//   {
+//     id: 2,
+//     name: "Chocolate Cake",
+//     size: "Large",
+//     price: 55.0,
+//     quantity: 1,
+//     extras: ["Sprinkles", "Caramel Drizzle"],
+//   },
+//   {
+//     id: 3,
+//     name: "Cupcake",
+//     size: "Large",
+//     price: 25.0,
+//     quantity: 3,
+//     extras: ["Sprinkles", "Caramel Drizzle"],
+//   },
+//   {
+//     id: 4,
+//     name: "www",
+//     size: "Large",
+//     price: 25.0,
+//     quantity: 3,
+//     extras: ["Sprinkles", "Caramel Drizzle"],
+//   },
+//   {
+//     id: 5,
+//     name: "www",
+//     size: "Large",
+//     price: 25.0,
+//     quantity: 3,
+//     extras: ["Sprinkles", "Caramel Drizzle"],
+//   },
+//   {
+//     id: 6,
+//     name: "www",
+//     size: "Large",
+//     price: 25.0,
+//     quantity: 3,
+//     extras: ["Sprinkles", "Caramel Drizzle"],
+//   },
+//   {
+//     id: 7,
+//     name: "www",
+//     size: "Large",
+//     price: 25.0,
+//     quantity: 3,
+//     extras: ["Sprinkles", "Caramel Drizzle"],
+//   },
+//   {
+//     id: 8,
+//     name: "www",
+//     size: "Large",
+//     price: 25.0,
+//     quantity: 3,
+//     extras: ["Sprinkles", "Caramel Drizzle"],
+//   },
+//   {
+//     id: 9,
+//     name: "www",
+//     size: "Large",
+//     price: 25.0,
+//     quantity: 3,
+//     extras: ["Sprinkles", "Caramel Drizzle"],
+//   },
+//   {
+//     id: 10,
+//     name: "www",
+//     size: "Large",
+//     price: 25.0,
+//     quantity: 3,
+//     extras: ["Sprinkles", "Caramel Drizzle"],
+//   },
+// ];
+
+const PointOfSalePage = () => {
+  const [menuItems, setMenuItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [tableNumber, setTableNumber] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [errorCode, setErrorCode] = useState("");
+
+  // Filters
+  const [searchText, setSearchText] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [totalMenuItems, setTotalMenuItems] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10; // Items per page
+
+  const debouncedSearch = useDebounce(searchText, 500);
+
+  const { translations, language } = useLanguage();
+
+  const { cancel, loading_error, empty_state } = translations.common;
+
+  const fetchMenuItems = async () => {
+    let result;
+    try {
+      setLoading(true);
+      setErrorCode("");
+      const queryParams = new URLSearchParams();
+
+      queryParams.append("pageNumber", currentPage);
+      queryParams.append("pageSize", pageSize);
+
+      if (debouncedSearch?.trim() !== "") {
+        queryParams.append("searchTerm", debouncedSearch.trim());
+      }
+
+      queryParams.append("sortBy", sortBy || SORTING_TERMS.NEWEST);
+
+      if (categoryId > 0) {
+        queryParams.append("categoryId", parseInt(categoryId));
+      }
+
+      const url = `menu-items?${queryParams.toString()}`;
+      result = await read(url);
+      setMenuItems(result?.data?.items || []);
+      setTotalMenuItems(result?.data?.total || 0);
+    } catch (error) {
+      console.error("Failed to fetch menu items:", error);
+      setErrorCode(result?.code);
+      setMenuItems([]);
+      setTotalMenuItems(0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    saveCart(cartItems);
+  }, [cartItems]);
+
+  useEffect(() => {
+    fetchMenuItems();
+  }, [debouncedSearch, categoryId, sortBy, currentPage, pageSize]);
+
+  const handleSearchInputChange = (e) => {
+    console.log("search -> ", e.target.value);
+    setSearchText(e.target.value);
+    setSortBy(SORTING_TERMS.NEWEST);
+    setCurrentPage(1);
+  };
+
+  const handleSortByChange = (e) => {
+    console.log("Sorting Term -> ", e.target.value);
+    setSortBy(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleCategoryChange = (categoryId) => {
+    setCategoryId(categoryId);
+    setCurrentPage(1);
+  };
+
+  const handleClearFilters = () => {
+    setSearchText("");
+    setSortBy("");
+    setCurrentPage(1);
+  };
+
+  const handleAddToCart = (menuItem, size = null, extras = []) => {
+    setCartItems((prev) => {
+      const existing = prev.find(
+        (item) =>
+          item.menuItem.id === menuItem.id &&
+          item.size?.id === size?.id &&
+          JSON.stringify(item.extras.map((e) => e.id).sort()) ===
+            JSON.stringify(extras.map((e) => e.id).sort()),
+      );
+
+      if (existing) {
+        return prev.map((item) =>
+          item === existing ? { ...item, quantity: item.quantity + 1 } : item,
+        );
+      }
+
+      return [
+        ...prev,
+        {
+          menuItem: menuItem,
+          size: size ? size : null,
+          extras: extras ? extras : [],
+          quantity: 1,
+        },
+      ];
+    });
+  };
+
+  const handleQuantityChange = (menuItemId, sizeId, extrasIds, qty) => {
+    setCartItems((prev) => {
+      if (qty <= 0) {
+        return prev.filter(
+          (item) =>
+            !(
+              item.menuItem.id === menuItemId &&
+              item.size?.id === sizeId &&
+              JSON.stringify(item.extras.map((e) => e.id).sort()) ===
+                JSON.stringify(extrasIds.sort())
+            ),
+        );
+      }
+
+      return prev.map((item) =>
+        item.menuItem.id === menuItemId &&
+        item.size?.id === sizeId &&
+        JSON.stringify(item.extras.map((e) => e.id).sort()) ===
+          JSON.stringify(extrasIds.sort())
+          ? { ...item, quantity: qty }
+          : item,
+      );
+    });
+  };
+
+  const handleClearCart = () => {
+    setCartItems([]);
+  };
+
+  const handleSubmit = () => {
+    console.log("Submitting order for table:", tableNumber);
+    console.log("Cart Items:", cartItems);
+  };
+
+  return (
+    // <div className="flex h-full gap-2 relative">
+    <div className="flex flex-col lg:flex-row h-full gap-2 relative">
+      <div className="flex-1">
+        <FiltersContainer
+          searchText={searchText}
+          handleSearchInputChange={handleSearchInputChange}
+          sortBy={sortBy}
+          categoryId={categoryId}
+          handleCategoryChange={handleCategoryChange}
+          handleSortByChange={handleSortByChange}
+          handleClearFilters={handleClearFilters}
+          tableNumber={tableNumber}
+          handleTableNumberChange={setTableNumber}
+          className="flex-1 p-3"
+        />
+        {loading ? (
+          <div className="grid place-items-center h-[60vh]">
+            <SpinnerLoader />
+          </div>
+        ) : errorCode ? (
+          <div className="grid place-items-center h-[60vh] text-red-500">
+            {translations.server_codes[errorCode] || loading_error}
+          </div>
+        ) : menuItems.length === 0 ? (
+          <div className="grid place-items-center h-[60vh] text-gray-500">
+            {empty_state}
+          </div>
+        ) : (
+          <>
+            <Pagination
+              currentPage={currentPage}
+              totalItems={totalMenuItems}
+              onPageChange={handlePageChange}
+              pageSize={pageSize}
+            />
+
+            <CardView menuItems={menuItems} onAddToCart={handleAddToCart} />
+
+            <Pagination
+              currentPage={currentPage}
+              totalItems={totalMenuItems}
+              onPageChange={handlePageChange}
+              pageSize={pageSize}
+            />
+          </>
+        )}
+      </div>
+
+      <Cart
+        cartItems={cartItems}
+        onQuantityChange={handleQuantityChange}
+        tableNumber={tableNumber}
+        onClearCart={handleClearCart}
+        onSubmit={handleSubmit}
+      />
+    </div>
+  );
+};
+export default PointOfSalePage;

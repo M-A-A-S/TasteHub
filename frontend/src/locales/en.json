@@ -1,6 +1,7 @@
 {
   "sidebar": {
     "dashboard": "Dashboard",
+    "point_of_sale": "Point Of Sale (POS)",
     "categories": "Categories Management",
     "extras_groups": "Extras Groups",
     "extras": "Extras",
@@ -194,6 +195,13 @@
         "extra_extra_group_placeholder": "Select extra group",
         "extra_extra_group_error": "Extra group is required"
       }
+    },
+    "point_of_sale_page": {
+      "title": "Live Bill",
+      "empty": "Cart is empty",
+      "charge": "Charge Bill",
+      "clear": "Clear Cart",
+      "pay": "Pay"
     }
   },
   "server_codes": {},

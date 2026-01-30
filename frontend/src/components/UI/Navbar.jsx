@@ -11,6 +11,7 @@ const Navbar = () => {
   // Map paths to translation keys
   const pageMap = {
     "/dashboard": "dashboard",
+    "/point-of-sale": "point_of_sale",
     "/menu-items": "menu",
     "/menu-categories": "categories",
     "/extras-groups": "extras_groups",
