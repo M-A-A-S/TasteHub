@@ -2,9 +2,12 @@
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.MenuCategory;
 using TasteHub.DTOs.MenuItem;
+using TasteHub.DTOs.MenuItemSize;
+using TasteHub.DTOs.Size;
 using TasteHub.Entities;
 using TasteHub.Enums;
 using TasteHub.Utilities;
+using TasteHub.Utilities.Extensions;
 using TasteHub.Utilities.ResultCodes;
 
 namespace TasteHub.DataAccess.Repositories
@@ -75,7 +78,7 @@ namespace TasteHub.DataAccess.Repositories
                 var items = await query
                     .Skip((filters.PageNumber - 1) * filters.PageSize)
                     .Take(filters.PageSize).Select(
-                    i =>  new MenuItemDTO
+                    i => new MenuItemDTO
                     {
                         Id = i.Id,
                         NameEn = i.NameEn,
@@ -88,7 +91,7 @@ namespace TasteHub.DataAccess.Repositories
                         Price = i.Price,
                         CreatedAt = i.CreatedAt,
                         UpdatedAt = i.UpdatedAt,
-                        
+
                         MenuCategory = new MenuCategoryDTO
                         {
                             Id = i.MenuCategory!.Id,
@@ -98,7 +101,27 @@ namespace TasteHub.DataAccess.Repositories
                             DescriptionAr = i.MenuCategory.DescriptionAr,
                             CreatedAt = i.MenuCategory.CreatedAt,
                             UpdatedAt = i.MenuCategory.UpdatedAt,
-                        }
+                        },
+                        MenuItemSizes = i.MenuItemSizes
+                        .Select(s => new MenuItemSizeDTO
+                        {
+                            Id = s.Id,
+                            MenuItemId = s.MenuItemId,
+                            SizeId = s.SizeId,
+                            Price = s.Price,
+                            CreatedAt = s.CreatedAt,
+                            UpdatedAt = s.UpdatedAt,
+
+                            Size = new SizeDTO
+                            {
+                                Id = s.Size.Id,
+                                NameEn = s.Size.NameEn,
+                                NameAr = s.Size.NameAr,
+                                PriceModifier = s.Size.PriceModifier,
+                                CreatedAt = s.Size.CreatedAt,
+                                UpdatedAt = s.Size.UpdatedAt
+                            }
+                        }).ToList()
                     })
                     .ToListAsync();
 

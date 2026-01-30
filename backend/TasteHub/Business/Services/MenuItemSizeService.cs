@@ -13,10 +13,12 @@ namespace TasteHub.Business.Services
     {
 
         private readonly IMenuItemSizeRepository _repo;
+        private readonly ISizeService _sizeService;
 
-        public MenuItemSizeService(IMenuItemSizeRepository repo)
+        public MenuItemSizeService(IMenuItemSizeRepository repo, ISizeService sizeService)
         {
             _repo = repo;
+            _sizeService = sizeService;
         }
 
         public async Task<Result<MenuItemSizeDTO>> AddAsync(MenuItemSizeDTO menuItemSizeDTO)
@@ -27,7 +29,12 @@ namespace TasteHub.Business.Services
             {
                 return Result<MenuItemSizeDTO>.Failure();
             }
-            return Result<MenuItemSizeDTO>.Success(addResult?.Data?.ToDTO());
+
+            var sizeResult = await _sizeService.GetByIdAsync(addResult.Data.SizeId);
+            var result = addResult.Data.ToDTO();
+            result.Size = sizeResult?.Data?.ToDTO();
+
+            return Result<MenuItemSizeDTO>.Success(result);
         }
 
         public async Task<Result<bool>> DeleteAsync(int id)
@@ -52,7 +59,7 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<MenuItemSizeDTO>> GetByIdAsync(int id)
         {
-            var findResult = await _repo.FindByAsync(ms => ms.Id, id);
+            var findResult = await _repo.FindByAsync(ms => ms.Id, id, ms => ms.Size);
             if (!findResult.IsSuccess || findResult.Data == null)
             {
                 return Result<MenuItemSizeDTO>.Failure();
@@ -74,7 +81,12 @@ namespace TasteHub.Business.Services
             {
                 return Result<MenuItemSizeDTO>.Failure();
             }
-            return Result<MenuItemSizeDTO>.Success(updateResult.Data.ToDTO());
+
+            var sizeResult = await _sizeService.GetByIdAsync(updateResult.Data.SizeId);
+            var result = updateResult.Data.ToDTO();
+            result.Size = sizeResult?.Data?.ToDTO();
+
+            return Result<MenuItemSizeDTO>.Success(result);
         }
 
         private async Task<Result<MenuItemSize>> FindByIdAsync(int id)

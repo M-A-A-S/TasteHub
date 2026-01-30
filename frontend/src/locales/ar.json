@@ -86,7 +86,29 @@
       "menu_item_delete_modal_message": "هل أنت متأكد من حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.",
       "menu_item_delete_modal_confirm": "نعم، حذف",
       "menu_item_delete_modal_cancel": "إلغاء",
-      "menu_item_label": "عنصر القائمة"
+      "menu_item_label": "عنصر القائمة",
+      "menu_item_sizes": {
+        "menu_item_sizes_title": "أحجام عناصر القائمة",
+        "size_label": "الحجم",
+        "price_label": "السعر",
+        "price_placeholder": "أدخل السعر",
+        "menu_item_size_error": "الحجم مطلوب",
+        "menu_item_price_error": "يجب أن يكون السعر أكبر من 1",
+        "add_size_button": "إضافة حجم",
+        "update_size_button": "تحديث سعر الحجم",
+        "edit": "تعديل",
+        "menu_item_add_success": "تمت إضافة حجم عنصر القائمة بنجاح!",
+        "menu_item_add_fail": "فشل في إضافة حجم عنصر القائمة. حاول مرة أخرى.",
+        "menu_item_update_success": "تم تحديث حجم عنصر القائمة بنجاح!",
+        "menu_item_update_fail": "فشل في تحديث حجم عنصر القائمة. حاول مرة أخرى.",
+        "menu_item_delete_success": "تم حذف حجم عنصر القائمة بنجاح!",
+        "menu_item_delete_fail": "فشل في حذف حجم عنصر القائمة. حاول مرة أخرى.",
+        "menu_item_delete_modal_title": "حذف حجم عنصر القائمة",
+        "menu_item_delete_modal_message": "هل أنت متأكد من حذف هذا الحجم من عنصر القائمة؟ لا يمكن التراجع عن هذا الإجراء.",
+        "menu_item_delete_modal_confirm": "نعم، احذف",
+        "cancel": "إلغاء",
+        "default_message": "يرجى تصحيح الأخطاء في النموذج"
+      }
     },
 
     "categories_page": {

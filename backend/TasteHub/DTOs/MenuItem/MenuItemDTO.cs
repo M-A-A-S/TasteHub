@@ -1,4 +1,5 @@
 ﻿using TasteHub.DTOs.MenuCategory;
+using TasteHub.DTOs.MenuItemSize;
 
 namespace TasteHub.DTOs.MenuItem
 {
@@ -18,5 +19,6 @@ namespace TasteHub.DTOs.MenuItem
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public MenuCategoryDTO? MenuCategory { get; set; } = null;
+        public ICollection<MenuItemSizeDTO>? MenuItemSizes { get; set; }
     }
 }

@@ -85,7 +85,29 @@
       "menu_item_delete_modal_title": "Delete Menu Item",
       "menu_item_delete_modal_message": "Are you sure you want to delete this menu item? This action cannot be undone.",
       "menu_item_delete_modal_confirm": "Yes, Delete",
-      "menu_item_label": "Menu Item"
+      "menu_item_label": "Menu Item",
+      "menu_item_sizes": {
+        "menu_item_sizes_title": "Menu Item Sizes",
+        "size_label": "Size",
+        "price_label": "Price",
+        "price_placeholder": "Enter price",
+        "menu_item_size_error": "Size is required",
+        "menu_item_price_error": "Price must be greater than 1",
+        "add_size_button": "Add Size",
+        "update_size_button": "Update Size Price",
+        "edit": "Edit",
+        "menu_item_add_success": "Menu item size added successfully!",
+        "menu_item_add_fail": "Failed to add menu item size. Please try again.",
+        "menu_item_update_success": "Menu item size updated successfully!",
+        "menu_item_update_fail": "Failed to update menu item size. Please try again.",
+        "menu_item_delete_success": "Menu item size deleted successfully!",
+        "menu_item_delete_fail": "Failed to delete menu item size. Please try again.",
+        "menu_item_delete_modal_title": "Delete Menu Item Size",
+        "menu_item_delete_modal_message": "Are you sure you want to delete this menu item size? This action cannot be undone.",
+        "menu_item_delete_modal_confirm": "Yes, Delete",
+        "cancel": "Cancel",
+        "default_message": "Please fix the errors in the form"
+      }
     },
     "categories_page": {
       "title": "Categories",

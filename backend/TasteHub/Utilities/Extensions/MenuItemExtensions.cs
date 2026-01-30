@@ -22,9 +22,10 @@ namespace TasteHub.Utilities.Extensions
                 IsActive = item.IsActive,
                 CreatedAt = item.CreatedAt,
                 UpdatedAt = item.UpdatedAt,
-                MenuCategory = item.MenuCategory.ToDTO(),
+                MenuCategory = item?.MenuCategory?.ToDTO(),
             };
         }
+
 
         public static MenuItem ToEntity(this MenuItemDTO dto)
         {

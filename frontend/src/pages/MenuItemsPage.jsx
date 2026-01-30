@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage } from "../hooks/useLanguage";
 import { create, read, remove, update } from "../api/apiWrapper";
 import { showFail, showSuccess } from "../utils/utils";
@@ -10,6 +10,8 @@ import { Plus } from "lucide-react";
 import AddEditMenuItemModal from "../components/MenuItemsPage/AddEditMenuItemModal";
 import CardView from "../components/MenuItemsPage/CardView";
 import TableView from "../components/MenuItemsPage/TableView";
+import MenuItemExtrasModal from "../components/MenuItemsPage/MenuItemExtrasModal";
+import MenuItemSizesModal from "../components/MenuItemsPage/MenuItemSizesModal";
 import ConfirmModal from "../components/UI/ConfirmModal";
 import { ViewSwitcher } from "../components/UI/ViewSwitcher";
 import Pagination from "../components/UI/Pagination";
@@ -28,6 +30,8 @@ const MenuItemsPage = () => {
     isDeleteMenuItemConfirmModalOpen,
     setIsDeleteMenuItemConfirmModalOpen,
   ] = useState(false);
+  const [isMenuItemSizesModalOpen, setIsMenuItemSizesModalOpen] =
+    useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
   // Filters
   const [searchText, setSearchText] = useState("");
@@ -112,6 +116,12 @@ const MenuItemsPage = () => {
     setIsAddEditMenuItemModalOpen(true);
   }
 
+  function handleMenuItemSizes(menuItem) {
+    setSelectedMenuItem(menuItem);
+    setIsMenuItemSizesModalOpen(true);
+    console.log("MenuItem -> ", menuItem);
+  }
+
   const handleSearchInputChange = (e) => {
     console.log("search -> ", e.target.value);
     setSearchText(e.target.value);
@@ -138,6 +148,7 @@ const MenuItemsPage = () => {
   const closeModal = () => {
     setIsAddEditMenuItemModalOpen(false);
     setIsDeleteMenuItemConfirmModalOpen(false);
+    setIsMenuItemSizesModalOpen(false);
     setSelectedMenuItem(null);
     // toast.success("Success! Operation completed.");
     // toast.error("Error! Something went wrong.");
@@ -253,6 +264,7 @@ const MenuItemsPage = () => {
               menuItems={menuItems}
               handleEditMenuItem={handleEditMenuItem}
               handleDeleteMenuItem={handleDeleteMenuItem}
+              handleMenuItemSizes={handleMenuItemSizes}
             />
           )}
           {view == "table" && (
@@ -260,6 +272,7 @@ const MenuItemsPage = () => {
               menuItems={menuItems}
               handleEditMenuItem={handleEditMenuItem}
               handleDeleteMenuItem={handleDeleteMenuItem}
+              handleMenuItemSizes={handleMenuItemSizes}
             />
           )}
           <Pagination
@@ -277,6 +290,20 @@ const MenuItemsPage = () => {
         onConfirm={addEditMenuItem}
         menuItem={selectedMenuItem}
         loading={actionLoading}
+      />
+      <MenuItemSizesModal
+        show={isMenuItemSizesModalOpen}
+        menuItem={selectedMenuItem}
+        onClose={closeModal}
+        onUpdate={(updatedSizes) => {
+          setMenuItems((prev) =>
+            prev.map((mi) =>
+              mi.id === selectedMenuItem.id
+                ? { ...mi, menuItemSizes: updatedSizes }
+                : mi,
+            ),
+          );
+        }}
       />
       <ConfirmModal
         show={isDeleteMenuItemConfirmModalOpen}
