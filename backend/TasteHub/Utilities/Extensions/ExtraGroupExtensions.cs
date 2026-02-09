@@ -1,4 +1,5 @@
-﻿using TasteHub.DTOs.ExtraGroup;
+﻿using TasteHub.DTOs.Extra;
+using TasteHub.DTOs.ExtraGroup;
 using TasteHub.DTOs.MenuCategory;
 using TasteHub.Entities;
 
@@ -20,7 +21,14 @@ namespace TasteHub.Utilities.Extensions
                 NameEn = extrasGroup.NameEn,
                 NameAr = extrasGroup.NameAr,
                 Required = extrasGroup.Required,
-                MaxSelect = extrasGroup.MaxSelect
+                MaxSelect = extrasGroup.MaxSelect,
+                Extras = extrasGroup.Extras.Select(e => new ExtraDTO
+                {
+                    Id = e.Id,
+                    NameEn = e.NameEn,
+                    NameAr = e.NameAr,
+                    Price = e.Price
+                }).ToList()
             };
         }
 

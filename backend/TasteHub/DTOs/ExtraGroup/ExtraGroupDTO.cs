@@ -11,6 +11,6 @@ namespace TasteHub.DTOs.ExtraGroup
         public string NameAr { get; set; } = null!;
         public bool Required { get; set; } = false;
         public int MaxSelect { get; set; } = 1;
-        public IEnumerable<ExtraDTO>? Extras { get; set; }  
+        public ICollection<ExtraDTO>? Extras { get; set; }  
     }
 }

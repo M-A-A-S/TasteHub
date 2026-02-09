@@ -13,10 +13,12 @@ namespace TasteHub.Business.Services
     {
 
         private readonly IMenuItemExtraRepository _repo;
+        private readonly IExtrasGroupService _extrasGroupService;
 
-        public MenuItemExtraService(IMenuItemExtraRepository repo)
+        public MenuItemExtraService(IMenuItemExtraRepository repo, IExtrasGroupService extrasGroupService)
         {
             _repo = repo;
+            _extrasGroupService = extrasGroupService;
         }
 
         public async Task<Result<MenuItemExtraDTO>> AddAsync(MenuItemExtraDTO DTO)
@@ -27,7 +29,12 @@ namespace TasteHub.Business.Services
             {
                 return Result<MenuItemExtraDTO>.Failure();
             }
-            return Result<MenuItemExtraDTO>.Success(addResult.Data.ToDTO());
+            var extraGroupResult = await _extrasGroupService.GetByIdAsync(addResult.Data.ExtrasGroupId);
+
+            var result = addResult.Data.ToDTO();
+            result.ExtrasGroup = extraGroupResult.Data;
+
+            return Result<MenuItemExtraDTO>.Success(result);
         }
 
         public async Task<Result<bool>> DeleteAsync(int id)

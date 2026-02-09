@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TasteHub.DataAccess.Interfaces;
+using TasteHub.DTOs.Extra;
+using TasteHub.DTOs.ExtraGroup;
 using TasteHub.DTOs.MenuCategory;
 using TasteHub.DTOs.MenuItem;
+using TasteHub.DTOs.MenuItemExtra;
 using TasteHub.DTOs.MenuItemSize;
 using TasteHub.DTOs.Size;
 using TasteHub.Entities;
@@ -120,6 +123,31 @@ namespace TasteHub.DataAccess.Repositories
                                 PriceModifier = s.Size.PriceModifier,
                                 CreatedAt = s.Size.CreatedAt,
                                 UpdatedAt = s.Size.UpdatedAt
+                            }
+                        }).ToList(),
+                        MenuItemExtras = i.MenuItemExtras
+                        .Select(x => new MenuItemExtraDTO
+                        {
+                            Id = x.Id,
+                            MenuItemId= x.MenuItemId,
+                            ExtrasGroupId = x.ExtrasGroupId,
+                            CreatedAt = x.CreatedAt,
+                            UpdatedAt = x.UpdatedAt,
+                            ExtrasGroup = new ExtraGroupDTO
+                            {
+                                Id = x.ExtrasGroup.Id,
+                                NameEn = x.ExtrasGroup.NameEn,
+                                NameAr = x.ExtrasGroup.NameAr,
+                                MaxSelect = x.ExtrasGroup.MaxSelect,
+                                Required = x.ExtrasGroup.Required,
+                                Extras = x.ExtrasGroup.Extras
+                                .Select(e => new ExtraDTO
+                                {
+                                    Id = e.Id,
+                                    NameEn = e.NameEn,
+                                    NameAr = e.NameAr,
+                                    Price = e.Price
+                                }).ToList()
                             }
                         }).ToList()
                     })

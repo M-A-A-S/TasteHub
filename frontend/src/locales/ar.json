@@ -110,6 +110,28 @@
         "menu_item_delete_modal_confirm": "نعم، احذف",
         "cancel": "إلغاء",
         "default_message": "يرجى تصحيح الأخطاء في النموذج"
+      },
+      "menu_item_extras_group": {
+        "menu_item_extras_group_title": "مجموعة الإضافات للعنصر",
+        "extras_group_label": "مجموعة الإضافات",
+        "price_label": "السعر",
+        "price_placeholder": "أدخل السعر",
+        "menu_item_extras_group_error": "مجموعة الإضافات مطلوبة",
+        "menu_item_price_error": "يجب أن يكون السعر أكبر من 1",
+        "add_extras_group_button": "إضافة مجموعة إضافات",
+        "update_extras_group_button": "تحديث سعر مجموعة الإضافات",
+        "edit": "تعديل",
+        "menu_item_add_success": "تمت إضافة مجموعة الإضافات بنجاح!",
+        "menu_item_add_fail": "فشل في إضافة مجموعة الإضافات. يرجى المحاولة مرة أخرى.",
+        "menu_item_update_success": "تم تحديث مجموعة الإضافات بنجاح!",
+        "menu_item_update_fail": "فشل في تحديث مجموعة الإضافات. يرجى المحاولة مرة أخرى.",
+        "menu_item_delete_success": "تم حذف مجموعة الإضافات بنجاح!",
+        "menu_item_delete_fail": "فشل في حذف مجموعة الإضافات. يرجى المحاولة مرة أخرى.",
+        "menu_item_delete_modal_title": "حذف مجموعة الإضافات",
+        "menu_item_delete_modal_message": "هل أنت متأكد أنك تريد حذف مجموعة الإضافات هذه؟ لا يمكن التراجع عن هذا الإجراء.",
+        "menu_item_delete_modal_confirm": "نعم، حذف",
+        "cancel": "إلغاء",
+        "default_message": "يرجى تصحيح الأخطاء في النموذج"
       }
     },
 

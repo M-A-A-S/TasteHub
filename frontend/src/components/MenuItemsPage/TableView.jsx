@@ -1,4 +1,4 @@
-import { Pencil, PencilRuler, Trash2 } from "lucide-react";
+import { Pencil, PencilRuler, SquarePlus, Trash2 } from "lucide-react";
 import { useLanguage } from "../../hooks/useLanguage";
 import { safeCall } from "../../utils/utils";
 import Table from "../UI/Table";
@@ -8,6 +8,7 @@ const TableView = ({
   handleEditMenuItem,
   handleDeleteMenuItem,
   handleMenuItemSizes,
+  handleMenuItemExtras,
 }) => {
   const { translations, language } = useLanguage();
   const {
@@ -27,6 +28,7 @@ const TableView = ({
   const onEdit = safeCall(handleEditMenuItem);
   const onDelete = safeCall(handleDeleteMenuItem);
   const hanldeSizes = safeCall(handleMenuItemSizes);
+  const handleExtras = safeCall(handleMenuItemExtras);
 
   /*
   category
@@ -156,6 +158,13 @@ updatedAt
           hover:text-orange-500 transition "
             >
               <PencilRuler size={18} />
+            </button>
+            <button
+              onClick={() => handleExtras(menuItem)}
+              className="text-gray-500 p-2 rounded-lg 
+          hover:text-orange-500 transition "
+            >
+              <SquarePlus size={18} />
             </button>
           </div>
         ),

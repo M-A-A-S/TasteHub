@@ -3,6 +3,7 @@ import {
   PencilRuler,
   SignalZero,
   SignalZeroIcon,
+  SquarePlus,
   Trash2,
 } from "lucide-react";
 import { safeCall } from "../../utils/utils";
@@ -13,6 +14,7 @@ const MenuItemCard = ({
   handleEditMenuItem,
   handleDeleteMenuItem,
   handleMenuItemSizes,
+  handleMenuItemExtras,
 }) => {
   console.log("item -> ", menuItem);
 
@@ -24,6 +26,7 @@ const MenuItemCard = ({
   const onEdit = safeCall(handleEditMenuItem);
   const onDelete = safeCall(handleDeleteMenuItem);
   const hanldeSizes = safeCall(handleMenuItemSizes);
+  const handleExtras = safeCall(handleMenuItemExtras);
 
   return (
     <div
@@ -121,6 +124,13 @@ const MenuItemCard = ({
           hover:text-orange-500 transition "
           >
             <PencilRuler size={18} />
+          </button>
+          <button
+            onClick={() => handleExtras(menuItem)}
+            className="text-gray-500 p-2 rounded-lg 
+          hover:text-orange-500 transition "
+          >
+            <SquarePlus size={18} />
           </button>
         </div>
       </div>

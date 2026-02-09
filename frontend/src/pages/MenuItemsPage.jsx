@@ -32,6 +32,8 @@ const MenuItemsPage = () => {
   ] = useState(false);
   const [isMenuItemSizesModalOpen, setIsMenuItemSizesModalOpen] =
     useState(false);
+  const [isMenuItemExtrasModalOpen, setIsMenuItemExtrasModalOpen] =
+    useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
   // Filters
   const [searchText, setSearchText] = useState("");
@@ -122,6 +124,12 @@ const MenuItemsPage = () => {
     console.log("MenuItem -> ", menuItem);
   }
 
+  function handleMenuItemExtras(menuItem) {
+    setSelectedMenuItem(menuItem);
+    setIsMenuItemExtrasModalOpen(true);
+    console.log("MenuItem -> ", menuItem);
+  }
+
   const handleSearchInputChange = (e) => {
     console.log("search -> ", e.target.value);
     setSearchText(e.target.value);
@@ -149,6 +157,7 @@ const MenuItemsPage = () => {
     setIsAddEditMenuItemModalOpen(false);
     setIsDeleteMenuItemConfirmModalOpen(false);
     setIsMenuItemSizesModalOpen(false);
+    setIsMenuItemExtrasModalOpen(false);
     setSelectedMenuItem(null);
     // toast.success("Success! Operation completed.");
     // toast.error("Error! Something went wrong.");
@@ -265,6 +274,7 @@ const MenuItemsPage = () => {
               handleEditMenuItem={handleEditMenuItem}
               handleDeleteMenuItem={handleDeleteMenuItem}
               handleMenuItemSizes={handleMenuItemSizes}
+              handleMenuItemExtras={handleMenuItemExtras}
             />
           )}
           {view == "table" && (
@@ -273,6 +283,7 @@ const MenuItemsPage = () => {
               handleEditMenuItem={handleEditMenuItem}
               handleDeleteMenuItem={handleDeleteMenuItem}
               handleMenuItemSizes={handleMenuItemSizes}
+              handleMenuItemExtras={handleMenuItemExtras}
             />
           )}
           <Pagination
@@ -300,6 +311,20 @@ const MenuItemsPage = () => {
             prev.map((mi) =>
               mi.id === selectedMenuItem.id
                 ? { ...mi, menuItemSizes: updatedSizes }
+                : mi,
+            ),
+          );
+        }}
+      />
+      <MenuItemExtrasModal
+        show={isMenuItemExtrasModalOpen}
+        menuItem={selectedMenuItem}
+        onClose={closeModal}
+        onUpdate={(updatedExtras) => {
+          setMenuItems((prev) =>
+            prev.map((mi) =>
+              mi.id === selectedMenuItem.id
+                ? { ...mi, menuItemExtras: updatedExtras }
                 : mi,
             ),
           );

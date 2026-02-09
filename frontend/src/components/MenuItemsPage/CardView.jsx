@@ -5,6 +5,7 @@ const CardView = ({
   handleEditMenuItem,
   handleDeleteMenuItem,
   handleMenuItemSizes,
+  handleMenuItemExtras,
 }) => {
   return (
     <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4 transition-all duration-300">
@@ -15,6 +16,7 @@ const CardView = ({
           handleEditMenuItem={handleEditMenuItem}
           handleDeleteMenuItem={handleDeleteMenuItem}
           handleMenuItemSizes={handleMenuItemSizes}
+          handleMenuItemExtras={handleMenuItemExtras}
         />
       ))}
     </div>

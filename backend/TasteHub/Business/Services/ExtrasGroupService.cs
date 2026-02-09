@@ -41,7 +41,7 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<ExtraGroupDTO>> GetByIdAsync(int id)
         {
-            var result =  await _repo.FindByAsync(eg => eg.Id, id);
+            var result =  await _repo.FindByAsync(eg => eg.Id, id, eg => eg.Extras);
             if (!result.IsSuccess)
             {
                 return Result<ExtraGroupDTO>.Failure(result.Code, result.StatusCode,result.Message);
