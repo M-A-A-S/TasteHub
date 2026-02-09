@@ -9,8 +9,6 @@ import { safeCall } from "../../utils/utils";
 import { useLanguage } from "../../hooks/useLanguage";
 
 const MenuItemCard = ({ menuItem, onAddToCart }) => {
-  console.log("item -> ", menuItem);
-
   const { language, translations } = useLanguage();
 
   const handleAddToCart = safeCall(onAddToCart);

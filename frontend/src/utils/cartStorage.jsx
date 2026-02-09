@@ -1,4 +1,4 @@
-const CART_KEY = "pos_cart";
+const CART_KEY = "tasteHub_pos_cart";
 
 export const loadCart = () => {
   try {

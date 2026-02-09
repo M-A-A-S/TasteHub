@@ -146,7 +146,8 @@ namespace TasteHub.DataAccess.Repositories
                                     Id = e.Id,
                                     NameEn = e.NameEn,
                                     NameAr = e.NameAr,
-                                    Price = e.Price
+                                    Price = e.Price,
+                                    GroupId = e.GroupId,
                                 }).ToList()
                             }
                         }).ToList()

@@ -224,7 +224,10 @@
       "empty": "Cart is empty",
       "charge": "Charge Bill",
       "clear": "Clear Cart",
-      "pay": "Pay"
+      "pay": "Pay",
+      "size_selection": "Size Selection",
+      "add_to_cart": "Add to Cart",
+      "extras_max_select": "Max selection"
     },
     "sizes_page": {
       "title": "Sizes",

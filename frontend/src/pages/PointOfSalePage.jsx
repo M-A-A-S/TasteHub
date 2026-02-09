@@ -11,8 +11,9 @@ import CardView from "../components/PointOfSalePage/CardView";
 import Pagination from "../components/UI/Pagination";
 import { useLanguage } from "../hooks/useLanguage";
 import SpinnerLoader from "../components/UI/SpinnerLoader";
-import { saveCart } from "../utils/cartStorage";
+import { loadCart, saveCart } from "../utils/cartStorage";
 import Cart from "./Cart";
+import AddToCardModal from "../components/PointOfSalePage/AddToCardModal";
 
 // const carItems = [
 //   {
@@ -99,10 +100,14 @@ import Cart from "./Cart";
 
 const PointOfSalePage = () => {
   const [menuItems, setMenuItems] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
+  // const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => loadCart() || []);
   const [tableNumber, setTableNumber] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorCode, setErrorCode] = useState("");
+
+  const [isAddToCartModalOpen, setIsAddToCartModalOpen] = useState(false);
+  const [selectedMenuItem, setSelectedMenuItem] = useState(null);
 
   // Filters
   const [searchText, setSearchText] = useState("");
@@ -157,6 +162,13 @@ const PointOfSalePage = () => {
   }, [cartItems]);
 
   useEffect(() => {
+    const storedCart = loadCart();
+    if (storedCart?.length > 0) {
+      setCartItems(storedCart);
+    }
+  }, []);
+
+  useEffect(() => {
     fetchMenuItems();
   }, [debouncedSearch, categoryId, sortBy, currentPage, pageSize]);
 
@@ -188,12 +200,28 @@ const PointOfSalePage = () => {
     setCurrentPage(1);
   };
 
-  const handleAddToCart = (menuItem, size = null, extras = []) => {
+  const handleAddToCart = (menuItem) => {
+    if (
+      menuItem?.menuItemSizes?.length > 0 ||
+      menuItem?.menuItemExtras?.length > 0
+    ) {
+      setSelectedMenuItem(menuItem);
+      setIsAddToCartModalOpen(true);
+    } else {
+      addToCart(menuItem);
+    }
+  };
+
+  const addToCart = (menuItem, menuItemSize = null, extras = []) => {
+    console.log("menuItem -> ", menuItem);
+    console.log("menuItemSize -> ", menuItemSize);
+    console.log("extras -> ", extras);
+
     setCartItems((prev) => {
       const existing = prev.find(
         (item) =>
           item.menuItem.id === menuItem.id &&
-          item.size?.id === size?.id &&
+          item.menuItemSize?.id === menuItemSize?.id &&
           JSON.stringify(item.extras.map((e) => e.id).sort()) ===
             JSON.stringify(extras.map((e) => e.id).sort()),
       );
@@ -208,7 +236,7 @@ const PointOfSalePage = () => {
         ...prev,
         {
           menuItem: menuItem,
-          size: size ? size : null,
+          menuItemSize: menuItemSize ? menuItemSize : null,
           extras: extras ? extras : [],
           quantity: 1,
         },
@@ -216,14 +244,14 @@ const PointOfSalePage = () => {
     });
   };
 
-  const handleQuantityChange = (menuItemId, sizeId, extrasIds, qty) => {
+  const handleQuantityChange = (menuItemId, menuItemSizeId, extrasIds, qty) => {
     setCartItems((prev) => {
       if (qty <= 0) {
         return prev.filter(
           (item) =>
             !(
               item.menuItem.id === menuItemId &&
-              item.size?.id === sizeId &&
+              item.menuItemSize?.id === menuItemSizeId &&
               JSON.stringify(item.extras.map((e) => e.id).sort()) ===
                 JSON.stringify(extrasIds.sort())
             ),
@@ -232,7 +260,7 @@ const PointOfSalePage = () => {
 
       return prev.map((item) =>
         item.menuItem.id === menuItemId &&
-        item.size?.id === sizeId &&
+        item.menuItemSizeId?.id === menuItemSizeId &&
         JSON.stringify(item.extras.map((e) => e.id).sort()) ===
           JSON.stringify(extrasIds.sort())
           ? { ...item, quantity: qty }
@@ -248,6 +276,22 @@ const PointOfSalePage = () => {
   const handleSubmit = () => {
     console.log("Submitting order for table:", tableNumber);
     console.log("Cart Items:", cartItems);
+
+    const payload = {
+      tableNumber: tableNumber,
+      items: cartItems.map((item) => ({
+        menuItemId: item?.menuItem?.id,
+        menuItemSizeId: item?.menuItemSize?.id,
+        extrasIds: item?.extras?.map((extra) => extra.id),
+        quantity: item.quantity,
+      })),
+    };
+    console.log("Payload to API:", payload);
+  };
+
+  const closeModal = () => {
+    setSelectedMenuItem(null);
+    setIsAddToCartModalOpen(false);
   };
 
   return (
@@ -305,6 +349,12 @@ const PointOfSalePage = () => {
         tableNumber={tableNumber}
         onClearCart={handleClearCart}
         onSubmit={handleSubmit}
+      />
+      <AddToCardModal
+        show={isAddToCartModalOpen}
+        onClose={closeModal}
+        menuItem={selectedMenuItem}
+        addToCart={addToCart}
       />
     </div>
   );
