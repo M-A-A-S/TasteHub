@@ -20,15 +20,14 @@ const Cart = ({
   const { title, empty, charge, clear, pay } =
     translations.pages.point_of_sale_page;
 
-  const total = cartItems.reduce(
-    (sum, item) =>
-      sum +
-      item.quantity *
-        (item.menuItem.price +
-          (item.size?.price || 0) +
-          (item.extras?.reduce((acc, e) => acc + e.price, 0) || 0)),
-    0,
-  );
+  const total = cartItems?.reduce((sum, item) => {
+    const basePrice = Number(item.menuItem.price || 0);
+    const sizeModifier = Number(item.menuItemSize?.size?.priceModifier || 0);
+    const extrasTotal =
+      item.extras?.reduce((acc, e) => acc + (Number(e.price) || 0), 0) || 0;
+
+    return sum + item.quantity * (basePrice + sizeModifier + extrasTotal);
+  }, 0);
 
   return (
     <div
@@ -43,7 +42,7 @@ const Cart = ({
   "
     >
       <div
-        className="flex items-center justify-between gap-1
+        className="flex items-center justify-between gap-1 py-2
         font-medium"
       >
         <h3>
@@ -63,16 +62,18 @@ const Cart = ({
               <div className="p-2 bg-gray-100 dark:bg-slate-700 rounded-lg mb-3 shadow-sm">
                 <h5>
                   {language == "en"
-                    ? item.menuItem.nameEn
-                    : item.menuItem.nameAr}
+                    ? item?.menuItem?.nameEn
+                    : item?.menuItem?.nameAr}
                 </h5>
                 <div className="flex items-center gap-1">
-                  {item?.size && (
+                  {item?.menuItemSize && (
                     <span
                       className="text-xs text-white 
                 bg-orange-400 p-1 rounded-md"
                     >
-                      {language == "en" ? item.size.nameEn : item.size.nameAr}
+                      {language == "en"
+                        ? item?.menuItemSize?.size?.nameEn
+                        : item?.menuItemSize?.size?.nameAr}
                     </span>
                   )}
                   {item?.extras?.map((extra) => (
@@ -80,7 +81,7 @@ const Cart = ({
                       className="text-xs text-white 
                 bg-orange-400 p-1 rounded-md"
                     >
-                      {language == "en" ? extra.nameEn : extra.nameAr}
+                      {language == "en" ? extra?.nameEn : extra?.nameAr}
                     </span>
                   ))}
                 </div>
@@ -89,10 +90,12 @@ const Cart = ({
                     $
                     {(
                       item.quantity *
-                      (item.menuItem.price +
-                        (item.size?.price || 0) +
-                        (item.extras?.reduce((acc, e) => acc + e.price, 0) ||
-                          0))
+                      (Number(item.menuItem.price || 0) +
+                        Number(item.menuItemSize?.size?.priceModifier || 0) +
+                        (item.extras?.reduce(
+                          (acc, e) => acc + (Number(e.price) || 0),
+                          0,
+                        ) || 0))
                     ).toFixed(2)}
                   </span>
                   <Counter
@@ -100,7 +103,7 @@ const Cart = ({
                     onChange={(qty) =>
                       handleQuantityChange(
                         item.menuItem.id,
-                        item.size?.id,
+                        item.menuItemSize?.id,
                         item.extras?.map((e) => e.id),
                         qty,
                       )

@@ -131,12 +131,12 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`bg-white dark:bg-slate-800 shadow-lg transition-all duration-300 
-        fixed top-0 ${language == "en" ? "left-0" : "right-0"}  
+      className={`bg-white dark:bg-slate-800 shadow-lg  transition-all duration-300 
+        fixed z-20 top-0 ${language == "en" ? "left-0" : "right-0"}  
         min-h-screen flex flex-col  ${sidebarOpen ? "w-64" : "w-20"} `}
     >
       {/* Top */}
-      <div className="flex items-center justify-between gap-1 p-4 border-b h-16">
+      <div className="flex items-center justify-between gap-1 p-4 border-b dark:border-b-slate-600 h-16">
         {sidebarOpen && (
           <div className="flex items-center space-x-2">
             <ChefHat className="h-8 w-8 text-orange-600" />

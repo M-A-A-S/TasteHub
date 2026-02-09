@@ -260,7 +260,7 @@ const PointOfSalePage = () => {
 
       return prev.map((item) =>
         item.menuItem.id === menuItemId &&
-        item.menuItemSizeId?.id === menuItemSizeId &&
+        item.menuItemSize?.id === menuItemSizeId &&
         JSON.stringify(item.extras.map((e) => e.id).sort()) ===
           JSON.stringify(extrasIds.sort())
           ? { ...item, quantity: qty }

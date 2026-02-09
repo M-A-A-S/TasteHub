@@ -128,7 +128,7 @@ const AddToCardModal = ({ show, onClose, className, menuItem, addToCart }) => {
         {/* Header */}
         <Header menuItem={menuItem} onClose={handleClose} />
         {/* Body */}
-        <div className="flex-1 overflow-y-auto p-8 space-y-8">
+        <div className="flex-1 overflow-y-auto p-8 space-y-8 scrollbar-hide">
           {/* Sizes */}
           {menuItem?.menuItemSizes?.length > 0 && (
             <SizeSelector

@@ -16,6 +16,7 @@ const Navbar = () => {
     "/menu-categories": "categories",
     "/extras-groups": "extras_groups",
     "/extras": "extras",
+    "/sizes": "sizes",
     "/orders": "orders",
     "/analytics": "analytics",
     "/settings": "settings",
@@ -27,8 +28,8 @@ const Navbar = () => {
   return (
     <header
       className={`p-4 px-12 bg-white dark:bg-slate-800  
-        ${language == "en" ? "pl-24" : "pr-24"} h-16 absolute top-0 left-0 right-0 shadow-sm 
-        border-b flex items-center justify-between`}
+        ${language == "en" ? "pl-24" : "pr-24"} h-16 sticky z-10 top-0 left-0 right-0 shadow-sm 
+        border-b dark:border-b-slate-600 flex items-center justify-between`}
     >
       <h2 className="font-medium">{currentTitle}</h2>
       <div className="flex items-center gap-1">

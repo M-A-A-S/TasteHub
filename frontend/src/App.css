@@ -29,11 +29,20 @@
 }
 
 /* hide scrollbar but keep scroll */
-.scrollbar-hide::-webkit-scrollbar {
+/* .scrollbar-hide::-webkit-scrollbar {
+  display: none;
+} */
+
+/* .scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+} */
+
+*::-webkit-scrollbar {
   display: none;
 }
 
-.scrollbar-hide {
+* {
   -ms-overflow-style: none; /* IE & Edge */
   scrollbar-width: none; /* Firefox */
 }
