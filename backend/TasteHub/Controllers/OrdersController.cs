@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Business.Interfaces;
 using TasteHub.DTOs.Extra;
+using TasteHub.DTOs.MenuItem;
 using TasteHub.DTOs.Order;
 
 namespace TasteHub.Controllers
@@ -15,6 +16,15 @@ namespace TasteHub.Controllers
         public OrdersController(IOrderService service)
         {
             _service = service;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll(
+        [FromQuery] OrderFiltersDTO filters)
+        {
+            return FromResult(
+                await _service.GetFilteredAsync(
+                    filters));
         }
 
         [HttpPost]

@@ -32,6 +32,48 @@ namespace TasteHub.Business.Services
             _extraService = extraService;
         }
 
+        public async Task<Result<PagedResult<OrderDTO>>> GetFilteredAsync(
+    OrderFiltersDTO filters)
+        {
+            var getOrdersResult = await _repo.GetOrdersWithDetailsAsync(filters);
+
+            if (!getOrdersResult.IsSuccess || getOrdersResult.Data == null)
+            {
+                return Result<PagedResult<OrderDTO>>.Failure();
+            }
+
+            var items = getOrdersResult.Data.Items?.Select(o =>
+            {
+                var dto = o.ToDTO();
+
+                foreach (var item in dto?.OrderItems ?? new List<OrderItemDTO>())
+                {
+                    if (item.MenuItem?.ImageUrl != null)
+                    {
+                        item.MenuItem.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(item.MenuItem.ImageUrl);
+                    }
+
+                    if (item?.MenuItemSize?.MenuItem?.ImageUrl != null)
+                    {
+                        item.MenuItemSize.MenuItem.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(item.MenuItemSize.MenuItem.ImageUrl);
+                    }
+                }
+                return dto;
+
+            }).ToList()
+                        ?? new List<OrderDTO>();
+            
+            var pagedResult = new PagedResult<OrderDTO>()
+            {
+                Items = items,
+                PageNumber = getOrdersResult.Data.PageNumber,
+                PageSize = getOrdersResult.Data.PageSize,
+                Total = getOrdersResult.Data.Total
+            };
+
+            return Result<PagedResult<OrderDTO>>.Success(pagedResult);
+        }
+
         public async Task<Result<OrderDTO>> CreateOrderAsync(CreateOrderRequest request)
         {
 
@@ -108,14 +150,29 @@ namespace TasteHub.Business.Services
                 return Result<OrderDTO>.Failure();
             }
 
-            var fullOrder = await _repo.GetOrderWithDetailsAsync(createOrderResult.Data.Id);
+            var fullOrderResult = await _repo.GetOrderWithDetailsAsync(createOrderResult.Data.Id);
 
-            if (fullOrder == null)
+            if (!fullOrderResult.IsSuccess || fullOrderResult.Data == null)
             {
                 return Result<OrderDTO>.Failure();
             }
 
-            return Result<OrderDTO>.Success(fullOrder.Data.ToDTO());
+            var dto = fullOrderResult.Data.ToDTO();
+
+            foreach (var item in dto?.OrderItems ?? new List<OrderItemDTO>())
+            {
+                if (item.MenuItem?.ImageUrl != null)
+                {
+                    item.MenuItem.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(item.MenuItem.ImageUrl);
+                }
+
+                if (item?.MenuItemSize?.MenuItem?.ImageUrl != null)
+                {
+                    item.MenuItemSize.MenuItem.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(item.MenuItemSize.MenuItem.ImageUrl);
+                }
+            }
+
+            return Result<OrderDTO>.Success(dto);
         }
     
         private Result<OrderItem> CreateOrderItem(
