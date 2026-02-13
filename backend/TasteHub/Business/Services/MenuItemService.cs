@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.JSInterop.Infrastructure;
 using TasteHub.Business.Interfaces;
 using TasteHub.DataAccess.Interfaces;
+using TasteHub.DTOs.Extra;
 using TasteHub.DTOs.MenuItem;
 using TasteHub.Entities;
 using TasteHub.Utilities;
@@ -135,6 +136,23 @@ namespace TasteHub.Business.Services
             }
 
             return result;
+        }
+
+        public async Task<Result<IEnumerable<MenuItem>>> GetByIdsAsync(List<int> ids)
+        {
+            if (ids == null || !ids.Any())
+            {
+                return Result<IEnumerable<MenuItem>>.Failure();
+            }
+
+            var getAllResult = await _repo.GetAllAsync(x => ids.Contains(x.Id));
+
+            if (!getAllResult.IsSuccess || getAllResult.Data == null || !getAllResult.Data.Any())
+            {
+                return Result<IEnumerable<MenuItem>>.Failure();
+            }
+ 
+            return Result<IEnumerable<MenuItem>>.Success(getAllResult.Data);
         }
 
         public async Task<Result<MenuItemDTO>> UpdateAsync(int id, MenuItemDTO dto)

@@ -9,6 +9,7 @@ namespace TasteHub.Business.Interfaces
     {
 
         Task<Result<IEnumerable<MenuItemSizeDTO>>> GetAllAsync();
+        Task<Result<IEnumerable<MenuItemSizeDTO>>> GetByIdsAsync(List<int> ids);
         Task<Result<MenuItemSizeDTO>> GetByIdAsync(int id);
         Task<Result<MenuItemSizeDTO>> AddAsync(MenuItemSizeDTO menuItemSizeDTO);
         Task<Result<MenuItemSizeDTO>> UpdateAsync(int id, MenuItemSizeDTO menuItemSizeDTO);

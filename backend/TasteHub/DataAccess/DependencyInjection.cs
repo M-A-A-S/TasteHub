@@ -14,6 +14,7 @@ namespace TasteHub.DataAccess
             services.AddScoped<ISizeRepository, SizeRepository>();
             services.AddScoped<IMenuItemSizeRepository, MenuItemSizeRepository>();
             services.AddScoped<IMenuItemExtraRepository, MenuItemExtraRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
             return services;
         }
     }

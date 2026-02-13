@@ -4,7 +4,7 @@ import Counter from "../components/Counter";
 import CategoryFilterButtons from "../components/CategoryFilterButtons";
 import { useEffect, useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
-import { read } from "../api/apiWrapper";
+import { create, read } from "../api/apiWrapper";
 import { SORTING_TERMS } from "../utils/constants";
 import FiltersContainer from "../components/PointOfSalePage/FiltersContainer";
 import CardView from "../components/PointOfSalePage/CardView";
@@ -14,6 +14,8 @@ import SpinnerLoader from "../components/UI/SpinnerLoader";
 import { loadCart, saveCart } from "../utils/cartStorage";
 import Cart from "./Cart";
 import AddToCardModal from "../components/PointOfSalePage/AddToCardModal";
+import { showFail, showSuccess } from "../utils/utils";
+import { toast } from "../utils/toastHelper";
 
 // const carItems = [
 //   {
@@ -104,6 +106,7 @@ const PointOfSalePage = () => {
   const [cartItems, setCartItems] = useState(() => loadCart() || []);
   const [tableNumber, setTableNumber] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
   const [errorCode, setErrorCode] = useState("");
 
   const [isAddToCartModalOpen, setIsAddToCartModalOpen] = useState(false);
@@ -119,9 +122,11 @@ const PointOfSalePage = () => {
 
   const debouncedSearch = useDebounce(searchText, 500);
 
-  const { translations, language } = useLanguage();
+  const { translations } = useLanguage();
 
-  const { cancel, loading_error, empty_state } = translations.common;
+  const { loading_error, empty_state } = translations.common;
+  const { create_order_success, create_order_fail, empty } =
+    translations.pages.point_of_sale_page;
 
   const fetchMenuItems = async () => {
     let result;
@@ -274,11 +279,24 @@ const PointOfSalePage = () => {
   };
 
   const handleSubmit = () => {
+    if (cartItems?.length == 0) {
+      toast.error(empty);
+      return;
+    }
+
     console.log("Submitting order for table:", tableNumber);
     console.log("Cart Items:", cartItems);
 
+    // const payload = {
+    //   tableId: 0, // for test
+    //   items: cartItems.map((item) => ({
+    //     menuItemId: item?.menuItem?.id,
+    //     menuItemSizeId: item?.menuItemSize?.id,
+    //     extrasIds: item?.extras?.map((extra) => extra.id),
+    //     quantity: item.quantity,
+    //   })),
+    // };
     const payload = {
-      tableNumber: tableNumber,
       items: cartItems.map((item) => ({
         menuItemId: item?.menuItem?.id,
         menuItemSizeId: item?.menuItemSize?.id,
@@ -287,7 +305,26 @@ const PointOfSalePage = () => {
       })),
     };
     console.log("Payload to API:", payload);
+
+    createOrder(payload);
   };
+
+  async function createOrder(payload) {
+    let result;
+    try {
+      setActionLoading(true);
+      result = await create(`orders`, payload);
+      console.log("createOrder result -> ", result);
+      showSuccess(result?.code, create_order_success);
+      // clearCart();
+      setCartItems([]);
+    } catch (error) {
+      console.log("error -> ", error);
+      showFail(result?.code, create_order_fail);
+    } finally {
+      setActionLoading(false);
+    }
+  }
 
   const closeModal = () => {
     setSelectedMenuItem(null);
@@ -349,6 +386,7 @@ const PointOfSalePage = () => {
         tableNumber={tableNumber}
         onClearCart={handleClearCart}
         onSubmit={handleSubmit}
+        actionLoading={actionLoading}
       />
       <AddToCardModal
         show={isAddToCartModalOpen}

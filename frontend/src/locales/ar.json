@@ -229,7 +229,9 @@
       "pay": "دفع",
       "size_selection": "اختيار الحجم",
       "add_to_cart": "إضافة إلى السلة",
-      "extras_max_select": "أقصى اختيار"
+      "extras_max_select": "أقصى اختيار",
+      "create_order_success": "تم إنشاء الطلب بنجاح.",
+      "create_order_fail": "فشل في إنشاء الطلب."
     },
     "sizes_page": {
       "title": "الأحجام",

@@ -6,7 +6,9 @@ namespace TasteHub.DataAccess.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        Task<Result<IEnumerable<T>>> GetAllAsync(params Expression<Func<T, object>>[] includes);
+        Task<Result<IEnumerable<T>>> GetAllAsync(
+            Expression<Func<T, bool>> predicate = null,
+            params Expression<Func<T, object>>[] includes);
         Task<Result<T>> FindByAsync<TValue>(
     Expression<Func<T, TValue>> propertySelector,
     TValue value,

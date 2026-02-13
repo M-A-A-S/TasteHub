@@ -11,9 +11,8 @@ namespace TasteHub.Entities
         [Required]
         public int OrderId { get; set; }
 
-        [Required]
-        public int MenuItemSizeId { get; set; }
-        //public int MenuItemId { get; set; }
+        public int? MenuItemSizeId { get; set; }
+        public int? MenuItemId { get; set; }
         public short Quantity { get; set; }
 
         [Required]
@@ -32,7 +31,7 @@ namespace TasteHub.Entities
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public Order Order { get; set; } = null!;
-        //public MenuItem MenuItem { get; set; } = null!;
+        public MenuItem MenuItem { get; set; } = null!;
         public MenuItemSize? MenuItemSize { get; set; }
         public ICollection<OrderItemExtra>? OrderItemExtras { get; set; }
     }

@@ -87,7 +87,9 @@ namespace TasteHub.DataAccess.Repositories
             }
         }
 
-        public virtual async Task<Result<IEnumerable<T>>> GetAllAsync(params Expression<Func<T, object>>[] includes)
+        public virtual async Task<Result<IEnumerable<T>>> GetAllAsync(
+            Expression<Func<T, bool>> predicate = null,
+            params Expression<Func<T, object>>[] includes)
         {
             try
             {
@@ -98,6 +100,11 @@ namespace TasteHub.DataAccess.Repositories
                     query = query.Include(include);
                 }
 
+                if (predicate != null)
+                {
+                    query = query.Where(predicate);
+                }
+                
                 var data = await query.ToListAsync();
 
                 return Result<IEnumerable<T>>.Success(data);

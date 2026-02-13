@@ -3,6 +3,7 @@
     public enum TableStatus : byte
     {
         Available,
+        Occupied,
         Reserved
     }
 }

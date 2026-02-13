@@ -227,7 +227,9 @@
       "pay": "Pay",
       "size_selection": "Size Selection",
       "add_to_cart": "Add to Cart",
-      "extras_max_select": "Max selection"
+      "extras_max_select": "Max selection",
+      "create_order_success": "Order has been created successfully.",
+      "create_order_fail": "Failed to create the order."
     },
     "sizes_page": {
       "title": "Sizes",

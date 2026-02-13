@@ -13,5 +13,6 @@ namespace TasteHub.Business.Interfaces
         Task<Result<PagedResult<MenuItemDTO>>> GetFilteredAsync(
             MenuItemFiltersDTO filters
         );
+        Task<Result<IEnumerable<MenuItem>>> GetByIdsAsync(List<int> ids);
     }
 }

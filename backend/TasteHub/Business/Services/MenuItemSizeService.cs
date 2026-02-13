@@ -57,6 +57,28 @@ namespace TasteHub.Business.Services
             return Result<IEnumerable<MenuItemSizeDTO>>.Success(result);
         }
 
+
+        public async Task<Result<IEnumerable<MenuItemSizeDTO>>> GetByIdsAsync(List<int> ids)
+        {
+            if (ids == null || !ids.Any())
+            {
+                return Result<IEnumerable<MenuItemSizeDTO>>.Failure();
+            }
+
+            var getAllResult = await _repo.GetAllAsync(x => ids.Contains(x.Id));
+
+            if (!getAllResult.IsSuccess || getAllResult.Data == null || !getAllResult.Data.Any())
+            {
+                return Result<IEnumerable<MenuItemSizeDTO>>.Failure();
+            }
+            var result = new List<MenuItemSizeDTO>();
+            foreach (var item in getAllResult.Data)
+            {
+                result.Add(item.ToDTO());
+            }
+            return Result<IEnumerable<MenuItemSizeDTO>>.Success(result);
+        }
+
         public async Task<Result<MenuItemSizeDTO>> GetByIdAsync(int id)
         {
             var findResult = await _repo.FindByAsync(ms => ms.Id, id, ms => ms.Size);

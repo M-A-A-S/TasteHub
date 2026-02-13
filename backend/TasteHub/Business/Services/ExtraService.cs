@@ -2,6 +2,7 @@
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.Extra;
 using TasteHub.DTOs.ExtraGroup;
+using TasteHub.DTOs.MenuItemSize;
 using TasteHub.Entities;
 using TasteHub.Utilities;
 using TasteHub.Utilities.Extensions;
@@ -44,6 +45,27 @@ namespace TasteHub.Business.Services
         public async Task<Result<IEnumerable<ExtraDTO>>> GetAllAsync()
         {
             return await _repo.GetAllAsync();
+        }
+
+        public async Task<Result<IEnumerable<ExtraDTO>>> GetByIdsAsync(List<int> ids)
+        {
+            if (ids == null || !ids.Any())
+            {
+                return Result<IEnumerable<ExtraDTO>>.Failure();
+            }
+
+            var getAllResult = await _repo.GetAllAsync(x => ids.Contains(x.Id));
+
+            if (!getAllResult.IsSuccess || getAllResult.Data == null || !getAllResult.Data.Any())
+            {
+                return Result<IEnumerable<ExtraDTO>>.Failure();
+            }
+            var result = new List<ExtraDTO>();
+            foreach (var item in getAllResult.Data)
+            {
+                result.Add(item.ToDTO());
+            }
+            return Result<IEnumerable<ExtraDTO>>.Success(result);
         }
 
         public async Task<Result<ExtraDTO>> GetByIdAsync(int id)
