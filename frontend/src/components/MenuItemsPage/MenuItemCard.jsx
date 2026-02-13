@@ -6,7 +6,7 @@ import {
   SquarePlus,
   Trash2,
 } from "lucide-react";
-import { safeCall } from "../../utils/utils";
+import { formatMoney, safeCall } from "../../utils/utils";
 import { useLanguage } from "../../hooks/useLanguage";
 
 const MenuItemCard = ({
@@ -78,7 +78,7 @@ const MenuItemCard = ({
         {/* Price */}
         <div className="flex items-center justify-between pt-2">
           <span className="text-lg font-bold text-orange-600">
-            ${Number(menuItem?.price ?? 0).toFixed(2)}
+            ${formatMoney(menuItem?.price)}
           </span>
           <span className="text-xs text-gray-400">
             {id_label}: {menuItem?.id}

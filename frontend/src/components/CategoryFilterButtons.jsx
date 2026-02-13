@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { read } from "../api/apiWrapper";
 import { useLanguage } from "../hooks/useLanguage";
-import Button from "./ui/Button";
 import { safeCall } from "../utils/utils";
 
 const CategoryFilterButtons = ({

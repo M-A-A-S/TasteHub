@@ -229,7 +229,17 @@
       "add_to_cart": "Add to Cart",
       "extras_max_select": "Max selection",
       "create_order_success": "Order has been created successfully.",
-      "create_order_fail": "Failed to create the order."
+      "create_order_fail": "Failed to create the order.",
+      "bill": {
+        "name": "Item",
+        "qty": "Qty",
+        "price": "Price",
+        "billTitle": "Bill",
+        "table": "Table",
+        "subtotal": "Subtotal",
+        "tax": "Tax",
+        "total": "Total"
+      }
     },
     "sizes_page": {
       "title": "Sizes",

@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { safeCall, showFail, showSuccess } from "../../utils/utils";
+import {
+  formatMoney,
+  safeCall,
+  showFail,
+  showSuccess,
+} from "../../utils/utils";
 import Modal from "../UI/Modal";
 import { create, remove, update } from "../../api/apiWrapper";
 import Button from "../UI/Button";
@@ -180,9 +185,7 @@ const MenuItemSizesModal = ({ show, onClose, menuItem, onUpdate }) => {
                 <p className="font-medium">
                   {language == "en" ? item?.size?.nameEn : item?.size?.nameAr}
                 </p>
-                <p className=" text-gray-500">
-                  ${Number(item.price).toFixed(2)}
-                </p>
+                <p className=" text-gray-500">${formatMoney(item.price)}</p>
               </div>
 
               <div className="flex gap-2">

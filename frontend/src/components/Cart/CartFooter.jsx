@@ -1,10 +1,10 @@
 import { CreditCard, Loader2 } from "lucide-react";
 import { useLanguage } from "../../hooks/useLanguage";
-import { safeCall } from "../../utils/utils";
-import Button from "../ui/Button";
+import { formatMoney, safeCall } from "../../utils/utils";
+import Button from "../UI/Button";
 
 const CartFooter = ({
-  total,
+  total = 0,
   actionLoading,
   onSubmit,
   onClearCart,
@@ -21,7 +21,7 @@ const CartFooter = ({
     <div>
       <div className="flex items-center justify-between gap-1 p-2 font-bold">
         <span>{pay}</span>
-        <span className="text-orange-500 ">${total.toFixed(2)}</span>
+        <span className="text-orange-500 ">${formatMoney(total)}</span>
       </div>
       <Button
         disabled={actionLoading || cartItemsCount == 0}

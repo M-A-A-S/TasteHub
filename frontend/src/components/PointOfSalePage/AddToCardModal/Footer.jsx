@@ -1,5 +1,6 @@
 import { useLanguage } from "../../../hooks/useLanguage";
-import Button from "../../ui/Button";
+import { formatMoney } from "../../../utils/utils";
+import Button from "../../UI/Button";
 
 const Footer = ({ totalPrice, canAddToCart, onAddToCart }) => {
   const { translations } = useLanguage();
@@ -13,7 +14,7 @@ const Footer = ({ totalPrice, canAddToCart, onAddToCart }) => {
         onClick={onAddToCart}
         className="w-full justify-center"
       >
-        {`${add_to_cart} - $${totalPrice.toFixed(2)}`}
+        {`${add_to_cart} - $${formatMoney(totalPrice)}`}
       </Button>
     </footer>
   );

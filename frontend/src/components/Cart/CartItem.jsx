@@ -1,5 +1,5 @@
 import { useLanguage } from "../../hooks/useLanguage";
-import { safeCall } from "../../utils/utils";
+import { formatMoney, safeCall } from "../../utils/utils";
 import Counter from "../Counter";
 
 const CartItem = ({ item, onQuantityChange }) => {
@@ -34,15 +34,15 @@ const CartItem = ({ item, onQuantityChange }) => {
       <div className="flex items-center justify-between gap-2">
         <span className="text-sm font-black text-orange-600">
           $
-          {(
+          {formatMoney(
             item.quantity *
-            (Number(item.menuItem.price || 0) +
-              Number(item.menuItemSize?.size?.priceModifier || 0) +
-              (item.extras?.reduce(
-                (acc, e) => acc + (Number(e.price) || 0),
-                0,
-              ) || 0))
-          ).toFixed(2)}
+              (Number(item.menuItem.price || 0) +
+                Number(item.menuItemSize?.size?.priceModifier || 0) +
+                (item.extras?.reduce(
+                  (acc, e) => acc + (Number(e.price) || 0),
+                  0,
+                ) || 0)),
+          )}
         </span>
         <Counter
           value={item.quantity}

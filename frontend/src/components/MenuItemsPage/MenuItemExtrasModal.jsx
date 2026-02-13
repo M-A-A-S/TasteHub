@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "../../hooks/useLanguage";
-import { safeCall, showFail, showSuccess } from "../../utils/utils";
+import {
+  formatMoney,
+  safeCall,
+  showFail,
+  showSuccess,
+} from "../../utils/utils";
 import { toast } from "../../utils/toastHelper";
 import { create, remove } from "../../api/apiWrapper";
 import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
@@ -164,7 +169,7 @@ const MenuItemExtrasModal = ({ show, onClose, menuItem, onUpdate }) => {
                       {language == "en" ? extra.nameEn : extra.nameAr}
                     </span>
                     <span className=" text-orange-600">
-                      ${Number(extra.price).toFixed(2)}
+                      ${formatMoney(extra.price)}
                     </span>
                   </li>
                 ))}

@@ -5,6 +5,6 @@ namespace TasteHub.Business.Interfaces
 {
     public interface IOrderService
     {
-        Task<Result<int>> CreateOrderAsync(CreateOrderRequest request);
+        Task<Result<OrderDTO>> CreateOrderAsync(CreateOrderRequest request);
     }
 }

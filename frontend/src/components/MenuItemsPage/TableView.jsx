@@ -1,6 +1,6 @@
 import { Pencil, PencilRuler, SquarePlus, Trash2 } from "lucide-react";
 import { useLanguage } from "../../hooks/useLanguage";
-import { safeCall } from "../../utils/utils";
+import { formatMoney, safeCall } from "../../utils/utils";
 import Table from "../UI/Table";
 
 const TableView = ({
@@ -120,7 +120,7 @@ updatedAt
             {language == "en" ? menuItem.descriptionEn : menuItem.descriptionAr}
           </small>
         ),
-        price: <small>{Number(menuItem?.price ?? 0).toFixed(2)}</small>,
+        price: <small>{formatMoney(menuItem?.price)}</small>,
         status: (
           <small
             className={`text-xs px-2 py-1 rounded-full ${

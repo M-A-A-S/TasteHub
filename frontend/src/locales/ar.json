@@ -231,7 +231,17 @@
       "add_to_cart": "إضافة إلى السلة",
       "extras_max_select": "أقصى اختيار",
       "create_order_success": "تم إنشاء الطلب بنجاح.",
-      "create_order_fail": "فشل في إنشاء الطلب."
+      "create_order_fail": "فشل في إنشاء الطلب.",
+      "bill": {
+        "name": "الصنف",
+        "qty": "الكمية",
+        "price": "السعر",
+        "billTitle": "الفاتورة",
+        "table": "الطاولة",
+        "subtotal": "المجموع الفرعي",
+        "tax": "الضريبة",
+        "total": "الإجمالي"
+      }
     },
     "sizes_page": {
       "title": "الأحجام",

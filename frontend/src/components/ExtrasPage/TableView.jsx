@@ -1,6 +1,6 @@
 import { Pencil, Trash2 } from "lucide-react";
 import { useLanguage } from "../../hooks/useLanguage";
-import { safeCall } from "../../utils/utils";
+import { formatMoney, safeCall } from "../../utils/utils";
 import Table from "../UI/Table";
 
 const TableView = ({ extras, handleEditExtra, handleDeleteExtra }) => {
@@ -22,7 +22,7 @@ const TableView = ({ extras, handleEditExtra, handleDeleteExtra }) => {
           </small>
         ),
 
-        price: <small>{Number(extra?.price ?? 0).toFixed(2)}</small>,
+        price: <small>{formatMoney(extra?.price)}</small>,
         actions: (
           <div className="flex gap-2">
             <button

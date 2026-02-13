@@ -1,5 +1,5 @@
 import React from "react";
-import { safeCall } from "../../utils/utils";
+import { formatMoney, safeCall } from "../../utils/utils";
 import { useLanguage } from "../../hooks/useLanguage";
 import { Pencil, Ruler, Trash2 } from "lucide-react";
 
@@ -23,7 +23,7 @@ const SizeCard = ({ size, handleEditExtra, handleDeleteExtra }) => {
 
       <div className="flex items-center justify-between pt-2">
         <span className="text-lg font-bold text-green-600">
-          ${Number(size?.priceModifier ?? 0).toFixed(2)}
+          ${formatMoney(size?.priceModifier)}
         </span>
       </div>
 

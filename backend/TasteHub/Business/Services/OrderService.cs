@@ -8,6 +8,7 @@ using TasteHub.DTOs.OrderItem;
 using TasteHub.Entities;
 using TasteHub.Enums;
 using TasteHub.Utilities;
+using TasteHub.Utilities.Extensions;
 using TasteHub.Utilities.ResultCodes;
 
 namespace TasteHub.Business.Services
@@ -31,12 +32,12 @@ namespace TasteHub.Business.Services
             _extraService = extraService;
         }
 
-        public async Task<Result<int>> CreateOrderAsync(CreateOrderRequest request)
+        public async Task<Result<OrderDTO>> CreateOrderAsync(CreateOrderRequest request)
         {
 
             if (request.Items == null || !request.Items.Any())
             {
-                return Result<int>.Failure();
+                return Result<OrderDTO>.Failure();
             }
 
 
@@ -66,7 +67,7 @@ namespace TasteHub.Business.Services
                 (!menuItemsResult.IsSuccess && menuItemIds.Any()) || 
                 (!extrasResult.IsSuccess && extraIds.Any()))
             {
-                return Result<int>.Failure();
+                return Result<OrderDTO>.Failure();
             }
 
             var menuItemSizes = menuItemSizesResult.Data?.ToDictionary(x => x.Id) ?? new Dictionary<int?, MenuItemSizeDTO>();
@@ -90,7 +91,7 @@ namespace TasteHub.Business.Services
 
                 if (!createItemResult.IsSuccess)
                 {
-                    return Result<int>.Failure();
+                    return Result<OrderDTO>.Failure();
                 }
                 subtotal += createItemResult.Data.LineTotal;
                 order.OrderItems.Add(createItemResult.Data);
@@ -104,10 +105,17 @@ namespace TasteHub.Business.Services
             var createOrderResult = await _repo.AddAsync(order);
             if (!createOrderResult.IsSuccess)
             {
-                return Result<int>.Failure();
+                return Result<OrderDTO>.Failure();
             }
 
-            return Result<int>.Success(createOrderResult.Data.Id);
+            var fullOrder = await _repo.GetOrderWithDetailsAsync(createOrderResult.Data.Id);
+
+            if (fullOrder == null)
+            {
+                return Result<OrderDTO>.Failure();
+            }
+
+            return Result<OrderDTO>.Success(fullOrder.Data.ToDTO());
         }
     
         private Result<OrderItem> CreateOrderItem(

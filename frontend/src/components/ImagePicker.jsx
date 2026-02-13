@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Button from "./UI/Button";
 import { Image, Upload } from "lucide-react";
 
 const ImagePicker = ({ imageUrl, imageFile, onChange, label = "Image" }) => {

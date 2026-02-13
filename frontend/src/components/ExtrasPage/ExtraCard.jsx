@@ -1,6 +1,6 @@
 import { ChefHat, Layers2, Pencil, Trash2 } from "lucide-react";
 import { useLanguage } from "../../hooks/useLanguage";
-import { safeCall } from "../../utils/utils";
+import { formatMoney, safeCall } from "../../utils/utils";
 
 const ExtraCard = ({ extra, handleEditExtra, handleDeleteExtra }) => {
   const { language } = useLanguage();
@@ -31,7 +31,7 @@ const ExtraCard = ({ extra, handleEditExtra, handleDeleteExtra }) => {
 
       <div className="flex items-center justify-between pt-2">
         <span className="text-lg font-bold text-orange-600">
-          ${Number(extra?.price ?? 0).toFixed(2)}
+          ${formatMoney(extra?.price)}
         </span>
       </div>
 

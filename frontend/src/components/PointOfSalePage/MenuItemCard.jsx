@@ -5,16 +5,13 @@ import {
   SignalZeroIcon,
   Trash2,
 } from "lucide-react";
-import { safeCall } from "../../utils/utils";
+import { formatMoney, safeCall } from "../../utils/utils";
 import { useLanguage } from "../../hooks/useLanguage";
 
 const MenuItemCard = ({ menuItem, onAddToCart }) => {
-  const { language, translations } = useLanguage();
+  const { language } = useLanguage();
 
   const handleAddToCart = safeCall(onAddToCart);
-
-  const { active, inactive, created_label, updated_label, id_label } =
-    translations.pages.menu_page;
 
   return (
     <div
@@ -35,7 +32,7 @@ const MenuItemCard = ({ menuItem, onAddToCart }) => {
           text-orange-500 
         bg-white font-bold px-2 py-1 rounded-lg"
         >
-          ${Number(menuItem?.price ?? 0).toFixed(2)}
+          ${formatMoney(menuItem?.price)}
         </span>
       </div>
 

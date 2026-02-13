@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "../../hooks/useLanguage";
 import { safeCall } from "../../utils/utils";
-import Button from "../UI/Button";
 import Input from "../UI/Input";
-import Modal from "../UI/Modal";
 import { toast } from "../../utils/toastHelper";
 import AddEditModal from "../UI/AddEditModal";
 

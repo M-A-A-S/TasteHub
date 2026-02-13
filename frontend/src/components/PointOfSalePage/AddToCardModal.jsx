@@ -1,8 +1,5 @@
-import { X } from "lucide-react";
 import { safeCall } from "../../utils/utils";
-import { useLanguage } from "../../hooks/useLanguage";
 import { useEffect, useState } from "react";
-import Button from "../ui/Button";
 import Header from "./AddToCardModal/Header";
 import SizeSelector from "./AddToCardModal/SizeSelector";
 import ExtrasGroup from "./AddToCardModal/ExtrasGroup";
@@ -11,8 +8,6 @@ import Footer from "./AddToCardModal/Footer";
 const AddToCardModal = ({ show, onClose, className, menuItem, addToCart }) => {
   const [selectedMenuItemSize, setSelectedMenuItemSize] = useState(null);
   const [selectedExtras, setSelectedExtras] = useState([]);
-
-  const { language } = useLanguage();
 
   const handleClose = safeCall(onClose);
   const handleAddToCart = safeCall(addToCart);

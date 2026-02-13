@@ -1,7 +1,3 @@
-import { CreditCard, ShoppingBag } from "lucide-react";
-import Button from "../components/ui/Button";
-import Counter from "../components/Counter";
-import CategoryFilterButtons from "../components/CategoryFilterButtons";
 import { useEffect, useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
 import { create, read } from "../api/apiWrapper";
@@ -16,6 +12,7 @@ import Cart from "./Cart";
 import AddToCardModal from "../components/PointOfSalePage/AddToCardModal";
 import { showFail, showSuccess } from "../utils/utils";
 import { toast } from "../utils/toastHelper";
+import { printBill } from "../utils/printBill";
 
 // const carItems = [
 //   {
@@ -316,6 +313,7 @@ const PointOfSalePage = () => {
       result = await create(`orders`, payload);
       console.log("createOrder result -> ", result);
       showSuccess(result?.code, create_order_success);
+      printBill(result.data);
       // clearCart();
       setCartItems([]);
     } catch (error) {
