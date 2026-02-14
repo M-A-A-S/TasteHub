@@ -12,7 +12,12 @@ namespace TasteHub.Entities
         public int IngredientId { get; set; }
 
         [Required]
-        public int Quantity { get; set; }
+        [Column(TypeName = "decimal(18,3)")]
+        public decimal Quantity { get; set; }
+
+        [Required]
+        [Column(TypeName = "decimal(18,4)")]
+        public decimal CostPerUnit { get; set; }
 
         [Required]
         public DateTime ExpiryDate { get; set; }

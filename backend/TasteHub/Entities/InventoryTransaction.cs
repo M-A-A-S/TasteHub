@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using TasteHub.Enums;
 
 namespace TasteHub.Entities
@@ -15,8 +16,9 @@ namespace TasteHub.Entities
         public StockMovementType StockMovementType { get; set; } = Enums.StockMovementType.Out;
 
         [Required]
-        public int Quantity { get; set; } // Positive for in, negative for out
-        
+        [Column(TypeName = "decimal(18,3)")]
+        public decimal Quantity { get; set; } // ALWAYS positive quantity, Movement type determines IN or OUT
+
         public int? UserId { get; set; }
 
         [Required]

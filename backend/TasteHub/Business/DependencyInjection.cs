@@ -16,6 +16,7 @@ namespace TasteHub.Business
             services.AddScoped<IMenuItemSizeService, MenuItemSizeService>();
             services.AddScoped<IMenuItemExtraService, MenuItemExtraService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IDashboardService, DashboardService>();
             return services;
         }
     }

@@ -23,8 +23,8 @@ namespace TasteHub.Entities
         public IngredientUnit Unit { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(18,4)")]
-        public decimal CostPerUnit { get; set; }
+        [Column(TypeName = "decimal(18,3)")]
+        public decimal LowStockThreshold { get; set; } // Minimum stock before alert triggers
 
         public int? SupplierId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
