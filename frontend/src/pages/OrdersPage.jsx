@@ -13,14 +13,7 @@ const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorCode, setErrorCode] = useState("");
-  const [isAddEditExtraModalOpen, setIsAddEditExtraModalOpen] = useState(false);
-  const [isDeleteExtraConfirmModalOpen, setIsDeleteExtraConfirmModalOpen] =
-    useState(false);
-  const [selectedExtra, setSelectedExtra] = useState(null);
 
-  const [searchText, setSearchText] = useState("");
-  const [sortBy, setSortBy] = useState("");
-  const [categoryId, setCategoryId] = useState("");
   const [totalMenuItems, setTotalMenuItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10; // Items per page

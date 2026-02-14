@@ -308,6 +308,15 @@
         "completed": "مكتمل",
         "cancelled": "ملغي",
         "served": "تم التقديم"
+      },
+      "table_headers": {
+        "orderNumber": "رقم الطلب",
+        "orderDate": "التاريخ",
+        "type": "النوع",
+        "status": "الحالة",
+        "total": "الإجمالي",
+        "items": "العناصر",
+        "actions": "الإجراءات"
       }
     }
   },
