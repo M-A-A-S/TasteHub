@@ -4,6 +4,7 @@ using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.MenuItem;
 using TasteHub.DTOs.Order;
 using TasteHub.Entities;
+using TasteHub.Enums;
 using TasteHub.Utilities;
 using TasteHub.Utilities.ResultCodes;
 
@@ -59,6 +60,30 @@ namespace TasteHub.DataAccess.Repositories
                         .ThenInclude(oie => oie.Extra)
                 .AsQueryable();
 
+
+                // Search across fields
+                if (!string.IsNullOrWhiteSpace(filters.SearchTerm))
+                {
+                    var term = $"%{filters.SearchTerm.Trim()}%";
+
+                    query = query.Where(x =>
+                       x.OrderItems.Any(oi =>
+                            (oi.MenuItem != null && (
+                                EF.Functions.Like(oi.MenuItem.NameEn, term) ||
+                                EF.Functions.Like(oi.MenuItem.NameAr, term) ||
+                                EF.Functions.Like(oi.MenuItem.DescriptionEn, term) ||
+                                EF.Functions.Like(oi.MenuItem.DescriptionAr, term)
+                            )) ||
+                            (oi.MenuItemSize != null && oi.MenuItemSize.MenuItem != null && (
+                                EF.Functions.Like(oi.MenuItemSize.MenuItem.NameEn, term) ||
+                                EF.Functions.Like(oi.MenuItemSize.MenuItem.NameAr, term) ||
+                                EF.Functions.Like(oi.MenuItemSize.MenuItem.DescriptionEn, term) ||
+                                EF.Functions.Like(oi.MenuItemSize.MenuItem.DescriptionAr, term)
+                            ))
+                        )
+                    );
+                }
+
                 // Filters
                 if (filters.TableId.HasValue)
                 {
@@ -82,8 +107,33 @@ namespace TasteHub.DataAccess.Repositories
                 }
                 if (filters.To.HasValue)
                 {
-                    query = query.Where(o => o.OrderDateTime >= filters.To.Value);
+                    query = query.Where(o => o.OrderDateTime <= filters.To.Value);
                 }
+
+                // Sorting
+
+                query = filters.SortBy switch
+                {
+                    MenuItemSortBy.PriceAsc =>
+                        query.OrderBy(x => x.GrandTotal).ThenBy(x => x.Id),
+
+                    MenuItemSortBy.PriceDesc =>
+                    query.OrderByDescending(x => x.GrandTotal).ThenByDescending(x => x.Id),
+
+
+                    MenuItemSortBy.Oldest =>
+                    query.OrderBy(x => x.Id),
+
+                    MenuItemSortBy.Newest =>
+                        query.OrderByDescending(x => x.Id),
+
+                    _ =>
+                       query.OrderByDescending(x => x.Id)
+
+                };
+
+
+                // Pagination
 
                 filters.PageNumber = filters.PageNumber < 1 ? 1 : filters.PageNumber;
                 filters.PageSize = filters.PageSize < 1 ? 10 : filters.PageSize;
@@ -92,7 +142,6 @@ namespace TasteHub.DataAccess.Repositories
                 var total = await query.CountAsync();
 
                 var items = await query
-                    .OrderByDescending(o => o.Id)
                     .Skip((filters.PageNumber - 1) * filters.PageSize)
                     .Take(filters.PageSize)
                     .ToListAsync();

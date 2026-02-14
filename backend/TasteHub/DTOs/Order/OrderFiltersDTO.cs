@@ -12,5 +12,7 @@ namespace TasteHub.DTOs.Order
         public OrderType? OrderType { get; set; }
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
+        public MenuItemSortBy? SortBy { get; set; } = MenuItemSortBy.Newest;
+        public string? SearchTerm { get; set; } = string.Empty;
     }
 }
