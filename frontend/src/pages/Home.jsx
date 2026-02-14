@@ -1,4 +1,10 @@
+import DashboardPage from "./DashboardPage";
+
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <>
+      <DashboardPage />
+    </>
+  );
 };
 export default Home;

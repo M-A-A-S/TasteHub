@@ -15,11 +15,16 @@ const getTranslations = () => {
 };
 
 export const formatMoney = (value, language = "en") => {
+  const number = Number(value || 0);
+
   return new Intl.NumberFormat(language === "ar" ? "ar-EG" : "en-US", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
-  }).format(Number(value || 0));
+  }).format(number);
 };
+
+export const formatNumber = (value) =>
+  new Intl.NumberFormat("en-US").format(value);
 
 export const formatDateTime = (date) => new Date(date).toLocaleString();
 

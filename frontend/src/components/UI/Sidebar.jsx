@@ -26,7 +26,7 @@ const menus = {
   admin: [
     {
       key: "dashboard",
-      path: "/dashboard",
+      path: "/",
       icon: <LayoutDashboard />,
     },
     {

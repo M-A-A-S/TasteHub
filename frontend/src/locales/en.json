@@ -318,6 +318,17 @@
         "items": "Items",
         "actions": "Actions"
       }
+    },
+    "dashboard_page": {
+      "today_sales": "Today's Sales",
+      "total_orders": "Total Orders",
+      "table_occupancy": "Table Occupancy",
+      "low_stock_alerts": "Low Stock Alerts",
+      "sales_velocity": "Sales Velocity",
+      "popular_dishes": "Popular Dishes",
+      "title": "Store Overview",
+      "description": "Welcome back, Admin. Here's what's happening today.",
+      "orders": "Orders"
     }
   },
   "server_codes": {},

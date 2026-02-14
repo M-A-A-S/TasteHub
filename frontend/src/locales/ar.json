@@ -321,6 +321,17 @@
         "items": "العناصر",
         "actions": "الإجراءات"
       }
+    },
+    "dashboard_page": {
+      "today_sales": "مبيعات اليوم",
+      "total_orders": "إجمالي الطلبات",
+      "table_occupancy": "نسبة إشغال الطاولات",
+      "low_stock_alerts": "تنبيهات نفاد المخزون",
+      "sales_velocity": "سرعة المبيعات",
+      "popular_dishes": "الأطباق الشهيرة",
+      "title": "نظرة عامة على المتجر",
+      "description": "مرحبًا بعودتك، المسؤول. هذا ما يحدث اليوم.",
+      "orders": "طلبات"
     }
   },
   "server_codes": {},
