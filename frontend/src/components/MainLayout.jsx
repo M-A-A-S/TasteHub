@@ -10,7 +10,7 @@ const MainLayout = () => {
       <Navbar />
       <Sidebar />
       <main
-        className={`mt-10 p-10 min-h-screen text-start ${language == "en" ? "pl-24" : "pr-24"}`}
+        className={`p-10 min-h-screen text-start ${language == "en" ? "pl-24" : "pr-24"}`}
       >
         <Outlet />
       </main>

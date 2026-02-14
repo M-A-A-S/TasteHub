@@ -280,6 +280,35 @@
         "size_price_modifier_error": "قيمة تعديل السعر مطلوبة",
         "size_price_modifier_invalid_error": "يجب أن تكون قيمة تعديل السعر أكبر من 0"
       }
+    },
+    "orders_page": {
+      "title": "الطلبات",
+      "description": "إدارة طلبات العملاء، بما في ذلك العناصر والكميات وحالة الطلب وسجل الطلبات.",
+      "orderNumber": "طلب",
+      "status": "الحالة",
+      "type": "النوع",
+      "items": "العناصر",
+      "item": "عنصر",
+      "quantity": "الكمية",
+      "subtotal": "المجموع الفرعي",
+      "tax": "الضريبة",
+      "discount": "الخصم",
+      "total": "الإجمالي",
+      "created": "تم الإنشاء",
+      "updated": "تم التحديث",
+      "empty": "لا توجد عناصر",
+      "types": {
+        "dineIn": "داخل المطعم",
+        "takeaway": "سفري",
+        "delivery": "توصيل"
+      },
+      "statuses": {
+        "pending": "قيد الانتظار",
+        "preparing": "قيد التحضير",
+        "completed": "مكتمل",
+        "cancelled": "ملغي",
+        "served": "تم التقديم"
+      }
     }
   },
   "server_codes": {},

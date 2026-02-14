@@ -21,6 +21,8 @@ export const formatMoney = (value, language = "en") => {
   }).format(Number(value || 0));
 };
 
+export const formatDateTime = (date) => new Date(date).toLocaleString();
+
 export function showSuccess(serverCode = "", frontMessage = "") {
   const translations = getTranslations();
 

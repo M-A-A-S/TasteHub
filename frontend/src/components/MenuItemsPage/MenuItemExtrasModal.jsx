@@ -10,8 +10,8 @@ import { toast } from "../../utils/toastHelper";
 import { create, remove } from "../../api/apiWrapper";
 import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import ConfirmModal from "../UI/ConfirmModal";
-import Button from "../UI/Button";
 import Modal from "../UI/Modal";
+import Button from "../UI/Button";
 import ExtraGroupSelect from "../ExtraGroupSelect";
 
 const initialFormState = {

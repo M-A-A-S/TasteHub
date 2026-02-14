@@ -277,6 +277,35 @@
         "size_price_modifier_error": "Price modifier is required",
         "size_price_modifier_invalid_error": "Price modifier must be greater than 0"
       }
+    },
+    "orders_page": {
+      "title": "Orders",
+      "description": "Manage customer orders, including items, quantities, status, and order history.",
+      "orderNumber": "Order",
+      "status": "Status",
+      "type": "Type",
+      "items": "Items",
+      "item": "Item",
+      "quantity": "Quantity",
+      "subtotal": "Subtotal",
+      "tax": "Tax",
+      "discount": "Discount",
+      "total": "Total",
+      "created": "Created",
+      "updated": "Updated",
+      "empty": "No items",
+      "types": {
+        "dineIn": "Dine In",
+        "takeaway": "Takeaway",
+        "delivery": "Delivery"
+      },
+      "statuses": {
+        "pending": "Pending",
+        "preparing": "Preparing",
+        "completed": "Completed",
+        "cancelled": "Cancelled",
+        "served": "Served"
+      }
     }
   },
   "server_codes": {},

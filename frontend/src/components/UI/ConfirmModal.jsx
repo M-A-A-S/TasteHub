@@ -1,5 +1,5 @@
 import Modal from "./Modal";
-import Button from "./Button"; // your custom Button component
+import Button from "./Button";
 import { safeCall } from "../../utils/utils";
 import { Loader2 } from "lucide-react";
 
