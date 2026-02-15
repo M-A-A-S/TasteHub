@@ -22,11 +22,18 @@ namespace TasteHub.DataAccess.Repositories
             _logger = logger;
         }
 
+        #region Add Methods
         public virtual async Task<Result<T>> AddAsync(T entity)
+        {
+            await _dbSet.AddAsync(entity);
+            return Result<T>.Success(entity);
+        }
+
+        public virtual async Task<Result<T>> AddAndSaveAsync(T entity)
         {
             try
             {
-                await _dbSet.AddAsync(entity);
+                var addResult = await AddAsync(entity);
                 await _context.SaveChangesAsync();
                 return Result<T>.Success(entity);
             }
@@ -41,37 +48,22 @@ namespace TasteHub.DataAccess.Repositories
                 return Result<T>.Failure(ResultCodes.ServerError, 500, "Server error");
             }
         }
+        #endregion
 
-        public virtual async Task<Result<bool>> DeleteAsync(int id)
-        {
-            try
-            {
-                var entity = await _dbSet.FindAsync(id);
-                if (entity == null)
-                {
-                    return Result<bool>.Failure(ResultCodes.NotFound, 400, "Entity not found");
-                }
-                _dbSet.Remove(entity);
-                await _context.SaveChangesAsync();
-                return Result<bool>.Success(true);
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, "Database update failed while deleting entity.");
-                return Result<bool>.Failure(ResultCodes.DbError, 500, "Database error");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while deleting entity.");
-                return Result<bool>.Failure(ResultCodes.ServerError, 500, "Server error");
-            }
-        }
+
+        #region Delete Methods
 
         public virtual async Task<Result<bool>> DeleteAsync(T entity)
         {
+            _dbSet.Remove(entity);
+            return Result<bool>.Success(true);
+        }
+
+        public virtual async Task<Result<bool>> DeleteAndSaveAsync(T entity)
+        {
             try
             {
-                _dbSet.Remove(entity);
+                var deleteResult = await DeleteAsync(entity);
                 await _context.SaveChangesAsync();
                 return Result<bool>.Success(true);
             }
@@ -87,9 +79,75 @@ namespace TasteHub.DataAccess.Repositories
             }
         }
 
+        public virtual async Task<Result<bool>> DeleteAsync(int id)
+        {
+
+            var entity = await _dbSet.FindAsync(id);
+            if (entity == null)
+            {
+                return Result<bool>.Failure(ResultCodes.NotFound, 400, "Entity not found");
+            }
+            _dbSet.Remove(entity);
+            return Result<bool>.Success(true);
+        }
+
+        public virtual async Task<Result<bool>> DeleteAndSaveAsync(int id)
+        {
+            try
+            {
+                var deleteResult = await DeleteAsync(id);
+                await _context.SaveChangesAsync();
+                return Result<bool>.Success(true);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database update failed while deleting entity.");
+                return Result<bool>.Failure(ResultCodes.DbError, 500, "Database error");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while deleting entity.");
+                return Result<bool>.Failure(ResultCodes.ServerError, 500, "Server error");
+            }
+        }
+        #endregion
+
+
+        #region Update Methods
+
+        public virtual async Task<Result<T>> UpdateAsync(T entity)
+        {
+            _dbSet.Update(entity);
+            return Result<T>.Success(entity);
+        }
+
+        public virtual async Task<Result<T>> UpdateAndSaveAsync(T entity)
+        {
+            try
+            {
+                var updateResult = await UpdateAsync(entity);
+                _context.SaveChangesAsync();
+                return Result<T>.Success(entity);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database update failed while updating entity.");
+                return Result<T>.Failure(ResultCodes.DbError, 500, "Database error");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while updating entity.");
+                return Result<T>.Failure(ResultCodes.ServerError, 500, "Server error");
+            }
+        }
+
+        #endregion
+
+        #region Query Methods
+
         public virtual async Task<Result<IEnumerable<T>>> GetAllAsync(
-            Expression<Func<T, bool>> predicate = null,
-            params Expression<Func<T, object>>[] includes)
+    Expression<Func<T, bool>> predicate = null,
+    params Expression<Func<T, object>>[] includes)
         {
             try
             {
@@ -104,7 +162,7 @@ namespace TasteHub.DataAccess.Repositories
                 {
                     query = query.Where(predicate);
                 }
-                
+
                 var data = await query.ToListAsync();
 
                 return Result<IEnumerable<T>>.Success(data);
@@ -209,26 +267,7 @@ params Expression<Func<T, object>>[] includes)
             }
         }
 
-        public virtual async Task<Result<T>> UpdateAsync(T entity)
-        {
-            try
-            {
-                _dbSet.Update(entity);
-                await _context.SaveChangesAsync();
-                return Result<T>.Success(entity);
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, "Database update failed while updating entity.");
-                return Result<T>.Failure(ResultCodes.DbError, 500, "Database error");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while updating entity.");
-                return Result<T>.Failure(ResultCodes.ServerError, 500, "Server error");
-            }
-        }
-
+        #endregion
 
     }
 }

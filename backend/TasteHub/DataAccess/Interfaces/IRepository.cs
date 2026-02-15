@@ -21,9 +21,13 @@ namespace TasteHub.DataAccess.Interfaces
     params Expression<Func<T, object>>[] includes);
 
         Task<Result<T>> AddAsync(T entity);
+        Task<Result<T>> AddAndSaveAsync(T entity);
         Task<Result<T>> UpdateAsync(T entity);
+        Task<Result<T>> UpdateAndSaveAsync(T entity);
         Task<Result<bool>> DeleteAsync(int id);
+        Task<Result<bool>> DeleteAndSaveAsync(int id);
         Task<Result<bool>> DeleteAsync(T entity);
+        Task<Result<bool>> DeleteAndSaveAsync(T entity);
 
 
     }
