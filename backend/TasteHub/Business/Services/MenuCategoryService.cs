@@ -21,13 +21,13 @@ namespace TasteHub.Business.Services
         public async Task<Result<MenuCategoryDTO>> AddAsync(MenuCategoryDTO categoryDTO)
         {
             var category = categoryDTO.ToEntity();
-            var result = await _repo.AddAsync(category);
+            var result = await _repo.AddAndSaveAsync(category);
             return Result<MenuCategoryDTO>.Success(result.Data.ToDTO());
         }
 
         public async Task<Result<bool>> DeleteAsync(int id)
         {
-            return await _repo.DeleteAsync(id);
+            return await _repo.DeleteAndSaveAsync(id);
         }
 
         public async Task<Result<IEnumerable<MenuCategory>>> GetAllAsync()
@@ -55,7 +55,7 @@ namespace TasteHub.Business.Services
                 return Result<MenuCategoryDTO>.Failure(ResultCodes.ExtraGroupNotFound);
             }
             existingResult.Data.UpdateFromDTO(categoryDTO);
-            var updatingResult = await _repo.UpdateAsync(existingResult.Data);
+            var updatingResult = await _repo.UpdateAndSaveAsync(existingResult.Data);
             if (!updatingResult.IsSuccess)
                 return Result<MenuCategoryDTO>.Failure(updatingResult.Message,updatingResult.StatusCode);
             return Result<MenuCategoryDTO>.Success(updatingResult.Data.ToDTO());

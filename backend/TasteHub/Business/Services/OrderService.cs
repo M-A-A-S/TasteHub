@@ -19,34 +19,22 @@ namespace TasteHub.Business.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrderRepository _repo;
-        private readonly IMenuItemSizeService _menuItemSizeService;
-        private readonly IMenuItemService _menuItemService;
-        private readonly IExtraService _extraService;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IInventoryService _inventoryService;
-        private readonly AppDbContext _context;
 
         public OrderService(
-            IOrderRepository repo, 
-            IMenuItemSizeService menuItemSizeService, 
-            IMenuItemService menuItemService,
-            IExtraService extraService,
-            IInventoryService inventoryService,
-            AppDbContext context
+            IUnitOfWork unitOfWork,
+            IInventoryService inventoryService
             )
         {
-            _repo = repo;
-            _menuItemSizeService = menuItemSizeService;
-            _menuItemService = menuItemService;
-            _extraService = extraService;
-            _context = context;
+            _unitOfWork = unitOfWork;
             _inventoryService = inventoryService;
         }
 
         public async Task<Result<PagedResult<OrderDTO>>> GetFilteredAsync(
     OrderFiltersDTO filters)
         {
-            var getOrdersResult = await _repo.GetOrdersWithDetailsAsync(filters);
+            var getOrdersResult = await _unitOfWork.Orders.GetOrdersWithDetailsAsync(filters);
 
             if (!getOrdersResult.IsSuccess || getOrdersResult.Data == null)
             {
@@ -71,8 +59,7 @@ namespace TasteHub.Business.Services
                 }
                 return dto;
 
-            }).ToList()
-                        ?? new List<OrderDTO>();
+            }).ToList() ?? new List<OrderDTO>();
             
             var pagedResult = new PagedResult<OrderDTO>()
             {
@@ -93,18 +80,17 @@ namespace TasteHub.Business.Services
                 return Result<OrderDTO>.Failure();
             }
 
-            await using var transaction = await _context.Database.BeginTransactionAsync();
-
+            // Prepare OrderItems
             var orderItemsResult = await PrepareOrderItemsAsync(request.Items); 
 
             if (!orderItemsResult.IsSuccess || orderItemsResult.Data == null || !orderItemsResult.Data.Any())
             {
-                await transaction.RollbackAsync();
-                return Result<OrderDTO>.Failure();
+                return Result<OrderDTO>.Failure(ResultCodes.MenuItemsNotFound);
             }
 
             var orderItems = orderItemsResult.Data.ToList();
 
+            // Create Order entity
             var order = new Order
             {
                 TableId = request.TableId,
@@ -119,6 +105,7 @@ namespace TasteHub.Business.Services
             order.TaxAmount = 0;
             order.GrandTotal = order.SubtotalAmount + order.TaxAmount;
 
+            // Deduct inventory
             var ingredientDeductions = orderItems.SelectMany(oi =>
             {
                 var ingredients = oi.MenuItemSize?.MenuItem?.MenuItemIngredients
@@ -135,22 +122,21 @@ namespace TasteHub.Business.Services
             var deductionResult = await _inventoryService.DeductIngredientsAsync(ingredientDeductions, order.UserId);
             if (!deductionResult.IsSuccess)
             {
-                await transaction.RollbackAsync();
                 return Result<OrderDTO>.Failure(deductionResult.Code);
             }
 
-            var createOrderResult = await _repo.AddAsync(order);
+            var createOrderResult = await _unitOfWork.Orders.AddAsync(order);
             if (!createOrderResult.IsSuccess)
             {
-                await transaction.RollbackAsync();
-                return Result<OrderDTO>.Failure();
+                return Result<OrderDTO>.Failure(createOrderResult.Code);
             }
 
-            var fullOrderResult = await _repo.GetOrderWithDetailsAsync(createOrderResult.Data.Id);
+            await _unitOfWork.SaveChangesAsync();
+
+            var fullOrderResult = await _unitOfWork.Orders.GetOrderWithDetailsAsync(createOrderResult.Data.Id);
 
             if (!fullOrderResult.IsSuccess || fullOrderResult.Data == null)
             {
-                await transaction.RollbackAsync();
                 return Result<OrderDTO>.Failure();
             }
 
@@ -169,7 +155,6 @@ namespace TasteHub.Business.Services
                 }
             }
 
-            await transaction.CommitAsync();
             return Result<OrderDTO>.Success(dto);
         }
     
@@ -193,9 +178,9 @@ namespace TasteHub.Business.Services
                 .Distinct()
                 .ToList();
 
-            var menuItemSizesResult = await _menuItemSizeService.GetByIdsAsync(menuItemSizeIds);
-            var menuItemsResult = await _menuItemService.GetByIdsAsync(menuItemIds);
-            var extrasResult = await _extraService.GetByIdsAsync(extraIds);
+            var menuItemSizesResult = await _unitOfWork.MenuItemSizes.GetAllAsync(x => menuItemSizeIds.Contains(x.Id));
+            var menuItemsResult = await _unitOfWork.MenuItems.GetAllAsync(x => menuItemIds.Contains(x.Id));
+            var extrasResult = await _unitOfWork.Extras.GetAllAsync(x => extraIds.Contains(x.Id));
 
             if ((!menuItemSizesResult.IsSuccess && menuItemSizeIds.Any()) ||
                 (!menuItemsResult.IsSuccess && menuItemIds.Any()) ||
@@ -204,28 +189,27 @@ namespace TasteHub.Business.Services
                 return Result<IEnumerable<OrderItem>>.Failure();
             }
 
-            var menuItemSizes = menuItemSizesResult.Data?.ToDictionary(x => x.Id) ?? new Dictionary<int?, MenuItemSizeDTO>();
+            var menuItemSizes = menuItemSizesResult.Data?.ToDictionary(x => x.Id) ?? new Dictionary<int, MenuItemSize>();
             var menuItems = menuItemsResult.Data?.ToDictionary(x => x.Id) ?? new Dictionary<int, MenuItem>();
-            var extras = extrasResult.Data?.ToDictionary(x => x.Id) ?? new Dictionary<int?, ExtraDTO>();
+            var extras = extrasResult.Data?.ToDictionary(x => x.Id) ?? new Dictionary<int, Extra>();
 
             var orderItems = new List<OrderItem>();
             foreach (var item in items)
             {
                 var orderItemResult = CreateOrderItem(item, menuItemSizes, menuItems, extras);
-                if (!orderItemResult.IsSuccess)
+                if (orderItemResult.IsSuccess)
                 {
-                    continue;
-                }
-                orderItems.Add(orderItemResult.Data);
+                    orderItems.Add(orderItemResult.Data);
+                }              
             }
             return Result<IEnumerable<OrderItem>>.Success(orderItems);
         }
 
         private Result<OrderItem> CreateOrderItem(
             CreateOrderItemRequest item,
-            Dictionary<int?, MenuItemSizeDTO> menuItemSizes,
+            Dictionary<int, MenuItemSize> menuItemSizes,
             Dictionary<int, MenuItem> menuItems,
-            Dictionary<int?, ExtraDTO> extras
+            Dictionary<int, Extra> extras
             )
         {
             decimal unitPrice = 0;

@@ -22,12 +22,12 @@ namespace TasteHub.Business.Services
         public async Task<Result<Size>> AddAsync(SizeDTO sizeDTO)
         {
             var size = sizeDTO.ToEntity();
-            return await _repo.AddAsync(size);
+            return await _repo.AddAndSaveAsync(size);
         }
 
         public async Task<Result<bool>> DeleteAsync(int id)
         {
-            return await _repo.DeleteAsync(id);
+            return await _repo.DeleteAndSaveAsync(id);
         }
 
         public async Task<Result<IEnumerable<SizeDTO>>> GetAllAsync()
@@ -54,7 +54,7 @@ namespace TasteHub.Business.Services
                 return Result<Size>.Failure(ResultCodes.SizeNotFound);
             }
             existingResult.Data.UpdateFromDTO(sizeDTO);
-            return await _repo.UpdateAsync(existingResult.Data);
+            return await _repo.UpdateAndSaveAsync(existingResult.Data);
         }
     }
 }

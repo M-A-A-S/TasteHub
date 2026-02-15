@@ -20,6 +20,8 @@ namespace TasteHub.DataAccess
             services.AddScoped<IIngredientBatchRepository, IngredientBatchRepository>();
             services.AddScoped<IInventoryTransactionRepository, InventoryTransactionRepository>();
             services.AddScoped<IMenuItemIngredientRepository, MenuItemIngredientRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             return services;
         }
     }

@@ -6,5 +6,6 @@
         public const string MenuItemUpdated = "MENUITEM_UPDATED";
         public const string MenuItemDeleted = "MENUITEM_DELETED";
         public const string MenuItemNotFound = "MENUITEM_NOT_FOUND";
+        public const string MenuItemsNotFound = "menu_items_not_found";
     }
 }

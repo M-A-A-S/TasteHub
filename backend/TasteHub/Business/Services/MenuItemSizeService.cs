@@ -24,7 +24,7 @@ namespace TasteHub.Business.Services
         public async Task<Result<MenuItemSizeDTO>> AddAsync(MenuItemSizeDTO menuItemSizeDTO)
         {
             var menuItemSize = menuItemSizeDTO.ToEntity();
-            var addResult = await _repo.AddAsync(menuItemSize);
+            var addResult = await _repo.AddAndSaveAsync(menuItemSize);
             if (!addResult.IsSuccess || addResult.Data == null)
             {
                 return Result<MenuItemSizeDTO>.Failure();
@@ -39,7 +39,7 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<bool>> DeleteAsync(int id)
         {
-            return await _repo.DeleteAsync(id);
+            return await _repo.DeleteAndSaveAsync(id);
         }
 
         public async Task<Result<IEnumerable<MenuItemSizeDTO>>> GetAllAsync()
@@ -98,7 +98,7 @@ namespace TasteHub.Business.Services
             }
             existingResult.Data.UpdateFromDTO(menuItemSizeDTO);
 
-            var updateResult = await _repo.UpdateAsync(existingResult.Data);
+            var updateResult = await _repo.UpdateAndSaveAsync(existingResult.Data);
             if (!updateResult.IsSuccess ||  updateResult.Data == null)
             {
                 return Result<MenuItemSizeDTO>.Failure();

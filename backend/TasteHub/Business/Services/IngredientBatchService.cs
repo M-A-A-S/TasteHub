@@ -19,7 +19,7 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<IngredientBatchDTO>> AddAsync(IngredientBatchDTO DTO)
         {
-            var addResult = await _repo.AddAsync(DTO.ToEntity());
+            var addResult = await _repo.AddAndSaveAsync(DTO.ToEntity());
             if (!addResult.IsSuccess || addResult.Data == null)
             {
                 return Result<IngredientBatchDTO>.Failure();
@@ -36,7 +36,7 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<bool>> DeleteAsync(int id)
         {
-            return await _repo.DeleteAsync(id);
+            return await _repo.DeleteAndSaveAsync(id);
         }
 
         public async Task<Result<IEnumerable<IngredientBatchDTO>>> GetAllAsync()
@@ -100,7 +100,7 @@ namespace TasteHub.Business.Services
 
             findResult.Data.UpdateFromDTO(DTO);
 
-            var updateResult = await _repo.UpdateAsync(findResult.Data);
+            var updateResult = await _repo.UpdateAndSaveAsync(findResult.Data);
             if (!updateResult.IsSuccess || updateResult.Data == null)
             {
                 return Result<IngredientBatchDTO>.Failure();

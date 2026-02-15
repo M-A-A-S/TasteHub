@@ -62,7 +62,7 @@ namespace TasteHub.Business.Services
 
             entity.ImageUrl = imageUrl;
 
-            var addResult = await _repo.AddAsync(entity);
+            var addResult = await _repo.AddAndSaveAsync(entity);
 
             if (!addResult.IsSuccess && imageUrl != null && dto.ImageFile != null)
             {
@@ -104,7 +104,7 @@ namespace TasteHub.Business.Services
                 }
             }
 
-            return await _repo.DeleteAsync(id);
+            return await _repo.DeleteAndSaveAsync(id);
         }
 
         public async Task<Result<MenuItemDTO>> GetByIdAsync(int id)
@@ -213,7 +213,7 @@ namespace TasteHub.Business.Services
             entity.UpdateFromDTO(dto);
             entity.ImageUrl = finalImageUrl;
 
-            var  updateResult = await _repo.UpdateAsync(existingResult.Data);
+            var  updateResult = await _repo.UpdateAndSaveAsync(existingResult.Data);
             if (updateResult.IsSuccess && updateResult.Data != null)
             {
                 updateResult.Data.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(updateResult.Data.ImageUrl);
