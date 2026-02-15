@@ -5,9 +5,8 @@ using TasteHub.Utilities;
 
 namespace TasteHub.Business.Interfaces
 {
-    public interface ISizeService
+    public interface ISizeService 
     {
-
         Task<Result<IEnumerable<SizeDTO>>> GetAllAsync();
         Task<Result<Size>> GetByIdAsync(int id);
         Task<Result<Size>> AddAsync(SizeDTO sizeDTO);

@@ -1,41 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TasteHub.DTOs.Ingredient;
+using TasteHub.DTOs.InventoryTransaction;
 
-namespace TasteHub.Entities
+namespace TasteHub.DTOs.IngredientBatch
 {
-    public class IngredientBatch
+    public class IngredientBatchDTO
     {
-        [Key]
-        public int Id { get; set; }
-
-        [Required]
+        public int? Id { get; set; }
         public int IngredientId { get; set; }
-
-        [Required]
-        [Column(TypeName = "decimal(18,3)")]
         public decimal Quantity { get; set; } // Original purchased amount
-
-        [Required]
-        [Column(TypeName = "decimal(18,3)")]
         public decimal RemainingQuantity { get; set; }  // Updated during usage
-
-
-        [Required]
-        [Column(TypeName = "decimal(18,4)")]
         public decimal CostPerUnit { get; set; }
-
-        [Required]
         public DateTime ExpiryDate { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        [Column(TypeName = "varchar(100)")]
         public string BatchNumber { get; set; } = null!;
-
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public IngredientDTO? Ingredient { get; set; }
+        public ICollection<InventoryTransactionDTO>? InventoryTransactions { get; set; }
 
-        public Ingredient? Ingredient { get; set; }
-        public ICollection<InventoryTransaction>? InventoryTransactions { get; set; }
     }
 }

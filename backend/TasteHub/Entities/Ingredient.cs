@@ -4,7 +4,7 @@ using TasteHub.Enums;
 
 namespace TasteHub.Entities
 {
-    public class Ingredient
+    public class Ingredient 
     {
         [Key]
         public int Id { get; set; }

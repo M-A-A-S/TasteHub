@@ -1,5 +1,9 @@
-﻿using TasteHub.Business.Interfaces;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
+using TasteHub.Business.Interfaces;
+using TasteHub.DataAccess;
 using TasteHub.DataAccess.Interfaces;
+using TasteHub.DTOs;
 using TasteHub.DTOs.Extra;
 using TasteHub.DTOs.MenuItem;
 using TasteHub.DTOs.MenuItemSize;
@@ -19,17 +23,24 @@ namespace TasteHub.Business.Services
         private readonly IMenuItemSizeService _menuItemSizeService;
         private readonly IMenuItemService _menuItemService;
         private readonly IExtraService _extraService;
+        private readonly IInventoryService _inventoryService;
+        private readonly AppDbContext _context;
+
         public OrderService(
             IOrderRepository repo, 
             IMenuItemSizeService menuItemSizeService, 
             IMenuItemService menuItemService,
-            IExtraService extraService
+            IExtraService extraService,
+            IInventoryService inventoryService,
+            AppDbContext context
             )
         {
             _repo = repo;
             _menuItemSizeService = menuItemSizeService;
             _menuItemService = menuItemService;
             _extraService = extraService;
+            _context = context;
+            _inventoryService = inventoryService;
         }
 
         public async Task<Result<PagedResult<OrderDTO>>> GetFilteredAsync(
@@ -82,39 +93,17 @@ namespace TasteHub.Business.Services
                 return Result<OrderDTO>.Failure();
             }
 
+            await using var transaction = await _context.Database.BeginTransactionAsync();
 
-            var menuItemSizeIds = request.Items
-                .Where(x => x.MenuItemSizeId > 0)
-                .Select(x => x.MenuItemSizeId)
-                .Distinct()
-                .ToList();
+            var orderItemsResult = await PrepareOrderItemsAsync(request.Items); 
 
-            var menuItemIds = request.Items
-                .Where(x => x.MenuItemId > 0)
-                .Select(x => x.MenuItemId)
-                .Distinct()
-                .ToList();
-
-            var extraIds = request.Items
-                .Where(x => x.ExtrasIds != null)
-                .SelectMany(x => x.ExtrasIds)
-                .Distinct()
-                .ToList();
-
-            var menuItemSizesResult = await _menuItemSizeService.GetByIdsAsync(menuItemSizeIds);
-            var menuItemsResult = await _menuItemService.GetByIdsAsync(menuItemIds);
-            var extrasResult = await _extraService.GetByIdsAsync(extraIds);
-
-            if ((!menuItemSizesResult.IsSuccess && menuItemSizeIds.Any()) ||
-                (!menuItemsResult.IsSuccess && menuItemIds.Any()) || 
-                (!extrasResult.IsSuccess && extraIds.Any()))
+            if (!orderItemsResult.IsSuccess || orderItemsResult.Data == null || !orderItemsResult.Data.Any())
             {
+                await transaction.RollbackAsync();
                 return Result<OrderDTO>.Failure();
             }
 
-            var menuItemSizes = menuItemSizesResult.Data?.ToDictionary(x => x.Id) ?? new Dictionary<int?, MenuItemSizeDTO>();
-            var menuItems = menuItemsResult.Data?.ToDictionary(x => x.Id) ?? new Dictionary<int, MenuItem>();
-            var extras = extrasResult.Data?.ToDictionary(x => x.Id) ?? new Dictionary<int?, ExtraDTO>();
+            var orderItems = orderItemsResult.Data.ToList();
 
             var order = new Order
             {
@@ -122,31 +111,38 @@ namespace TasteHub.Business.Services
                 UserId = 1, // TODO: get it form logged in user
                 OrderStatus = OrderStatus.Pending,
                 OrderType = OrderType.DineIn, // TODO: get it from frontend
-                OrderItems = new List<OrderItem>()
+                OrderItems = orderItems
             };
 
-            decimal subtotal = 0;
-
-            foreach (var item in request.Items)
-            {
-                var createItemResult = CreateOrderItem(item, menuItemSizes, menuItems, extras);
-
-                if (!createItemResult.IsSuccess)
-                {
-                    return Result<OrderDTO>.Failure();
-                }
-                subtotal += createItemResult.Data.LineTotal;
-                order.OrderItems.Add(createItemResult.Data);
-            }
-
-            order.SubtotalAmount = subtotal;
+            order.SubtotalAmount = orderItems.Sum(item => item.LineTotal);
             order.DiscountAmount = 0;
             order.TaxAmount = 0;
-            order.GrandTotal = subtotal + order.TaxAmount;
+            order.GrandTotal = order.SubtotalAmount + order.TaxAmount;
+
+            var ingredientDeductions = orderItems.SelectMany(oi =>
+            {
+                var ingredients = oi.MenuItemSize?.MenuItem?.MenuItemIngredients
+                                    ?? oi.MenuItem?.MenuItemIngredients
+                                    ?? Enumerable.Empty<MenuItemIngredient>();
+
+                return ingredients.Select(i => new IngredientDeduction
+                {
+                    IngredientId = i.IngredientId,
+                    Quantity = i.QuantityPerUnit * oi.Quantity
+                });
+            }).ToList();
+
+            var deductionResult = await _inventoryService.DeductIngredientsAsync(ingredientDeductions, order.UserId);
+            if (!deductionResult.IsSuccess)
+            {
+                await transaction.RollbackAsync();
+                return Result<OrderDTO>.Failure(deductionResult.Code);
+            }
 
             var createOrderResult = await _repo.AddAsync(order);
             if (!createOrderResult.IsSuccess)
             {
+                await transaction.RollbackAsync();
                 return Result<OrderDTO>.Failure();
             }
 
@@ -154,6 +150,7 @@ namespace TasteHub.Business.Services
 
             if (!fullOrderResult.IsSuccess || fullOrderResult.Data == null)
             {
+                await transaction.RollbackAsync();
                 return Result<OrderDTO>.Failure();
             }
 
@@ -172,9 +169,58 @@ namespace TasteHub.Business.Services
                 }
             }
 
+            await transaction.CommitAsync();
             return Result<OrderDTO>.Success(dto);
         }
     
+        private async Task<Result<IEnumerable<OrderItem>>> PrepareOrderItemsAsync(IEnumerable<CreateOrderItemRequest> items)
+        {
+            var menuItemSizeIds = items
+            .Where(x => x.MenuItemSizeId > 0)
+            .Select(x => x.MenuItemSizeId)
+            .Distinct()
+            .ToList();
+
+            var menuItemIds = items
+                .Where(x => x.MenuItemId > 0)
+                .Select(x => x.MenuItemId)
+                .Distinct()
+                .ToList();
+
+            var extraIds = items
+                .Where(x => x.ExtrasIds != null)
+                .SelectMany(x => x.ExtrasIds)
+                .Distinct()
+                .ToList();
+
+            var menuItemSizesResult = await _menuItemSizeService.GetByIdsAsync(menuItemSizeIds);
+            var menuItemsResult = await _menuItemService.GetByIdsAsync(menuItemIds);
+            var extrasResult = await _extraService.GetByIdsAsync(extraIds);
+
+            if ((!menuItemSizesResult.IsSuccess && menuItemSizeIds.Any()) ||
+                (!menuItemsResult.IsSuccess && menuItemIds.Any()) ||
+                (!extrasResult.IsSuccess && extraIds.Any()))
+            {
+                return Result<IEnumerable<OrderItem>>.Failure();
+            }
+
+            var menuItemSizes = menuItemSizesResult.Data?.ToDictionary(x => x.Id) ?? new Dictionary<int?, MenuItemSizeDTO>();
+            var menuItems = menuItemsResult.Data?.ToDictionary(x => x.Id) ?? new Dictionary<int, MenuItem>();
+            var extras = extrasResult.Data?.ToDictionary(x => x.Id) ?? new Dictionary<int?, ExtraDTO>();
+
+            var orderItems = new List<OrderItem>();
+            foreach (var item in items)
+            {
+                var orderItemResult = CreateOrderItem(item, menuItemSizes, menuItems, extras);
+                if (!orderItemResult.IsSuccess)
+                {
+                    continue;
+                }
+                orderItems.Add(orderItemResult.Data);
+            }
+            return Result<IEnumerable<OrderItem>>.Success(orderItems);
+        }
+
         private Result<OrderItem> CreateOrderItem(
             CreateOrderItemRequest item,
             Dictionary<int?, MenuItemSizeDTO> menuItemSizes,
@@ -183,14 +229,20 @@ namespace TasteHub.Business.Services
             )
         {
             decimal unitPrice = 0;
+            int? menuItemSizeId = null;
+            int? menuItemId = null;
 
-            if (item.MenuItemSizeId > 0 && menuItemSizes.TryGetValue(item.MenuItemSizeId, out var menuItemSize))
+
+            if (item.MenuItemSizeId > 0 && 
+                menuItemSizes.TryGetValue(item.MenuItemSizeId, out var menuItemSize))
             {
                 unitPrice = menuItemSize.Price;
+                menuItemSizeId = menuItemSize.Id;
             }
             else if (menuItems.TryGetValue(item.MenuItemId, out var menuItem))
             {
                 unitPrice = menuItem.Price;
+                menuItemId = menuItem.Id;
             }
             else
             {
@@ -223,12 +275,15 @@ namespace TasteHub.Business.Services
 
             var orderItem = new OrderItem
             {
-                MenuItemSizeId = item.MenuItemSizeId,
+                MenuItemSizeId = menuItemSizeId,
+                MenuItemId = menuItemId,
                 Quantity = item.Quantity,
                 UnitPrice = unitPrice,
                 DiscountAmount = 0,
                 LineTotal = lineTotal,
-                OrderItemExtras = orderItemExtras
+                OrderItemExtras = orderItemExtras,
+                //MenuItem = menuItem,
+                //MenuItemSize = menuItemSize.ToEntity()
             };
 
             return Result<OrderItem>.Success(orderItem);

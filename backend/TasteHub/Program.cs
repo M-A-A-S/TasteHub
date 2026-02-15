@@ -53,9 +53,6 @@ var appSettings = app.Services
 ImageUrlHelper.Configure(appSettings.BaseUrl);
 
 
-
-
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
