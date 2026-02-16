@@ -126,7 +126,7 @@ namespace TasteHub.DataAccess.Repositories
             try
             {
                 var updateResult = await UpdateAsync(entity);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 return Result<T>.Success(entity);
             }
             catch (DbUpdateException ex)
