@@ -1,21 +1,18 @@
 import { Layers, Pencil, Trash2 } from "lucide-react";
 import { useLanguage } from "../../hooks/useLanguage";
 import { safeCall } from "../../utils/utils";
+import { IngredientUnits } from "../../utils/constants";
 
 const IngredientCard = ({
   ingredient,
   handleEditIngredient,
   handleDeleteIngredient,
+  getUnitName,
 }) => {
   const onEdit = safeCall(handleEditIngredient);
   const onDelete = safeCall(handleDeleteIngredient);
 
   const { language, translations } = useLanguage();
-
-  const unitLabel =
-    translations.ingredient_units[ingredient.unitKey || ingredient.unit] ||
-    ingredient.unitKey ||
-    ingredient.unit;
 
   return (
     <div
@@ -36,7 +33,7 @@ const IngredientCard = ({
           <span className="font-medium">
             {translations.pages.ingredients_page.form.unit_label}:{" "}
           </span>
-          {unitLabel}
+          {getUnitName(ingredient?.unit)}
         </p>
         <p>
           <span className="font-medium">

@@ -22,6 +22,7 @@ namespace TasteHub.Business
             services.AddScoped<IInventoryTransactionService, InventoryTransactionService>();
             services.AddScoped<IMenuItemIngredientService, MenuItemIngredientService>();
             services.AddScoped<IInventoryService, InventoryService>();
+            services.AddScoped<ISupplierService, SupplierService>();
             return services;
         }
     }

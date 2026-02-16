@@ -31,7 +31,6 @@ namespace TasteHub.Business.Services
         public async Task<Result<MenuItemDTO>> AddAsync(MenuItemDTO dto)
         {
             var entity = dto.ToEntity();
-
             string? imageUrl = null;
 
             // Save Image
@@ -74,6 +73,7 @@ namespace TasteHub.Business.Services
             {
                 addResult.Data.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(addResult.Data.ImageUrl);
             }
+
             var catagoryResult = await _menuCategoryService.GetByIdAsync(addResult.Data.MenuCategoryId);
             var result = addResult.Data.ToDTO();
             result.MenuCategory = catagoryResult.Data;

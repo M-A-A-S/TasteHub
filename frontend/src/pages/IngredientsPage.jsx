@@ -11,6 +11,7 @@ import CardView from "../components/IngredientsPage/CardView";
 import TableView from "../components/IngredientsPage/TableView";
 import AddEditIngredientModal from "../components/IngredientsPage/AddEditIngredientModal";
 import ConfirmModal from "../components/UI/ConfirmModal";
+import { IngredientUnits } from "../utils/constants";
 
 const IngredientsPage = () => {
   const [view, setView] = useState("card"); // 'table' or 'card'
@@ -155,6 +156,14 @@ const IngredientsPage = () => {
     }
   }
 
+  function getUnitName(unit) {
+    const unitObj = IngredientUnits.find((u) => u?.value === unit);
+    if (!unitObj) {
+      return unit;
+    }
+    return translations.ingredient_units?.[unitObj?.key] ?? unit;
+  }
+
   return (
     <div>
       <PageHeader
@@ -187,6 +196,7 @@ const IngredientsPage = () => {
               ingredients={ingredients}
               handleEditIngredient={handleEditIngredient}
               handleDeleteIngredient={handleDeleteIngredient}
+              getUnitName={getUnitName}
             />
           )}
           {view == "table" && (
@@ -194,6 +204,7 @@ const IngredientsPage = () => {
               ingredients={ingredients}
               handleEditIngredient={handleEditIngredient}
               handleDeleteIngredient={handleDeleteIngredient}
+              getUnitName={getUnitName}
             />
           )}
         </>
