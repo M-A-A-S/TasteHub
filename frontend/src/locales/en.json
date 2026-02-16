@@ -1,15 +1,23 @@
 {
   "sidebar": {
     "dashboard": "Dashboard",
-    "point_of_sale": "Point Of Sale (POS)",
-    "categories": "Categories Management",
+
+    "menu_management": "Menu Management",
+    "categories": "Categories",
+    "menu_items": "Menu Items",
     "extras_groups": "Extras Groups",
     "extras": "Extras",
-    "menu": "Menu Management",
+    "sizes": "Sizes",
+
+    "inventory_management": "Inventory Management",
+    "ingredients": "Ingredients",
+    "inventory_transactions": "Inventory Transactions",
+    "inventory_batches": "Inventory Batches",
+
     "orders": "Orders",
     "analytics": "Analytics",
     "settings": "Settings",
-    "sizes": "Sizes"
+    "point_of_sale": "Point Of Sale (POS)"
   },
   "common": {
     "save": "Save",

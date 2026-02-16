@@ -14,6 +14,8 @@ import {
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useLanguage } from "../../hooks/useLanguage";
+import SidebarHeader from "../Sidebar/SidebarHeader";
+import SidebarNav from "../Sidebar/SidebarNav";
 
 // analytics: "Analytics";
 // categories: "Categories Management";
@@ -22,6 +24,62 @@ import { useLanguage } from "../../hooks/useLanguage";
 // orders: "Orders";
 // settings: "Settings";
 
+// const menus = {
+//   admin: [
+//     {
+//       key: "dashboard",
+//       path: "/",
+//       icon: <LayoutDashboard />,
+//     },
+//     {
+//       key: "point_of_sale",
+//       path: "/point-of-sale",
+//       icon: <UtensilsCrossed />,
+//     },
+//     {
+//       key: "categories",
+//       path: "/menu-categories",
+//       icon: <ChefHat />,
+//     },
+//     {
+//       key: "menu",
+//       path: "/menu-items",
+//       icon: <ChefHat />,
+//     },
+//     {
+//       key: "extras_groups",
+//       path: "/extras-groups",
+//       icon: <ChefHat />,
+//     },
+//     {
+//       key: "extras",
+//       path: "/extras",
+//       icon: <ChefHat />,
+//     },
+//     {
+//       key: "sizes",
+//       path: "/sizes",
+//       icon: <PencilRuler />,
+//     },
+//     {
+//       key: "orders",
+//       path: "/orders",
+//       icon: <Package />,
+//     },
+
+//     {
+//       key: "analytics",
+//       path: "/analytics",
+//       icon: <ChartColumn />,
+//     },
+//     {
+//       key: "settings",
+//       path: "/settings",
+//       icon: <Package />,
+//     },
+//   ],
+// };
+
 const menus = {
   admin: [
     {
@@ -29,36 +87,61 @@ const menus = {
       path: "/",
       icon: <LayoutDashboard />,
     },
+
     {
-      key: "point_of_sale",
-      path: "/point-of-sale",
-      icon: <UtensilsCrossed />,
-    },
-    {
-      key: "categories",
-      path: "/menu-categories",
+      key: "menu_management",
       icon: <ChefHat />,
+      children: [
+        {
+          key: "categories",
+          path: "/menu-categories",
+          icon: <ChefHat />,
+        },
+        {
+          key: "menu_items",
+          path: "/menu-items",
+          icon: <ChefHat />,
+        },
+        {
+          key: "extras_groups",
+          path: "/extras-groups",
+          icon: <ChefHat />,
+        },
+        {
+          key: "extras",
+          path: "/extras",
+          icon: <ChefHat />,
+        },
+        {
+          key: "sizes",
+          path: "/sizes",
+          icon: <PencilRuler />,
+        },
+      ],
     },
+
     {
-      key: "menu",
-      path: "/menu-items",
-      icon: <ChefHat />,
+      key: "inventory_management",
+      icon: <Package />,
+      children: [
+        {
+          key: "ingredients",
+          path: "/ingredients",
+          icon: <Package />,
+        },
+        {
+          key: "inventory_transactions",
+          path: "/inventory-transactions",
+          icon: <Package />,
+        },
+        {
+          key: "inventory_batches",
+          path: "/inventory-batches",
+          icon: <Package />,
+        },
+      ],
     },
-    {
-      key: "extras_groups",
-      path: "/extras-groups",
-      icon: <ChefHat />,
-    },
-    {
-      key: "extras",
-      path: "/extras",
-      icon: <ChefHat />,
-    },
-    {
-      key: "sizes",
-      path: "/sizes",
-      icon: <PencilRuler />,
-    },
+
     {
       key: "orders",
       path: "/orders",
@@ -69,11 +152,6 @@ const menus = {
       key: "analytics",
       path: "/analytics",
       icon: <ChartColumn />,
-    },
-    {
-      key: "settings",
-      path: "/settings",
-      icon: <Package />,
     },
   ],
 };
@@ -136,49 +214,12 @@ const Sidebar = () => {
         min-h-screen flex flex-col  ${sidebarOpen ? "w-64" : "w-20"} `}
     >
       {/* Top */}
-      <div className="flex items-center justify-between gap-1 p-4 border-b dark:border-b-slate-600 h-16">
-        {sidebarOpen && (
-          <div className="flex items-center space-x-2">
-            <ChefHat className="h-8 w-8 text-orange-600" />
-            <h3 className="text-xl font-bold">TasteHub</h3>
-          </div>
-        )}
-        {!sidebarOpen && (
-          <ChefHat className="h-8 w-8 text-orange-600 mx-auto" />
-        )}
-        <button onClick={() => setSidebarOpen(!sidebarOpen)}>
-          <MenuIcon className="h-5 w-5" />
-        </button>
-      </div>
+      <SidebarHeader
+        sidebarOpen={sidebarOpen}
+        toggle={() => setSidebarOpen(!sidebarOpen)}
+      />
       {/* Links */}
-      <nav className="mt-6 px-2 flex-1">
-        <ul>
-          {links.map((link) => (
-            <li key={link.key}>
-              <NavLink
-                onClick={() => setSidebarOpen(false)}
-                to={link.path}
-                className={({ isActive }) =>
-                  `flex items-center w-full p-3 rounded-lg mb-2 
-                transition-colors 
-                transition-all duration-300 
-                hover:bg-orange-100 dark:hover:text-gray-950
-                ${isActive ? "bg-orange-100 text-orange-700" : ""}`
-                }
-              >
-                <span className="icon">{link.icon}</span>
-                {sidebarOpen && (
-                  <span
-                    className={`${language == "en" ? "ml-3" : "mr-3"} font-medium`}
-                  >
-                    {translations.sidebar[link.key]}
-                  </span>
-                )}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <SidebarNav sidebarOpen={sidebarOpen} links={links} />
       {/* Bottom */}
       <div className="bg-green-300">{/* Bottom */}</div>
     </aside>

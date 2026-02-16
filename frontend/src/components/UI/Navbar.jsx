@@ -11,12 +11,18 @@ const Navbar = () => {
   // Map paths to translation keys
   const pageMap = {
     "/dashboard": "dashboard",
-    "/point-of-sale": "point_of_sale",
-    "/menu-items": "menu",
+
+    "/menu-items": "menu_items",
     "/menu-categories": "categories",
     "/extras-groups": "extras_groups",
     "/extras": "extras",
     "/sizes": "sizes",
+
+    "/ingredients": "ingredients",
+    "/inventory-transactions": "inventory_transactions",
+    "/inventory-batches": "inventory_batches",
+
+    "/point-of-sale": "point_of_sale",
     "/orders": "orders",
     "/analytics": "analytics",
     "/settings": "settings",
@@ -50,14 +56,12 @@ const Navbar = () => {
             <Sun className="h-6 w-6 text-gray-600 hover:text-gray-700 transition-all duration-300" />
           )}
         </button>
-        <button className="relative transition-all duration-300 hover:bg-slate-300 rounded p-1">
+        {/* <button className="relative transition-all duration-300 hover:bg-slate-300 rounded p-1">
           <ShoppingCart className="h-6 w-6 text-gray-600 hover:text-gray-700" />
-          {/* {cart.length > 0 && ( */}
           <span className="absolute -top-3 -right-3 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
             {10}
           </span>
-          {/* )} */}
-        </button>
+        </button> */}
       </div>
     </header>
   );

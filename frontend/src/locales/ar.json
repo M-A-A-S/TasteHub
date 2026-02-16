@@ -1,15 +1,23 @@
 {
   "sidebar": {
     "dashboard": "لوحة التحكم",
-    "point_of_sale": "نقطة البيع",
-    "categories": "إدارة الأصناف",
+
+    "menu_management": "إدارة القائمة",
+    "categories": "التصنيفات",
+    "menu_items": "عناصر القائمة",
     "extras_groups": "مجموعات الإضافات",
     "extras": "الإضافات",
-    "menu": "إدارة القائمة",
+    "sizes": "الأحجام",
+
+    "inventory_management": "إدارة المخزون",
+    "ingredients": "المكونات",
+    "inventory_transactions": "حركات المخزون",
+    "inventory_batches": "دفعات المخزون",
+
     "orders": "الطلبات",
-    "analytics": "الإحصائيات",
+    "analytics": "التحليلات",
     "settings": "الإعدادات",
-    "sizes": "الأحجام"
+    "point_of_sale": "نقطة البيع"
   },
   "common": {
     "save": "حفظ",
