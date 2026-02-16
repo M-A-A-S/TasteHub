@@ -10,6 +10,7 @@
     "sizes": "الأحجام",
 
     "inventory_management": "إدارة المخزون",
+    "suppliers": "الموردين",
     "ingredients": "المكونات",
     "inventory_transactions": "حركات المخزون",
     "inventory_batches": "دفعات المخزون",
@@ -340,6 +341,54 @@
       "title": "نظرة عامة على المتجر",
       "description": "مرحبًا بعودتك، المسؤول. هذا ما يحدث اليوم.",
       "orders": "طلبات"
+    },
+    "ingredients_page": {
+      "title": "المكونات",
+      "description": "إدارة المكونات والموردين وحدود المخزون.",
+      "add_new_ingredient": "إضافة مكون جديد",
+      "edit_ingredient": "تعديل المكون",
+
+      "ingredient_add_success": "تمت إضافة المكون بنجاح!",
+      "ingredient_add_fail": "فشل في إضافة المكون.",
+      "ingredient_update_success": "تم تحديث المكون بنجاح!",
+      "ingredient_update_fail": "فشل في تحديث المكون.",
+      "ingredient_delete_success": "تم حذف المكون بنجاح!",
+      "ingredient_delete_fail": "فشل في حذف المكون.",
+
+      "ingredient_delete_modal_title": "حذف المكون",
+      "ingredient_delete_modal_message": "هل أنت متأكد أنك تريد حذف هذا المكون؟",
+      "ingredient_delete_modal_confirm": "حذف",
+
+      "table_headers": {
+        "name": "الاسم",
+        "unit": "الوحدة",
+        "low_stock_threshold": "حد المخزون الأدنى",
+        "supplier": "المورد",
+        "actions": "الإجراءات"
+      },
+
+      "form": {
+        "ingredient_name_en_label": "اسم المكون (إنجليزي)",
+        "ingredient_name_en_placeholder": "أدخل اسم المكون باللغة الإنجليزية",
+        "ingredient_name_en_error": "اسم المكون باللغة الإنجليزية مطلوب",
+
+        "ingredient_name_ar_label": "اسم المكون (عربي)",
+        "ingredient_name_ar_placeholder": "أدخل اسم المكون باللغة العربية",
+        "ingredient_name_ar_error": "اسم المكون باللغة العربية مطلوب",
+
+        "unit_label": "الوحدة",
+        "unit_placeholder": "اختر الوحدة",
+        "unit_error": "الوحدة مطلوبة",
+
+        "low_stock_threshold_label": "حد المخزون الأدنى",
+        "low_stock_threshold_placeholder": "أدخل الحد الأدنى للكمية",
+        "low_stock_threshold_error": "حد المخزون الأدنى مطلوب",
+        "low_stock_threshold_invalid_error": "يجب أن يكون حد المخزون الأدنى أكبر من 0",
+
+        "supplier_label": "المورد",
+        "supplier_placeholder": "اختر المورد",
+        "supplier_optional": "المورد اختياري"
+      }
     }
   },
   "server_codes": {},
@@ -352,5 +401,12 @@
     "general_error": "حدث خطأ ما. يرجى تصحيح الأخطاء.",
     "passwords_do_not_match": "كلمات المرور غير متطابقة",
     "default_message": "يرجى إدخال بيانات صالحة"
+  },
+  "ingredient_units": {
+    "kilogram": "كيلوجرام",
+    "gram": "جرام",
+    "liter": "لتر",
+    "milliliter": "ملليلتر",
+    "piece": "قطعة"
   }
 }

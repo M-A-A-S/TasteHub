@@ -11,6 +11,7 @@ import ToastContainer from "./components/UI/ToastContainer";
 import PointOfSalePage from "./pages/PointOfSalePage";
 import SizePage from "./pages/SizePage";
 import OrdersPage from "./pages/OrdersPage";
+import IngredientsPage from "./pages/IngredientsPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/extras" element={<ExtrasPage />} />
             <Route path="/sizes" element={<SizePage />} />
             <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/ingredients" element={<IngredientsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

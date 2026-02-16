@@ -5,8 +5,6 @@ import { Loader2 } from "lucide-react";
 import Modal from "./Modal";
 
 const AddEditModal = ({ show, onClose, onSave, title, loading, children }) => {
-  console.log(loading);
-  console.log(show);
   const { translations } = useLanguage();
   const { cancel, save } = translations.common;
 

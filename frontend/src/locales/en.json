@@ -10,6 +10,7 @@
     "sizes": "Sizes",
 
     "inventory_management": "Inventory Management",
+    "suppliers": "Suppliers",
     "ingredients": "Ingredients",
     "inventory_transactions": "Inventory Transactions",
     "inventory_batches": "Inventory Batches",
@@ -337,6 +338,54 @@
       "title": "Store Overview",
       "description": "Welcome back, Admin. Here's what's happening today.",
       "orders": "Orders"
+    },
+    "ingredients_page": {
+      "title": "Ingredients",
+      "description": "Manage ingredients, suppliers, and stock thresholds.",
+      "add_new_ingredient": "Add New Ingredient",
+      "edit_ingredient": "Edit Ingredient",
+
+      "ingredient_add_success": "Ingredient added successfully!",
+      "ingredient_add_fail": "Failed to add ingredient.",
+      "ingredient_update_success": "Ingredient updated successfully!",
+      "ingredient_update_fail": "Failed to update ingredient.",
+      "ingredient_delete_success": "Ingredient deleted successfully!",
+      "ingredient_delete_fail": "Failed to delete ingredient.",
+
+      "ingredient_delete_modal_title": "Delete Ingredient",
+      "ingredient_delete_modal_message": "Are you sure you want to delete this ingredient?",
+      "ingredient_delete_modal_confirm": "Delete",
+
+      "table_headers": {
+        "name": "Name",
+        "unit": "Unit",
+        "low_stock_threshold": "Low Stock Threshold",
+        "supplier": "Supplier",
+        "actions": "Actions"
+      },
+
+      "form": {
+        "ingredient_name_en_label": "Ingredient Name (EN)",
+        "ingredient_name_en_placeholder": "Enter ingredient name in English",
+        "ingredient_name_en_error": "Ingredient name in English is required",
+
+        "ingredient_name_ar_label": "Ingredient Name (AR)",
+        "ingredient_name_ar_placeholder": "Enter ingredient name in Arabic",
+        "ingredient_name_ar_error": "Ingredient name in Arabic is required",
+
+        "unit_label": "Unit",
+        "unit_placeholder": "Select unit",
+        "unit_error": "Unit is required",
+
+        "low_stock_threshold_label": "Low Stock Threshold",
+        "low_stock_threshold_placeholder": "Enter minimum stock quantity",
+        "low_stock_threshold_error": "Low stock threshold is required",
+        "low_stock_threshold_invalid_error": "Low stock threshold must be greater than 0",
+
+        "supplier_label": "Supplier",
+        "supplier_placeholder": "Select supplier",
+        "supplier_optional": "Supplier is optional"
+      }
     }
   },
   "server_codes": {},
@@ -348,5 +397,12 @@
     "invalid_date": "Please enter a valid date",
     "passwords_do_not_match": "Passwords do not match",
     "default_message": "Please enter valid data"
+  },
+  "ingredient_units": {
+    "kilogram": "Kilogram",
+    "gram": "Gram",
+    "liter": "Liter",
+    "milliliter": "Milliliter",
+    "piece": "Piece"
   }
 }

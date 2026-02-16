@@ -10,6 +10,7 @@ import {
   UtensilsCrossed,
   X,
   PencilRuler,
+  Truck,
 } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -124,6 +125,11 @@ const menus = {
       key: "inventory_management",
       icon: <Package />,
       children: [
+        {
+          key: "suppliers",
+          path: "/suppliers",
+          icon: <Truck />,
+        },
         {
           key: "ingredients",
           path: "/ingredients",

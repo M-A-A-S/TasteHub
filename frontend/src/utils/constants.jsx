@@ -4,3 +4,11 @@ export const SORTING_TERMS = {
   PRICE_ASC: 3,
   PRICE_DESC: 4,
 };
+
+export const IngredientUnits = [
+  { value: 0, key: "kilogram" },
+  { value: 1, key: "gram" },
+  { value: 2, key: "liter" },
+  { value: 3, key: "milliliter" },
+  { value: 4, key: "piece" },
+];

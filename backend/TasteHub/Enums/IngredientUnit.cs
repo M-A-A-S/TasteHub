@@ -2,7 +2,10 @@
 {
     public enum IngredientUnit : byte
     {
-        Kg,
-        Liter
+        Kilogram,
+        Gram,
+        Liter,
+        Milliliter,
+        Piece
     }
 }

@@ -19,6 +19,7 @@ const Navbar = () => {
     "/sizes": "sizes",
 
     "/ingredients": "ingredients",
+    "/suppliers": "suppliers",
     "/inventory-transactions": "inventory_transactions",
     "/inventory-batches": "inventory_batches",
 
