@@ -11,6 +11,8 @@ import TableView from "../components/SuppliersPage/TableView";
 import AddEditSupplierModal from "../components/SuppliersPage/AddEditSupplierModal";
 import ConfirmModal from "../components/UI/ConfirmModal";
 import { ViewSwitcher } from "../components/UI/ViewSwitcher";
+import GenderSelect from "../components/GenderSelect";
+import { Genders } from "../utils/constants";
 
 const SuppliersPage = () => {
   const [view, setView] = useState("card"); // 'table' or 'card'
@@ -152,6 +154,16 @@ const SuppliersPage = () => {
     }
   }
 
+  const getFullName = (person) =>
+    `${person.firstName || ""} ${person.lastName || ""}`;
+
+  const getGenderName = (genderValue) => {
+    const gender = Genders?.find((g) => g.value === genderValue);
+    return gender
+      ? translations.genders[gender.key]
+      : translations.genders.unknown;
+  };
+
   return (
     <div>
       <PageHeader
@@ -184,6 +196,8 @@ const SuppliersPage = () => {
               suppliers={suppliers}
               handleEditSupplier={handleEditSupplier}
               handleDeleteSupplier={handleDeleteSupplier}
+              getFullName={getFullName}
+              getGenderName={getGenderName}
             />
           )}
           {view == "table" && (
@@ -191,6 +205,8 @@ const SuppliersPage = () => {
               suppliers={suppliers}
               handleEditSupplier={handleEditSupplier}
               handleDeleteSupplier={handleDeleteSupplier}
+              getFullName={getFullName}
+              getGenderName={getGenderName}
             />
           )}
         </>

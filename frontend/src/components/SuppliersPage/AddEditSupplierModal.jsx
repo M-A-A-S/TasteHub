@@ -77,7 +77,7 @@ const AddEditSupplierModal = ({
           firstName: supplier.person.firstName || "",
           lastName: supplier.person.lastName || "",
           phone: supplier.person.phone || "",
-          gender: supplier.person.gender || "",
+          gender: supplier.person.gender !== "" ? supplier.person.gender : "",
           dateOfBirth: supplier.person.dateOfBirth || "",
           imageUrl: supplier.person.imageUrl || "",
           imageFile: null,
@@ -109,7 +109,7 @@ const AddEditSupplierModal = ({
       temp.phone = phone_error;
     }
 
-    if (!formData.person.gender) {
+    if (formData.person.gender === "") {
       temp.gender = gender_error;
     }
 
