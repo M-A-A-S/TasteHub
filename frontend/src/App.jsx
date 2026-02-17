@@ -12,6 +12,7 @@ import PointOfSalePage from "./pages/PointOfSalePage";
 import SizePage from "./pages/SizePage";
 import OrdersPage from "./pages/OrdersPage";
 import IngredientsPage from "./pages/IngredientsPage";
+import SuppliersPage from "./pages/SuppliersPage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/sizes" element={<SizePage />} />
             <Route path="/orders" element={<OrdersPage />} />
             <Route path="/ingredients" element={<IngredientsPage />} />
+            <Route path="/suppliers" element={<SuppliersPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

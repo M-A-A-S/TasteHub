@@ -12,3 +12,10 @@ export const IngredientUnits = [
   { value: 3, key: "milliliter" },
   { value: 4, key: "piece" },
 ];
+
+export const Genders = [
+  { value: 0, key: "unknown" },
+  { value: 1, key: "male" },
+  { value: 2, key: "female" },
+  { value: 3, key: "other" },
+];
