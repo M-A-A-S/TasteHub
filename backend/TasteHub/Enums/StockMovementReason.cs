@@ -4,6 +4,9 @@
     {
         Sale,
         Purchase,
-        Adjustment
+        Adjustment,
+        Waste,
+        Usage,
+        Return
     }
 }

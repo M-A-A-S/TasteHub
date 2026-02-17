@@ -28,6 +28,7 @@ namespace TasteHub.Utilities.Extensions
                 SupplierId = entity.SupplierId,
                 CreatedAt = entity.CreatedAt,
                 UpdatedAt = entity.UpdatedAt,
+                CurrentStock = entity.CurrentStock,
             };
         }
 

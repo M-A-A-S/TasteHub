@@ -44,7 +44,7 @@ namespace TasteHub.Business.Services
         public async Task<Result<IEnumerable<IngredientDTO>>> GetAllAsync()
         {
 
-            var ingredients = await _repo.GetAllAsync();
+            var ingredients = await _repo.GetAllAsync(includes: i => i.IngredientBatches);
 
             if (!ingredients.IsSuccess || ingredients.Data == null)
             {
@@ -56,7 +56,7 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<IngredientDTO>> GetByIdAsync(int id)
         {
-            var findResult = await _repo.FindByAsync(i => i.Id, id);
+            var findResult = await _repo.FindByAsync(i => i.Id, id, item => item.IngredientBatches);
             if (!findResult.IsSuccess || findResult.Data == null)
             {
                 return Result<IngredientDTO>.Failure();

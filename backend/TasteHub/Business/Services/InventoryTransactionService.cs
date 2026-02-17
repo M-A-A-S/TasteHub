@@ -1,22 +1,30 @@
 ﻿using TasteHub.Business.Interfaces;
+using TasteHub.DataAccess;
 using TasteHub.DataAccess.Interfaces;
+using TasteHub.DTOs;
 using TasteHub.DTOs.IngredientBatch;
 using TasteHub.DTOs.InventoryTransaction;
 using TasteHub.Entities;
+using TasteHub.Enums;
 using TasteHub.Utilities;
 using TasteHub.Utilities.Extensions;
+using TasteHub.Utilities.ResultCodes;
+using static Azure.Core.HttpHeader;
 
 namespace TasteHub.Business.Services
 {
     public class InventoryTransactionService : IInventoryTransactionService
     {
         private readonly IInventoryTransactionRepository _repo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public InventoryTransactionService(IInventoryTransactionRepository repo)
+        public InventoryTransactionService(IInventoryTransactionRepository repo, IUnitOfWork unitOfWork)
         {
             _repo = repo;
+            _unitOfWork = unitOfWork;
         }
 
+        #region CRUD
         public async Task<Result<InventoryTransactionDTO>> AddAsync(InventoryTransactionDTO DTO)
         {
             var addResult = await _repo.AddAsync(DTO.ToEntity());
@@ -84,5 +92,128 @@ namespace TasteHub.Business.Services
         {
             return await _repo.FindByAsync(item => item.Id, id);
         }
+        #endregion
+
+        #region Inventory Logic
+        // Deduct stock (Usage, Sale, Waste)
+        public async Task<Result<bool>> DeductIngredientsAsync(
+            IEnumerable<IngredientDeduction> deductions,
+            int userId,
+            StockMovementReason reason = StockMovementReason.Sale,
+            bool commit = false
+            )
+        {
+            if (!deductions.Any())
+            {
+                return Result<bool>.Success(true);
+            }
+
+            var ingredientIds = deductions.Select(d => d.IngredientId).Distinct().ToList();
+            var ingredientBatchesResult = await _unitOfWork.IngredientBatches.GetAvailableBatchesAsync(ingredientIds);
+            if (!ingredientBatchesResult.IsSuccess || ingredientBatchesResult.Data == null)
+            {
+                return Result<bool>.Failure(ResultCodes.InsufficientStock);
+            }
+
+            var batchesByIngredient = ingredientBatchesResult.Data
+                .GroupBy(item => item.IngredientId)
+                .ToDictionary(g => g.Key, g => g.OrderBy(item => item.CreatedAt).ToList());
+
+            foreach (var deduction in deductions)
+            {
+                if (!batchesByIngredient.TryGetValue(deduction.IngredientId, out var ingredientBatches))
+                {
+                    return Result<bool>.Failure(ResultCodes.InsufficientStock);
+                }
+
+                decimal remainingToTake = deduction.Quantity;
+
+                foreach (var batch in ingredientBatches)
+                {
+                    if (remainingToTake <= 0)
+                    {
+                        break;
+                    }
+
+                    var take = Math.Min(batch.RemainingQuantity, remainingToTake);
+                    batch.RemainingQuantity -= take;
+
+                    await _unitOfWork.IngredientBatches.UpdateAsync(batch);
+
+                    await _unitOfWork.InventoryTransactions.AddAsync(
+                        new InventoryTransaction
+                        {
+                            Id = default,
+                            IngredientBatchId = batch.Id,
+                            Quantity = take,
+                            StockMovementType = StockMovementType.Out,
+                            StockMovementReason = reason,
+                            UserId = userId
+                        });
+
+                    remainingToTake -= take;
+                }
+
+                if (remainingToTake > 0)
+                {
+                    return Result<bool>.Failure(ResultCodes.InsufficientStock);
+                }
+            }
+
+            if (commit)
+            {
+                await _unitOfWork.SaveChangesAsync();
+            }
+            return Result<bool>.Success(true);
+        }
+
+
+        //Add stock(Purchase, Return, Adjustment)
+        public async Task<Result<bool>> AddIngredientsAsync(
+            IEnumerable<IngredientAddition> additions, 
+            int userId, 
+            StockMovementReason reason = StockMovementReason.Purchase,
+            bool commit = false
+        )
+        {
+            if (!additions.Any())
+            {
+                return Result<bool>.Success(true);
+            }
+
+            foreach (var addition in additions)
+            {
+                var batch = new IngredientBatch
+                {
+                    IngredientId = addition.IngredientId,
+                    Quantity = addition.Quantity,
+                    RemainingQuantity = addition.Quantity,
+                    CostPerUnit = addition.CostPerUnit,
+                    ExpiryDate = addition.ExpiryDate,   
+                    BatchNumber = addition.BatchNumber,
+                    CreatedAt = DateTime.UtcNow,
+                };
+
+                var addBatchResult = await _unitOfWork.IngredientBatches.AddAsync(batch);
+
+                await _unitOfWork.InventoryTransactions.AddAsync(new InventoryTransaction
+                {
+                    IngredientBatch = batch,
+                    Quantity = addition.Quantity,
+                    StockMovementType = StockMovementType.In,
+                    StockMovementReason = reason,
+                    UserId = userId,
+                    InventoryTransactionDate = DateTime.UtcNow  
+                });
+            }
+
+            if (commit)
+            {
+                await _unitOfWork.SaveChangesAsync();
+            }
+            return Result<bool>.Success(true);  
+        }
+        #endregion
+
     }
 }

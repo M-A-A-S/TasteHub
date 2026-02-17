@@ -33,5 +33,9 @@ namespace TasteHub.Entities
         public Supplier? Supplier { get; set; }
         public ICollection<MenuItemIngredient>? MenuItemIngredients { get; set; }
         public ICollection<IngredientBatch>? IngredientBatches { get; set; }
+
+        [NotMapped]
+        public decimal CurrentStock => IngredientBatches?.Sum(b => b.RemainingQuantity) ?? 0;
+
     }
 }

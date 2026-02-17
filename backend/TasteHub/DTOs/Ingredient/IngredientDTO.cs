@@ -22,5 +22,7 @@ namespace TasteHub.DTOs.Ingredient
         public ICollection<MenuItemIngredientDTO>? MenuItemIngredients { get; set; }
         public ICollection<IngredientBatchDTO>? IngredientBatches { get; set; }
 
+        public decimal CurrentStock { get; set; }
+
     }
 }

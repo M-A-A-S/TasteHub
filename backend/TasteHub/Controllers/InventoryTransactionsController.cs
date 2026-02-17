@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Business.Interfaces;
+using TasteHub.DTOs;
 using TasteHub.DTOs.InventoryTransaction;
 using TasteHub.DTOs.MenuItemExtra;
+using TasteHub.Enums;
+using TasteHub.Utilities;
 
 namespace TasteHub.Controllers
 {
@@ -45,5 +48,49 @@ namespace TasteHub.Controllers
         {
             return FromResult(await _service.DeleteAsync(id));
         }
+
+        [HttpPost("add")]
+        public async Task<IActionResult> AddStock([FromBody] IEnumerable<IngredientAddition> additions)
+        {
+            if (additions == null || !additions.Any())
+            {
+                return FromResult(Result<bool>.Failure());
+            }
+
+            var userId = 1; // TODO: get from logged in user
+
+            var result = await _service.AddIngredientsAsync(additions.Select(a => new IngredientAddition
+            {
+                IngredientId = a.IngredientId,
+                Quantity = a.Quantity,
+                CostPerUnit = a.CostPerUnit,
+                ExpiryDate = a.ExpiryDate,
+                BatchNumber = a.BatchNumber
+            }),
+            userId, StockMovementReason.Purchase, true);
+
+            return FromResult(result);
+        }
+
+        [HttpPost("deduct")]
+        public async Task<IActionResult> DeductStock([FromBody] IEnumerable<IngredientDeduction> deductions)
+        {
+            if (deductions == null || !deductions.Any())
+            {
+                return FromResult(Result<bool>.Failure());
+            }
+
+            var userId = 1; // TODO: get from logged in user
+
+            var result = await _service.DeductIngredientsAsync(deductions.Select(d => new IngredientDeduction
+            {
+                IngredientId = d.IngredientId,
+                Quantity = d.Quantity
+            }), userId, StockMovementReason.Sale, true);
+
+            return FromResult(result);
+        }
+
+
     }
 }

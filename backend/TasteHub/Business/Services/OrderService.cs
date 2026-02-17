@@ -20,19 +20,20 @@ namespace TasteHub.Business.Services
     public class OrderService : IOrderService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IInventoryService _inventoryService;
+        private readonly IInventoryTransactionService _inventoryTransactionService;
 
         public OrderService(
             IUnitOfWork unitOfWork,
-            IInventoryService inventoryService
+            IInventoryTransactionService inventoryTransactionService
             )
         {
             _unitOfWork = unitOfWork;
-            _inventoryService = inventoryService;
+            _inventoryTransactionService = inventoryTransactionService;
         }
 
+        #region Get
         public async Task<Result<PagedResult<OrderDTO>>> GetFilteredAsync(
-    OrderFiltersDTO filters)
+OrderFiltersDTO filters)
         {
             var getOrdersResult = await _unitOfWork.Orders.GetOrdersWithDetailsAsync(filters);
 
@@ -60,7 +61,7 @@ namespace TasteHub.Business.Services
                 return dto;
 
             }).ToList() ?? new List<OrderDTO>();
-            
+
             var pagedResult = new PagedResult<OrderDTO>()
             {
                 Items = items,
@@ -72,6 +73,9 @@ namespace TasteHub.Business.Services
             return Result<PagedResult<OrderDTO>>.Success(pagedResult);
         }
 
+        #endregion
+
+        #region Create Order
         public async Task<Result<OrderDTO>> CreateOrderAsync(CreateOrderRequest request)
         {
 
@@ -81,7 +85,7 @@ namespace TasteHub.Business.Services
             }
 
             // Prepare OrderItems
-            var orderItemsResult = await PrepareOrderItemsAsync(request.Items); 
+            var orderItemsResult = await PrepareOrderItemsAsync(request.Items);
 
             if (!orderItemsResult.IsSuccess || orderItemsResult.Data == null || !orderItemsResult.Data.Any())
             {
@@ -94,15 +98,14 @@ namespace TasteHub.Business.Services
             var order = new Order
             {
                 TableId = request.TableId,
-                UserId = 1, // TODO: get it form logged in user
+                UserId = request.UserId ?? default,
                 OrderStatus = OrderStatus.Pending,
-                OrderType = OrderType.DineIn, // TODO: get it from frontend
-                OrderItems = orderItems
+                OrderType = request.OrderType ?? OrderType.DineIn, 
+                OrderItems = orderItems,
+                SubtotalAmount = orderItems.Sum(item => item.LineTotal),
+                DiscountAmount = 0,
+                TaxAmount = 0
             };
-
-            order.SubtotalAmount = orderItems.Sum(item => item.LineTotal);
-            order.DiscountAmount = 0;
-            order.TaxAmount = 0;
             order.GrandTotal = order.SubtotalAmount + order.TaxAmount;
 
             // Deduct inventory
@@ -119,12 +122,21 @@ namespace TasteHub.Business.Services
                 });
             }).ToList();
 
-            var deductionResult = await _inventoryService.DeductIngredientsAsync(ingredientDeductions, order.UserId);
-            if (!deductionResult.IsSuccess)
+            if (ingredientDeductions.Any())
             {
-                return Result<OrderDTO>.Failure(deductionResult.Code);
+                var deductionResult = await _inventoryTransactionService.DeductIngredientsAsync(
+                    ingredientDeductions, 
+                    order.UserId,
+                    StockMovementReason.Sale
+                );
+                if (!deductionResult.IsSuccess)
+                {
+                    return Result<OrderDTO>.Failure(deductionResult.Code);
+                }
             }
 
+
+            // Save Order
             var createOrderResult = await _unitOfWork.Orders.AddAsync(order);
             if (!createOrderResult.IsSuccess)
             {
@@ -132,6 +144,8 @@ namespace TasteHub.Business.Services
             }
 
             await _unitOfWork.SaveChangesAsync();
+
+            // Get order details 
 
             var fullOrderResult = await _unitOfWork.Orders.GetOrderWithDetailsAsync(createOrderResult.Data.Id);
 
@@ -141,6 +155,8 @@ namespace TasteHub.Business.Services
             }
 
             var dto = fullOrderResult.Data.ToDTO();
+
+            // Fix image URLs
 
             foreach (var item in dto?.OrderItems ?? new List<OrderItemDTO>())
             {
@@ -157,7 +173,10 @@ namespace TasteHub.Business.Services
 
             return Result<OrderDTO>.Success(dto);
         }
-    
+        #endregion
+
+
+        #region Helpers
         private async Task<Result<IEnumerable<OrderItem>>> PrepareOrderItemsAsync(IEnumerable<CreateOrderItemRequest> items)
         {
             var menuItemSizeIds = items
@@ -200,7 +219,7 @@ namespace TasteHub.Business.Services
                 if (orderItemResult.IsSuccess)
                 {
                     orderItems.Add(orderItemResult.Data);
-                }              
+                }
             }
             return Result<IEnumerable<OrderItem>>.Success(orderItems);
         }
@@ -217,7 +236,7 @@ namespace TasteHub.Business.Services
             int? menuItemId = null;
 
 
-            if (item.MenuItemSizeId > 0 && 
+            if (item.MenuItemSizeId > 0 &&
                 menuItemSizes.TryGetValue(item.MenuItemSizeId, out var menuItemSize))
             {
                 unitPrice = menuItemSize.Price;
@@ -272,12 +291,14 @@ namespace TasteHub.Business.Services
 
             return Result<OrderItem>.Success(orderItem);
         }
-    
+
 
         private decimal CalculateLineTotal(decimal unitPrice, decimal extrasTotal, int quantity)
         {
             return (unitPrice + extrasTotal) * quantity;
         }
+        #endregion
+
 
     }
 }

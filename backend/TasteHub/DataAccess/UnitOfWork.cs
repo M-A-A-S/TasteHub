@@ -34,6 +34,7 @@ namespace TasteHub.DataAccess
             MenuItemSizes = menuItemSizes;
             MenuItemExtras = menuItemExtras;
             Extras = extras;
+            _logger = logger;
         }
 
         public async Task<int> SaveChangesAsync()
