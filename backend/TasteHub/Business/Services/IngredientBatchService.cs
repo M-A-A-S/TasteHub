@@ -41,7 +41,7 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<IEnumerable<IngredientBatchDTO>>> GetAllAsync()
         {
-            var ingredientBatches = await _repo.GetAllAsync();
+            var ingredientBatches = await _repo.GetAllAsync(includes: x => x.Ingredient);
 
             if (!ingredientBatches.IsSuccess || ingredientBatches.Data == null)
             {

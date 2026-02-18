@@ -26,6 +26,12 @@ namespace TasteHub.Utilities.Extensions
                 BatchNumber = entity.BatchNumber,
                 CreatedAt = entity.CreatedAt,
                 UpdatedAt = entity.UpdatedAt,
+                Ingredient = new IngredientDTO
+                {
+                    Id = entity.Ingredient.Id,
+                    NameEn = entity.Ingredient.NameEn,
+                    NameAr = entity.Ingredient.NameAr,
+                }
             };
         }
 

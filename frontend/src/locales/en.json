@@ -501,6 +501,20 @@
         "batch_number": "Batch #",
         "remaining_quantity": "Remaining Qty"
       }
+    },
+    "ingredient_batches_page": {
+      "title": "Ingredient Batches",
+      "description": "Manage and track all ingredient purchase batches.",
+      "table_headers": {
+        "ingredient": "Ingredient",
+        "batch_number": "Batch #",
+        "quantity": "Purchased Qty",
+        "remaining_quantity": "Remaining Qty",
+        "cost_per_unit": "Cost / Unit",
+        "expiry_date": "Expiry Date",
+        "created_at": "Created At",
+        "updated_at": "Updated At"
+      }
     }
   },
   "server_codes": {},

@@ -503,6 +503,20 @@
         "batch_number": "رقم الدفعة",
         "remaining_quantity": "الكمية المتبقية"
       }
+    },
+    "ingredient_batches_page": {
+      "title": "دفعات المكونات",
+      "description": "إدارة وتتبع جميع دفعات شراء المكونات.",
+      "table_headers": {
+        "ingredient": "المكوّن",
+        "batch_number": "رقم الدفعة",
+        "quantity": "الكمية المشتراة",
+        "remaining_quantity": "الكمية المتبقية",
+        "cost_per_unit": "سعر الوحدة",
+        "expiry_date": "تاريخ الانتهاء",
+        "created_at": "تاريخ الإنشاء",
+        "updated_at": "تاريخ التحديث"
+      }
     }
   },
   "server_codes": {},
