@@ -359,6 +359,8 @@
       "ingredient_delete_modal_message": "هل أنت متأكد أنك تريد حذف هذا المكون؟",
       "ingredient_delete_modal_confirm": "حذف",
 
+      "current_stock": "المخزون الحالي",
+
       "table_headers": {
         "name": "الاسم",
         "unit": "الوحدة",
@@ -388,6 +390,50 @@
         "supplier_label": "المورد",
         "supplier_placeholder": "اختر المورد",
         "supplier_optional": "المورد اختياري"
+      },
+      "adjust_stock": {
+        "title": "تعديل المخزون",
+        "description": "تعديل مستوى مخزون المكون",
+
+        "success": "تم تعديل المخزون بنجاح!",
+        "fail": "فشل تعديل المخزون.",
+
+        "form": {
+          "reason_label": "السبب",
+          "reason_placeholder": "اختر السبب",
+          "reason_error": "السبب مطلوب",
+
+          "quantity_label": "الكمية",
+          "quantity_placeholder": "أدخل الكمية",
+          "quantity_error": "الكمية مطلوبة",
+          "quantity_invalid_error": "يجب أن تكون الكمية أكبر من 0",
+
+          "cost_per_unit_label": "التكلفة لكل وحدة",
+          "cost_per_unit_placeholder": "أدخل التكلفة لكل وحدة",
+          "cost_per_unit_optional": "اختياري",
+
+          "expiry_date_label": "تاريخ الانتهاء",
+          "expiry_date_placeholder": "اختر تاريخ الانتهاء",
+          "expiry_date_optional": "اختياري",
+
+          "batch_number_label": "رقم الدفعة",
+          "batch_number_placeholder": "أدخل رقم الدفعة",
+          "batch_number_optional": "اختياري",
+
+          "note_label": "ملاحظة",
+          "note_placeholder": "أدخل ملاحظة التعديل",
+          "note_optional": "اختياري"
+        },
+
+        "summary": {
+          "current_stock": "المخزون الحالي",
+          "new_stock_estimate": "المخزون المتوقع الجديد"
+        },
+
+        "buttons": {
+          "record": "تسجيل",
+          "cancel": "إلغاء"
+        }
       }
     },
     "suppliers_page": {
@@ -469,5 +515,13 @@
     "male": "ذكر",
     "female": "أنثى",
     "other": "آخر"
+  },
+  "stock_movement_reasons": {
+    "sale": "بيع",
+    "purchase": "شراء",
+    "adjustment": "تعديل",
+    "waste": "هدر",
+    "usage": "استخدام",
+    "return": "مرتجع"
   }
 }

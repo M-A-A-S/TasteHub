@@ -1,7 +1,6 @@
 ﻿using TasteHub.Business.Interfaces;
 using TasteHub.DataAccess;
 using TasteHub.DataAccess.Interfaces;
-using TasteHub.DTOs;
 using TasteHub.DTOs.IngredientBatch;
 using TasteHub.DTOs.InventoryTransaction;
 using TasteHub.Entities;
@@ -97,7 +96,7 @@ namespace TasteHub.Business.Services
         #region Inventory Logic
         // Deduct stock (Usage, Sale, Waste)
         public async Task<Result<bool>> DeductIngredientsAsync(
-            IEnumerable<IngredientDeduction> deductions,
+            IEnumerable<IngredientDeductionDTO> deductions,
             int userId,
             StockMovementReason reason = StockMovementReason.Sale,
             bool commit = false
@@ -170,7 +169,7 @@ namespace TasteHub.Business.Services
 
         //Add stock(Purchase, Return, Adjustment)
         public async Task<Result<bool>> AddIngredientsAsync(
-            IEnumerable<IngredientAddition> additions, 
+            IEnumerable<IngredientAdditionDTO> additions, 
             int userId, 
             StockMovementReason reason = StockMovementReason.Purchase,
             bool commit = false

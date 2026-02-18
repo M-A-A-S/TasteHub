@@ -1,5 +1,6 @@
 import { toast } from "./toastHelper";
 import { translationsFiles } from "../locales/index.js";
+import { ADDITION_REASONS, DEDUCTION_REASONS } from "./constants.jsx";
 
 export const safeCall = (callback) => {
   return (...args) => {
@@ -51,3 +52,7 @@ export function showFail(serverCode = "", frontMessage = "") {
 
   toast.error(message);
 }
+
+export const isAdditionReason = (reason) => ADDITION_REASONS.includes(reason);
+
+export const isDeductionReason = (reason) => DEDUCTION_REASONS.includes(reason);

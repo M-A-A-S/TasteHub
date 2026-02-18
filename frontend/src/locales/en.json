@@ -356,9 +356,12 @@
       "ingredient_delete_modal_message": "Are you sure you want to delete this ingredient?",
       "ingredient_delete_modal_confirm": "Delete",
 
+      "current_stock": "Current Stock",
+
       "table_headers": {
         "name": "Name",
         "unit": "Unit",
+        "current_stock": "Current Stock",
         "low_stock_threshold": "Low Stock Threshold",
         "supplier": "Supplier",
         "actions": "Actions"
@@ -385,6 +388,50 @@
         "supplier_label": "Supplier",
         "supplier_placeholder": "Select supplier",
         "supplier_optional": "Supplier is optional"
+      },
+      "adjust_stock": {
+        "title": "Adjust Stock",
+        "description": "Adjust ingredient stock level",
+
+        "success": "Stock adjusted successfully!",
+        "fail": "Failed to adjust stock.",
+
+        "form": {
+          "reason_label": "Reason",
+          "reason_placeholder": "Select reason",
+          "reason_error": "Reason is required",
+
+          "quantity_label": "Quantity",
+          "quantity_placeholder": "Enter quantity",
+          "quantity_error": "Quantity is required",
+          "quantity_invalid_error": "Quantity must be greater than 0",
+
+          "cost_per_unit_label": "Cost Per Unit",
+          "cost_per_unit_placeholder": "Enter cost per unit",
+          "cost_per_unit_optional": "Optional",
+
+          "expiry_date_label": "Expiry Date",
+          "expiry_date_placeholder": "Select expiry date",
+          "expiry_date_optional": "Optional",
+
+          "batch_number_label": "Batch Number",
+          "batch_number_placeholder": "Enter batch number",
+          "batch_number_optional": "Optional",
+
+          "note_label": "Note",
+          "note_placeholder": "Enter adjustment note",
+          "note_optional": "Optional"
+        },
+
+        "summary": {
+          "current_stock": "Current Stock",
+          "new_stock_estimate": "New Stock Estimate"
+        },
+
+        "buttons": {
+          "record": "Record",
+          "cancel": "Cancel"
+        }
       }
     },
     "suppliers_page": {
@@ -465,5 +512,13 @@
     "male": "Male",
     "female": "Female",
     "other": "Other"
+  },
+  "stock_movement_reasons": {
+    "sale": "Sale",
+    "purchase": "Purchase",
+    "adjustment": "Adjustment",
+    "waste": "Waste",
+    "usage": "Usage",
+    "return": "Return"
   }
 }

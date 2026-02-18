@@ -1,18 +1,20 @@
-import { Layers, Pencil, Trash2 } from "lucide-react";
+import { Layers } from "lucide-react";
 import { useLanguage } from "../../hooks/useLanguage";
-import { safeCall } from "../../utils/utils";
-import { IngredientUnits } from "../../utils/constants";
+import IngredientActions from "./IngredientActions";
 
 const IngredientCard = ({
   ingredient,
   handleEditIngredient,
   handleDeleteIngredient,
   getUnitName,
+  handleAdjustStock,
 }) => {
-  const onEdit = safeCall(handleEditIngredient);
-  const onDelete = safeCall(handleDeleteIngredient);
-
   const { language, translations } = useLanguage();
+
+  const { unit_label, low_stock_threshold_label, supplier_label } =
+    translations.pages.ingredients_page.form;
+
+  const { current_stock } = translations.pages.ingredients_page;
 
   return (
     <div
@@ -30,44 +32,34 @@ const IngredientCard = ({
       {/* Details */}
       <div className="mt-3 text-sm space-y-1">
         <p>
-          <span className="font-medium">
-            {translations.pages.ingredients_page.form.unit_label}:{" "}
-          </span>
+          <span className="font-medium">{unit_label}: </span>
           {getUnitName(ingredient?.unit)}
         </p>
         <p>
-          <span className="font-medium">
-            {translations.pages.ingredients_page.form.low_stock_threshold_label}
-            :{" "}
-          </span>
+          <span className="font-medium">{current_stock}: </span>
+          {ingredient.currentStock}
+        </p>
+        <p>
+          <span className="font-medium">{low_stock_threshold_label}: </span>
           {ingredient.lowStockThreshold}
         </p>
+
         {ingredient.supplier?.name && (
           <p>
-            <span className="font-medium">
-              {translations.pages.ingredients_page.form.supplier_label}:{" "}
-            </span>
+            <span className="font-medium">{supplier_label}: </span>
             {ingredient.supplier.name}
           </p>
         )}
       </div>
 
       {/* Actions */}
-      <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-end gap-3">
-        <button
-          onClick={() => onEdit(ingredient)}
-          className="p-2 rounded-lg text-green-600 hover:bg-green-50 transition"
-        >
-          <Pencil size={18} />
-        </button>
-
-        <button
-          onClick={() => onDelete(ingredient)}
-          className="p-2 rounded-lg text-red-600 hover:bg-red-50 transition"
-        >
-          <Trash2 size={18} />
-        </button>
-      </div>
+      <IngredientActions
+        ingredient={ingredient}
+        handleAdjustStock={handleAdjustStock}
+        handleDeleteIngredient={handleDeleteIngredient}
+        handleEditIngredient={handleEditIngredient}
+        className={"mt-4 pt-4 border-t border-gray-100 "}
+      />
     </div>
   );
 };

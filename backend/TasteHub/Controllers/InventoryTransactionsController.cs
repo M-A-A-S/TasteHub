@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Business.Interfaces;
-using TasteHub.DTOs;
 using TasteHub.DTOs.InventoryTransaction;
 using TasteHub.DTOs.MenuItemExtra;
 using TasteHub.Enums;
@@ -50,16 +49,16 @@ namespace TasteHub.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddStock([FromBody] IEnumerable<IngredientAddition> additions)
+        public async Task<IActionResult> AddStock([FromBody] IngredientAdditionRequestDTO request)
         {
-            if (additions == null || !additions.Any())
+            if (request.Additions == null || !request.Additions.Any())
             {
                 return FromResult(Result<bool>.Failure());
             }
 
             var userId = 1; // TODO: get from logged in user
 
-            var result = await _service.AddIngredientsAsync(additions.Select(a => new IngredientAddition
+            var result = await _service.AddIngredientsAsync(request.Additions.Select(a => new IngredientAdditionDTO
             {
                 IngredientId = a.IngredientId,
                 Quantity = a.Quantity,
@@ -67,26 +66,26 @@ namespace TasteHub.Controllers
                 ExpiryDate = a.ExpiryDate,
                 BatchNumber = a.BatchNumber
             }),
-            userId, StockMovementReason.Purchase, true);
+            userId, request.Reason, true);
 
             return FromResult(result);
         }
 
         [HttpPost("deduct")]
-        public async Task<IActionResult> DeductStock([FromBody] IEnumerable<IngredientDeduction> deductions)
+        public async Task<IActionResult> DeductStock([FromBody] IngredientDeductionRequestDTO request)
         {
-            if (deductions == null || !deductions.Any())
+            if (request.Deductions == null || !request.Deductions.Any())
             {
                 return FromResult(Result<bool>.Failure());
             }
 
             var userId = 1; // TODO: get from logged in user
 
-            var result = await _service.DeductIngredientsAsync(deductions.Select(d => new IngredientDeduction
+            var result = await _service.DeductIngredientsAsync(request.Deductions.Select(d => new IngredientDeductionDTO
             {
                 IngredientId = d.IngredientId,
                 Quantity = d.Quantity
-            }), userId, StockMovementReason.Sale, true);
+            }), userId, request.Reason, true);
 
             return FromResult(result);
         }

@@ -5,6 +5,7 @@ using TasteHub.DataAccess;
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs;
 using TasteHub.DTOs.Extra;
+using TasteHub.DTOs.InventoryTransaction;
 using TasteHub.DTOs.MenuItem;
 using TasteHub.DTOs.MenuItemSize;
 using TasteHub.DTOs.Order;
@@ -115,7 +116,7 @@ OrderFiltersDTO filters)
                                     ?? oi.MenuItem?.MenuItemIngredients
                                     ?? Enumerable.Empty<MenuItemIngredient>();
 
-                return ingredients.Select(i => new IngredientDeduction
+                return ingredients.Select(i => new IngredientDeductionDTO
                 {
                     IngredientId = i.IngredientId,
                     Quantity = i.QuantityPerUnit * oi.Quantity

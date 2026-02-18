@@ -4,6 +4,7 @@ const CardView = ({
   ingredients,
   handleEditIngredient,
   handleDeleteIngredient,
+  handleAdjustStock,
   getUnitName,
 }) => {
   return (
@@ -14,6 +15,7 @@ const CardView = ({
           ingredient={ingredient}
           handleEditIngredient={handleEditIngredient}
           handleDeleteIngredient={handleDeleteIngredient}
+          handleAdjustStock={handleAdjustStock}
           getUnitName={getUnitName}
         />
       ))}

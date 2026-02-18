@@ -1,25 +1,35 @@
-import { Pencil, Trash2 } from "lucide-react";
 import { useLanguage } from "../../hooks/useLanguage";
-import { IngredientUnits } from "../../utils/constants";
-import { safeCall } from "../../utils/utils";
 import Table from "../UI/Table";
+import IngredientActions from "./IngredientActions";
 
 const TableView = ({
   ingredients,
   handleEditIngredient,
   handleDeleteIngredient,
+  handleAdjustStock,
   getUnitName,
 }) => {
   const { translations, language } = useLanguage();
 
-  const onEdit = safeCall(handleEditIngredient);
-  const onDelete = safeCall(handleDeleteIngredient);
-
   const {
-    table_headers: { name, unit, low_stock_threshold, supplier, actions },
+    table_headers: {
+      name,
+      unit,
+      current_stock,
+      low_stock_threshold,
+      supplier,
+      actions,
+    },
   } = translations.pages.ingredients_page;
 
-  const headers = [name, unit, low_stock_threshold, supplier, actions];
+  const headers = [
+    name,
+    unit,
+    current_stock,
+    low_stock_threshold,
+    supplier,
+    actions,
+  ];
   const data = ingredients?.map((ingredient) => ({
     name: (
       <small>
@@ -27,6 +37,7 @@ const TableView = ({
       </small>
     ),
     unit: <small>{getUnitName(ingredient?.unit)}</small>,
+    current_stock: <small>{ingredient?.currentStock}</small>,
     low_stock_threshold: <small>{ingredient?.lowStockThreshold}</small>,
     supplier: (
       <small>
@@ -38,21 +49,13 @@ const TableView = ({
       </small>
     ),
     actions: (
-      <div className="flex items-center justify-center gap-3">
-        <button
-          onClick={() => onEdit(ingredient)}
-          className="p-2 rounded-lg text-green-600 hover:bg-green-50 transition"
-        >
-          <Pencil size={18} />
-        </button>
-
-        <button
-          onClick={() => onDelete(ingredient)}
-          className="p-2 rounded-lg text-red-600 hover:bg-red-50 transition"
-        >
-          <Trash2 size={18} />
-        </button>
-      </div>
+      <IngredientActions
+        ingredient={ingredient}
+        handleAdjustStock={handleAdjustStock}
+        handleDeleteIngredient={handleDeleteIngredient}
+        handleEditIngredient={handleEditIngredient}
+        className={"justify-center"}
+      />
     ),
   }));
 

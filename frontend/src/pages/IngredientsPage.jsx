@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import PageHeader from "../components/PageHeader";
 import { useLanguage } from "../hooks/useLanguage";
 import { create, read, remove, update } from "../api/apiWrapper";
-import { showFail, showSuccess } from "../utils/utils";
+import {
+  isAdditionReason,
+  isDeductionReason,
+  showFail,
+  showSuccess,
+} from "../utils/utils";
 import Button from "../components/UI/Button";
 import { Plus } from "lucide-react";
 import SpinnerLoader from "../components/UI/SpinnerLoader";
@@ -12,6 +17,7 @@ import TableView from "../components/IngredientsPage/TableView";
 import AddEditIngredientModal from "../components/IngredientsPage/AddEditIngredientModal";
 import ConfirmModal from "../components/UI/ConfirmModal";
 import { IngredientUnits } from "../utils/constants";
+import AdjustStockModal from "../components/IngredientsPage/AdjustStockModal";
 
 const IngredientsPage = () => {
   const [view, setView] = useState("card"); // 'table' or 'card'
@@ -26,6 +32,7 @@ const IngredientsPage = () => {
     setIsDeleteIngredientConfirmModalOpen,
   ] = useState(false);
   const [selectedIngredient, setSelectedIngredient] = useState(null);
+  const [isAdjustStockModalOpen, setIsAdjustStockModalOpen] = useState(false);
 
   const { translations } = useLanguage();
   const {
@@ -45,6 +52,8 @@ const IngredientsPage = () => {
     ingredient_delete_modal_message,
     ingredient_delete_modal_confirm,
   } = translations.pages.ingredients_page;
+
+  const { success, fail } = translations.pages.ingredients_page.adjust_stock;
 
   const { cancel, empty_state, loading_error } = translations.common;
 
@@ -73,9 +82,16 @@ const IngredientsPage = () => {
     setIsDeleteIngredientConfirmModalOpen(true);
     console.log("Ingredient -> ", Ingredient);
   }
+
   function handleEditIngredient(Ingredient) {
     setSelectedIngredient(Ingredient);
     setIsAddEditIngredientModalOpen(true);
+    console.log("Ingredient -> ", Ingredient);
+  }
+
+  function handleAdjustStock(Ingredient) {
+    setSelectedIngredient(Ingredient);
+    setIsAdjustStockModalOpen(true);
     console.log("Ingredient -> ", Ingredient);
   }
 
@@ -88,6 +104,7 @@ const IngredientsPage = () => {
     setIsAddEditIngredientModalOpen(false);
     setIsDeleteIngredientConfirmModalOpen(false);
     setSelectedIngredient(null);
+    setIsAdjustStockModalOpen(false);
     // toast.success("Success! Operation completed.");
     // toast.error("Error! Something went wrong.");
     // toast.warning("Warning! Check this out.");
@@ -156,6 +173,64 @@ const IngredientsPage = () => {
     }
   }
 
+  function adjustStock(payload) {
+    if (isAdditionReason(payload.reason)) {
+      AddStock(payload);
+    } else if (isDeductionReason(payload.reason)) {
+      DeductStock(payload);
+    }
+  }
+
+  async function AddStock(payload) {
+    let result;
+    try {
+      setActionLoading(true);
+      result = await create(`inventory-transactions/add`, payload);
+      setIngredients((prev) =>
+        prev.map((cat) =>
+          cat.id === payload.additions[0].ingredientId
+            ? {
+                ...cat,
+                currentStock: cat.currentStock + payload.additions[0].quantity,
+              }
+            : cat,
+        ),
+      );
+      showSuccess(result?.code, success);
+    } catch (error) {
+      console.log("error -> ", error);
+      showFail(result?.code, fail);
+    } finally {
+      setActionLoading(false);
+      closeModal();
+    }
+  }
+
+  async function DeductStock(payload) {
+    let result;
+    try {
+      setActionLoading(true);
+      result = await create(`inventory-transactions/deduct`, payload);
+      setIngredients((prev) =>
+        prev.map((cat) =>
+          cat.id === payload.deductions[0].ingredientId
+            ? {
+                ...cat,
+                currentStock: cat.currentStock - payload.deductions[0].quantity,
+              }
+            : cat,
+        ),
+      );
+      showSuccess(result?.code, success);
+    } catch (error) {
+      console.log("error -> ", error);
+      showFail(result?.code, fail);
+    } finally {
+      setActionLoading(false);
+      closeModal();
+    }
+  }
+
   function getUnitName(unit) {
     const unitObj = IngredientUnits.find((u) => u?.value === unit);
     if (!unitObj) {
@@ -196,6 +271,7 @@ const IngredientsPage = () => {
               ingredients={ingredients}
               handleEditIngredient={handleEditIngredient}
               handleDeleteIngredient={handleDeleteIngredient}
+              handleAdjustStock={handleAdjustStock}
               getUnitName={getUnitName}
             />
           )}
@@ -205,6 +281,7 @@ const IngredientsPage = () => {
               handleEditIngredient={handleEditIngredient}
               handleDeleteIngredient={handleDeleteIngredient}
               getUnitName={getUnitName}
+              handleAdjustStock={handleAdjustStock}
             />
           )}
         </>
@@ -226,6 +303,14 @@ const IngredientsPage = () => {
         cancelLabel={cancel}
         confirmLabel={ingredient_delete_modal_confirm}
         loading={actionLoading}
+      />
+
+      <AdjustStockModal
+        show={isAdjustStockModalOpen}
+        onClose={closeModal}
+        ingredient={selectedIngredient}
+        loading={actionLoading}
+        onConfirm={adjustStock}
       />
     </div>
   );
