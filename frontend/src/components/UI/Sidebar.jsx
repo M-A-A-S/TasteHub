@@ -90,6 +90,12 @@ const menus = {
     },
 
     {
+      key: "point_of_sale",
+      path: "/point-of-sale",
+      icon: <UtensilsCrossed />,
+    },
+
+    {
       key: "menu_management",
       icon: <ChefHat />,
       children: [

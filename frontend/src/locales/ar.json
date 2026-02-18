@@ -490,6 +490,19 @@
 
         "delete_image_label": "إزالة الصورة الحالية"
       }
+    },
+    "inventory_transactions_page": {
+      "title": "حركات المخزون",
+      "description": "عرض وتسجيل جميع تحركات المخزون.",
+      "table_headers": {
+        "ingredient": "المكون",
+        "type": "النوع",
+        "reason": "السبب",
+        "quantity": "الكمية",
+        "date": "التاريخ",
+        "batch_number": "رقم الدفعة",
+        "remaining_quantity": "الكمية المتبقية"
+      }
     }
   },
   "server_codes": {},
@@ -523,5 +536,9 @@
     "waste": "هدر",
     "usage": "استخدام",
     "return": "مرتجع"
+  },
+  "stock_movement_types": {
+    "in": "زيادة",
+    "out": "نقص"
   }
 }

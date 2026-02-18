@@ -29,6 +29,17 @@ export const formatNumber = (value) =>
 
 export const formatDateTime = (date) => new Date(date).toLocaleString();
 
+export const formatDate = (isoString, language = "en") => {
+  const d = new Date(isoString);
+  return d.toLocaleString(language === "en" ? "en-US" : "ar-EG", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
 export function showSuccess(serverCode = "", frontMessage = "") {
   const translations = getTranslations();
 

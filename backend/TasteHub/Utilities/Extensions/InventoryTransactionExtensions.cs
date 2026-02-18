@@ -1,4 +1,5 @@
-﻿using TasteHub.DTOs.IngredientBatch;
+﻿using TasteHub.DTOs.Ingredient;
+using TasteHub.DTOs.IngredientBatch;
 using TasteHub.DTOs.InventoryTransaction;
 using TasteHub.DTOs.MenuItemIngredient;
 using TasteHub.DTOs.User;
@@ -27,6 +28,22 @@ namespace TasteHub.Utilities.Extensions
                 InventoryTransactionDate = entity.InventoryTransactionDate,
                 CreatedAt = entity.CreatedAt,
                 UpdatedAt = entity.UpdatedAt,
+                IngredientBatch = new IngredientBatchDTO
+                {
+                    Id = entity?.IngredientBatch?.Id,
+                    IngredientId = entity.IngredientBatch.IngredientId,
+                    Quantity = entity.IngredientBatch.Quantity,
+                    BatchNumber = entity.IngredientBatch.BatchNumber,
+                    CostPerUnit = entity.IngredientBatch.CostPerUnit,
+                    Ingredient = new IngredientDTO
+                    {
+                        Id = entity.IngredientBatch.Ingredient.Id,
+                        NameEn = entity.IngredientBatch.Ingredient.NameEn,
+                        NameAr = entity.IngredientBatch.Ingredient.NameAr,
+                        CurrentStock = entity.IngredientBatch.Ingredient.CurrentStock,
+                        Unit = entity.IngredientBatch.Ingredient.Unit,
+                    }
+                }
             };
         }
 

@@ -488,6 +488,19 @@
 
         "delete_image_label": "Remove current image"
       }
+    },
+    "inventory_transactions_page": {
+      "title": "Inventory Transactions",
+      "description": "View and record all stock movements.",
+      "table_headers": {
+        "ingredient": "Ingredient",
+        "type": "Type",
+        "reason": "Reason",
+        "quantity": "Quantity",
+        "date": "Date",
+        "batch_number": "Batch #",
+        "remaining_quantity": "Remaining Qty"
+      }
     }
   },
   "server_codes": {},
@@ -520,5 +533,9 @@
     "waste": "Waste",
     "usage": "Usage",
     "return": "Return"
+  },
+  "stock_movement_types": {
+    "in": "In",
+    "out": "Out"
   }
 }

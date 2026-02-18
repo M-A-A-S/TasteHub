@@ -20,6 +20,11 @@ export const Genders = [
   { value: 3, key: "other" },
 ];
 
+export const StockMovementType = {
+  IN: 0,
+  OUT: 1,
+};
+
 export const StockMovementReasons = [
   { value: 0, key: "sale" },
   { value: 1, key: "purchase" },
