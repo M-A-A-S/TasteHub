@@ -18,7 +18,14 @@
     "orders": "الطلبات",
     "analytics": "التحليلات",
     "settings": "الإعدادات",
-    "point_of_sale": "نقطة البيع"
+    "point_of_sale": "نقطة البيع",
+
+    "hr_management": "إدارة الموارد البشرية",
+    "employees": "الموظفين",
+    "work_schedules": "جداول العمل",
+    "attendances": "الحضور",
+    "leaves": "الإجازات",
+    "payrolls": "الرواتب"
   },
   "common": {
     "save": "حفظ",

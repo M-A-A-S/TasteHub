@@ -11,6 +11,12 @@ import {
   X,
   PencilRuler,
   Truck,
+  Users,
+  User,
+  Calendar,
+  Clock,
+  FileText,
+  DollarSign,
 } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -164,6 +170,22 @@ const menus = {
       key: "analytics",
       path: "/analytics",
       icon: <ChartColumn />,
+    },
+
+    {
+      key: "hr_management",
+      icon: <Users />,
+      children: [
+        { key: "employees", path: "/hr/employees", icon: <User /> },
+        {
+          key: "work_schedules",
+          path: "/hr/work-schedules",
+          icon: <Calendar />,
+        },
+        { key: "attendances", path: "/hr/attendances", icon: <Clock /> },
+        { key: "leaves", path: "/hr/leaves", icon: <FileText /> },
+        { key: "payrolls", path: "/hr/payrolls", icon: <DollarSign /> },
+      ],
     },
   ],
 };
