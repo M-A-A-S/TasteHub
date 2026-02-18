@@ -23,6 +23,7 @@ namespace TasteHub.DataAccess.Repositories
 
                 query = query.Include(x => x.IngredientBatch)
                         .ThenInclude(x => x.Ingredient);
+                        //.ThenInclude(x => x.IngredientBatches);
 
 
                 var data = await query.ToListAsync();

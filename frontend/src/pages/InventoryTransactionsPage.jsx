@@ -72,7 +72,10 @@ const InventoryTransactionsPage = () => {
             />
           )}
           {view == "table" && (
-            <TableView inventoryTransactions={inventoryTransactions} />
+            <TableView
+              inventoryTransactions={inventoryTransactions}
+              getReasonName={getReasonName}
+            />
           )}
         </>
       )}

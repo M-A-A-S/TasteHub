@@ -7,14 +7,7 @@ const InventoryTransactionCard = ({ inventoryTransaction, getReasonName }) => {
   const { language, translations } = useLanguage();
 
   const {
-    table_headers: {
-      type,
-      reason,
-      quantity,
-      date,
-      batch_number,
-      remaining_quantity,
-    },
+    table_headers: { type, reason, quantity, date, batch_number },
   } = translations.pages.inventory_transactions_page;
 
   const { in: inLabel, out } = translations.stock_movement_types;
@@ -69,18 +62,6 @@ const InventoryTransactionCard = ({ inventoryTransaction, getReasonName }) => {
         <p>
           <span className="font-medium">{batch_number}: </span>
           {inventoryTransaction.ingredientBatch.batchNumber}
-        </p>
-        <p>
-          <span className="font-medium">{remaining_quantity}: </span>
-          <span
-            className={
-              inventoryTransaction.ingredientBatch.remainingQuantity < 10
-                ? "text-red-500 font-semibold"
-                : ""
-            }
-          >
-            {inventoryTransaction.ingredientBatch.remainingQuantity}
-          </span>
         </p>
       </div>
     </div>
