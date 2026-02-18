@@ -9,7 +9,7 @@ namespace TasteHub.Entities
         public int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public int EmployeeId { get; set; }
 
         [Required]
         public int WorkScheduleId { get; set; }
@@ -17,22 +17,25 @@ namespace TasteHub.Entities
         [Required]
         public DateOnly AttendanceDate { get; set; }
 
-        [Required]
-        public TimeOnly? CheckIn { get; set; }
+        public DateTime? CheckIn { get; set; }
 
-        [Required]
-        public TimeOnly? CheckOut { get; set; }
+        public DateTime? CheckOut { get; set; }
 
-        [Required]
-        public string? AdditionalNotes { get; set; }
+        public int LateMinutes { get; set; } = 0;
+
+        public int OvertimeMinutes { get; set; } = 0;
 
         [Required]
         public AttendanceStatus AttendanceStatus { get; set; }
 
+        public bool IsApproved { get; set; } = false;
+
+        public string? AdditionalNotes { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        public User User { get; set; } = null!;
+        public Employee Employee { get; set; } = null!;
         public WorkSchedule WorkSchedule { get; set; } = null!;
     }
 }

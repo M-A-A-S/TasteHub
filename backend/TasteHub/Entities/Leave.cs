@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using TasteHub.Enums;
 
 namespace TasteHub.Entities
@@ -9,7 +10,7 @@ namespace TasteHub.Entities
         public int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public int EmployeeId { get; set; }
 
         [Required]
         public DateOnly StartDate { get; set; }
@@ -24,7 +25,10 @@ namespace TasteHub.Entities
         public int LeaveTypeId { get; set; }
 
         [Required]
-        public LeaveStatus LeaveStatus { get; set; }
+        public LeaveStatus LeaveStatus { get; set; } = LeaveStatus.Pending;
+        public int? ApprovedByEmployeeId { get; set; }
+
+        public DateTime? ApprovedAt { get; set; }
 
         public string? Reason { get; set; }
         public string? AdditionalNotes { get; set; }
@@ -32,7 +36,13 @@ namespace TasteHub.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        public User? User { get; set; } = null!;
-        public LeaveType? LeaveType { get; set; } = null!;
+        [ForeignKey(nameof(EmployeeId))]
+        [InverseProperty("Leaves")]
+        public Employee Employee { get; set; } = null!;
+
+        [ForeignKey(nameof(ApprovedByEmployeeId))]
+        [InverseProperty("ApprovedLeaves")]
+        public Employee? ApprovedBy { get; set; }
+        public LeaveType LeaveType { get; set; } = null!;
     }
 }

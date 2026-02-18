@@ -9,7 +9,7 @@ namespace TasteHub.Entities
         public int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public int EmployeeId { get; set; }
 
         [Required]
         public DateOnly PayrollDate { get; set; }
@@ -20,7 +20,7 @@ namespace TasteHub.Entities
 
         [Required]
         [Range(2000, 2100)]
-        public byte PayrollYear { get; set; } // e.g., 2026
+        public short PayrollYear { get; set; } // e.g., 2026
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
@@ -36,6 +36,6 @@ namespace TasteHub.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        public User? User { get; set; } = null!;
+        public Employee Employee { get; set; } = null!;
     }
 }

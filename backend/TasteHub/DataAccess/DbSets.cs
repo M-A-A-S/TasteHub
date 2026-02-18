@@ -42,6 +42,8 @@ namespace TasteHub.DataAccess
 
 
         // HR / Staff
+        public DbSet<JobTitle> JobTitles { get; set; } = null!;
+        public DbSet<Employee> Employees { get; set; } = null!;
         public DbSet<ShiftType> ShiftTypes { get; set; } = null!;
         public DbSet<WorkSchedule> WorkSchedules { get; set; } = null!;
         public DbSet<Attendance> Attendances { get; set; } = null!;

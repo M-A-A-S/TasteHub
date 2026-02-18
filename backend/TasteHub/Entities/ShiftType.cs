@@ -23,6 +23,7 @@ namespace TasteHub.Entities
 
         [Required]
         public TimeOnly EndTime { get; set; }
+        public int BreakMinutes { get; set; } = 0;
 
         public string? Description { get; set; }
 

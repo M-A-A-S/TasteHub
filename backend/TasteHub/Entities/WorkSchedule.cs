@@ -8,18 +8,19 @@ namespace TasteHub.Entities
         public int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public int EmployeeId { get; set; }
 
-        public int? ShiftTypeId { get; set; }
+        [Required]
+        public int ShiftTypeId { get; set; }
 
         [Required]
         public DayOfWeek DayOfWeek { get; set; }
 
-        [Required]
-        public TimeOnly StartTime { get; set; }
+        //[Required]
+        //public TimeOnly StartTime { get; set; }
 
-        [Required]
-        public TimeOnly EndTime { get; set; }
+        //[Required]
+        //public TimeOnly EndTime { get; set; }
 
         public bool IsActive { get; set; } = true;
 
@@ -28,8 +29,8 @@ namespace TasteHub.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        public User User { get; set; } = null!;
-        public ShiftType? ShiftType { get; set; }
+        public Employee Employee { get; set; } = null!;
+        public ShiftType ShiftType { get; set; } = null!;
 
     }
 }

@@ -17,7 +17,8 @@ namespace TasteHub.Entities
         [StringLength(50)]
         [Column(TypeName = "nvarchar(50)")]
         public string NameAr { get; set; } = null!;
-
+        public bool IsPaid { get; set; } = true;
+        public int DefaultDaysPerYear { get; set; } = 0;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
