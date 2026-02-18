@@ -29,6 +29,9 @@ namespace TasteHub.Entities
 
         public EmploymentStatus EmploymentStatus { get; set; }
 
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
         public Person Person { get; set; } = null;
         public User? User { get; set; }
         public JobTitle JobTitle { get; set; } = null;

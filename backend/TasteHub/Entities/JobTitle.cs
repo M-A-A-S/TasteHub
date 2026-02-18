@@ -15,5 +15,8 @@ namespace TasteHub.Entities
         [Required, StringLength(100)]
         [Column(TypeName = "nvarchar(100)")]
         public string NameAr { get; set; } = null!;
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }

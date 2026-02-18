@@ -4,10 +4,10 @@ using TasteHub.Enums;
 
 namespace TasteHub.Entities
 {
-    public class User
+    public class User 
     {
         [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         public int PersonId { get; set; }

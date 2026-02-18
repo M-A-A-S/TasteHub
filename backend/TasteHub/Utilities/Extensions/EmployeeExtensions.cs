@@ -1,0 +1,81 @@
+﻿using TasteHub.DTOs.Employee;
+using TasteHub.DTOs.Supplier;
+using TasteHub.Entities;
+using TasteHub.Enums;
+
+namespace TasteHub.Utilities.Extensions
+{
+    public static class EmployeeExtensions
+    {
+
+        public static EmployeeDTO ToDTO(this Employee entity)
+        {
+            if (entity == null)
+            {
+                return null;
+            }
+
+            return new EmployeeDTO
+            {
+                Id = entity.Id,
+                PersonId = entity.PersonId,
+                Person = entity?.Person?.ToDTO(),
+                UserId = entity.UserId,
+                User = entity.User.ToDTO(),
+                HireDate = entity.HireDate,
+                TerminationDate = entity.TerminationDate,
+                JobTitleId = entity.JobTitleId,
+                JobTitle = entity.JobTitle.ToDTO(),
+                BaseSalary = entity.BaseSalary,
+                EmploymentStatus = entity.EmploymentStatus,
+            };
+        }
+
+        public static Employee ToEntity(this EmployeeDTO DTO)
+        {
+            if (DTO == null)
+            {
+                return null;
+            }
+
+            return new Employee
+            {
+                Id = DTO.Id ?? default,
+                PersonId = DTO.PersonId ?? default,
+                Person = DTO?.Person?.ToEntity(),
+                UserId = DTO.UserId ?? default,
+                User = DTO?.User?.ToEntity(),
+                HireDate = DTO.HireDate,
+                TerminationDate = DTO.TerminationDate,
+                JobTitleId = DTO.JobTitleId,
+                JobTitle = DTO.JobTitle.ToEntity(),
+                BaseSalary = DTO.BaseSalary,
+                EmploymentStatus = DTO.EmploymentStatus,
+            };
+        }
+
+        public static void UpdateFromDTO(this Employee entity, EmployeeDTO DTO)
+        {
+
+            if (entity == null || DTO == null)
+            {
+                return;
+            }
+
+            entity.PersonId = DTO.PersonId ?? default;
+            entity.Person = DTO?.Person?.ToEntity();
+            entity.UserId = DTO.UserId ?? default;
+            entity.User = DTO?.User?.ToEntity();
+            entity.HireDate = DTO.HireDate;
+            entity.TerminationDate = DTO.TerminationDate;
+            entity.JobTitleId = DTO.JobTitleId;
+            entity.JobTitle = DTO.JobTitle.ToEntity();
+            entity.BaseSalary = DTO.BaseSalary;
+            entity.EmploymentStatus = DTO.EmploymentStatus;
+
+
+            entity.UpdatedAt = DateTime.UtcNow;
+        }
+
+    }
+}
