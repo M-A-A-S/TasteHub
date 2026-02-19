@@ -48,6 +48,51 @@ namespace TasteHub.DataAccess.Repositories
                 return Result<T>.Failure(ResultCodes.ServerError, 500, "Server error");
             }
         }
+
+        public virtual async Task<Result<bool>> AddRangeAsync(IEnumerable<T> entities)
+        {
+            if (entities == null || !entities.Any())
+                return Result<bool>.Success(true);
+
+            try
+            {
+                await _dbSet.AddRangeAsync(entities);
+                return Result<bool>.Success(true);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database update failed while adding range of entities.");
+                return Result<bool>.Failure(ResultCodes.DbError, 500, "Database error");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while adding range of entities.");
+                return Result<bool>.Failure(ResultCodes.ServerError, 500, "Server error");
+            }
+        }
+
+        public virtual async Task<Result<bool>> AddRangeAndSaveAsync(IEnumerable<T> entities)
+        {
+            var addResult = await AddRangeAsync(entities);
+            if (!addResult.IsSuccess) return addResult;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Result<bool>.Success(true);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database update failed while saving added range.");
+                return Result<bool>.Failure(ResultCodes.DbError, 500, "Database error");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while saving added range.");
+                return Result<bool>.Failure(ResultCodes.ServerError, 500, "Server error");
+            }
+        }
+
         #endregion
 
 
@@ -110,6 +155,50 @@ namespace TasteHub.DataAccess.Repositories
                 return Result<bool>.Failure(ResultCodes.ServerError, 500, "Server error");
             }
         }
+        public virtual async Task<Result<bool>> DeleteRangeAsync(IEnumerable<T> entities)
+        {
+            if (entities == null || !entities.Any())
+                return Result<bool>.Success(true); // Nothing to remove
+
+            try
+            {
+                _dbSet.RemoveRange(entities);
+                return Result<bool>.Success(true);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database update failed while removing range of entities.");
+                return Result<bool>.Failure(ResultCodes.DbError, 500, "Database error");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while removing range of entities.");
+                return Result<bool>.Failure(ResultCodes.ServerError, 500, "Server error");
+            }
+        }
+
+        public virtual async Task<Result<bool>> DeleteRangeAndSaveAsync(IEnumerable<T> entities)
+        {
+            var removeResult = await DeleteRangeAsync(entities);
+            if (!removeResult.IsSuccess) return removeResult;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Result<bool>.Success(true);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database update failed while saving removed range.");
+                return Result<bool>.Failure(ResultCodes.DbError, 500, "Database error");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while saving removed range.");
+                return Result<bool>.Failure(ResultCodes.ServerError, 500, "Server error");
+            }
+        }
+
         #endregion
 
 
@@ -151,7 +240,8 @@ namespace TasteHub.DataAccess.Repositories
         {
             try
             {
-                IQueryable<T> query = _dbSet.AsNoTracking().AsSplitQuery();
+                //IQueryable<T> query = _dbSet.AsNoTracking().AsSplitQuery();
+                IQueryable<T> query = _dbSet.AsSplitQuery();
 
                 foreach (var include in includes)
                 {
@@ -208,6 +298,36 @@ namespace TasteHub.DataAccess.Repositories
         }
 
 
+        public virtual async Task<Result<T>> FindByAsync(
+Expression<Func<T, bool>> predicate,
+Func<IQueryable<T>, IQueryable<T>>? include = null)
+        {
+            try
+            {
+                //IQueryable<T> query = _dbSet.AsNoTracking().AsSplitQuery();
+                IQueryable<T> query = _dbSet.AsSplitQuery();
+
+                if (include != null)
+                {
+                    query = include(query);
+                }
+
+                var entity = await query.FirstOrDefaultAsync(predicate);
+
+                if (entity == null)
+                {
+                    return Result<T>.Failure(ResultCodes.NotFound);
+                }
+
+                return Result<T>.Success(entity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while retrieving entity.");
+                return Result<T>.Failure(ResultCodes.ServerError, 500, "Server error");
+            }
+        }
+
         public virtual async Task<Result<PagedResult<T>>> GetPagedAsync(
 Expression<Func<T, bool>>? filter = null,
 Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
@@ -222,7 +342,7 @@ params Expression<Func<T, object>>[] includes)
                 pageSize = pageSize > 100 ? 100 : pageSize;
 
 
-                IQueryable<T> query = _dbSet.AsNoTracking().AsSplitQuery();
+                IQueryable<T> query = _dbSet.AsSplitQuery();
 
                 // Includes (navigation properties
                 foreach (var include in includes)

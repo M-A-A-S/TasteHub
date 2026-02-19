@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TasteHub.Business.Interfaces;
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.Role;
@@ -14,15 +15,17 @@ namespace TasteHub.Business.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _repo;
+        private readonly IUserRoleRepository _userRoleRepository;
         private readonly IImageService _imageService;
         private readonly IOptions<ImageSettings> _imageSettings;
 
         public UserService(IUserRepository repo, IImageService imageService,
-            IOptions<ImageSettings> imageSettings)
+            IOptions<ImageSettings> imageSettings, IUserRoleRepository userRoleRepository)
         {
             _repo = repo;
             _imageService = imageService;
             _imageSettings = imageSettings;
+            _userRoleRepository = userRoleRepository;
         }
 
         #region Add
@@ -268,10 +271,50 @@ namespace TasteHub.Business.Services
         }
         #endregion
 
+        #region Others
+        public async Task<Result<bool>> UpdateUserRolesAsync(int userId, IEnumerable<int> newRoleIds)
+        {
+            var existingResult = await FindByIdAsync(userId);
+            if (!existingResult.IsSuccess || existingResult.Data == null)
+            {
+                return Result<bool>.Failure(
+                    ResultCodes.UserNotFound,
+                    existingResult.StatusCode,
+                    "User not found");
+            }
+
+            var rolesToRemove = existingResult.Data.Roles
+            .Where(r => !newRoleIds.Contains(r.RoleId))
+            .ToList();
+
+            // TODO: use unit of work or tractions
+            var deleteResult = await _userRoleRepository.DeleteRangeAndSaveAsync(rolesToRemove);
+
+            if (!deleteResult.IsSuccess)
+            {
+                return Result<bool>.Failure();
+            }
+
+            var rolesToAdd = newRoleIds
+                .Where(id => !existingResult.Data.Roles.Any(r => r.RoleId == id))
+                .Select(id => new UserRole { UserId = existingResult.Data.Id, RoleId = id })
+                .ToList();
+
+            var addResult =  await _userRoleRepository.AddRangeAndSaveAsync(rolesToAdd);
+
+            if (!addResult.IsSuccess)
+            {
+                return Result<bool>.Failure();
+            }
+
+            return Result<bool>.Success(true);
+        }
+        #endregion
+
         #region Private Helpers
         private async Task<Result<User>> FindByIdAsync(int id)
         {
-            return await _repo.FindByAsync(item => item.Id, id, item => item.Person);
+            return await _repo.FindByAsync(item => item.Id == id, q => q.Include(x => x.Person).Include(x => x.Roles).ThenInclude(x => x.Role));
         }
         #endregion
 

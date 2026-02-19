@@ -13,5 +13,6 @@ namespace TasteHub.Business.Interfaces
         Task<Result<IEnumerable<UserDTO>>> GetAllAsync();
         Task<Result<UserDTO>> GetByEmailAsync(string email);
         Task<Result<UserDTO>> GetByUsernameAsync(string username);
+        Task<Result<bool>> UpdateUserRolesAsync(int userId, IEnumerable<int> newRoleIds);
     }
 }

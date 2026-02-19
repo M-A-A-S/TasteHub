@@ -12,7 +12,8 @@ namespace TasteHub.DTOs.User
         public string Email { get; set; }
         public string Username { get; set; }
         public bool IsConfirmed { get; set; } = false;
-        public string Password { get; set; }
+        public bool IsActive { get; set; } = true;
+        public string? Password { get; set; } = null;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

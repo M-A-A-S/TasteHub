@@ -16,7 +16,7 @@ namespace TasteHub.DTOs.Employee
         public DateOnly? TerminationDate { get; set; }
         public int JobTitleId { get; set; }
         public decimal BaseSalary { get; set; }
-        public EmploymentStatus EmploymentStatus { get; set; }
+        public EmploymentStatus EmploymentStatus { get; set; } = EmploymentStatus.Active;
 
         public bool CreateUserAccount { get; set; }
 

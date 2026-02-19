@@ -6,7 +6,7 @@ import AddEditEmployeeModal from "../components/EmployeesPage/AddEditEmployeeMod
 import { useLanguage } from "../hooks/useLanguage";
 import { create, read, remove, update } from "../api/apiWrapper";
 import { showFail, showSuccess } from "../utils/utils";
-import { Genders } from "../utils/constants";
+import { EmploymentStatuses, Genders } from "../utils/constants";
 import PageHeader from "../components/PageHeader";
 import Button from "../components/UI/Button";
 import { Plus } from "lucide-react";
@@ -164,6 +164,15 @@ const EmployeesPage = () => {
       : translations.genders.unknown;
   };
 
+  const GetEmploymentStatusName = (employmentStatus) => {
+    const employment_status = EmploymentStatuses?.find(
+      (item) => item.value === employmentStatus,
+    );
+    return employment_status
+      ? translations.employment_status[employment_status.key]
+      : "-";
+  };
+
   return (
     <div>
       <PageHeader
@@ -198,6 +207,7 @@ const EmployeesPage = () => {
               handleDeleteEmployee={handleDeleteEmployee}
               getFullName={getFullName}
               getGenderName={getGenderName}
+              GetEmploymentStatusName={GetEmploymentStatusName}
             />
           )}
           {view == "table" && (
@@ -216,7 +226,7 @@ const EmployeesPage = () => {
         show={isAddEditEmployeeModalOpen}
         onClose={closeModal}
         onConfirm={addEditEmployee}
-        supplier={selectedEmployee}
+        employee={selectedEmployee}
         loading={actionLoading}
       />
       <ConfirmModal

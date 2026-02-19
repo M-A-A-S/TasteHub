@@ -21,7 +21,9 @@ namespace TasteHub.Utilities.Extensions
                 Id = entity.Id,
                 PersonId = entity.PersonId,
                 Email = entity.Email,
+                Username = entity.Username,
                 IsConfirmed = entity.IsConfirmed,
+                IsActive = entity.IsActive,
                 Password = entity.Password,
                 CreatedAt = entity.CreatedAt,
                 UpdatedAt = entity.UpdatedAt,
@@ -49,7 +51,9 @@ namespace TasteHub.Utilities.Extensions
                 Id = entity.Id,
                 PersonId = entity.PersonId,
                 Email = entity.Email,
+                Username = entity.Username,
                 IsConfirmed = entity.IsConfirmed,
+                IsActive = entity.IsActive,
                 CreatedAt = entity.CreatedAt,
                 UpdatedAt = entity.UpdatedAt,
                 Person = entity?.Person?.ToDTO(),
@@ -78,7 +82,8 @@ namespace TasteHub.Utilities.Extensions
                 Email = DTO.Email,
                 Username = DTO.Username,
                 IsConfirmed = DTO.IsConfirmed,
-                Password = DTO.Password,
+                IsActive = DTO.IsActive,
+                Password = DTO?.Password,
             };
         }
 
@@ -94,7 +99,11 @@ namespace TasteHub.Utilities.Extensions
             entity.Person = DTO?.Person?.ToEntity();
             entity.Email = DTO.Email;
             entity.IsConfirmed = DTO.IsConfirmed;
-            entity.Password = DTO.Password;
+            if (entity.Password != null)
+            {
+                entity.Password = DTO.Password;
+            }
+            
 
             entity.UpdatedAt = DateTime.UtcNow;
         }

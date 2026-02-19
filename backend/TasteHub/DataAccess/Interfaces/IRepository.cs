@@ -13,6 +13,11 @@ namespace TasteHub.DataAccess.Interfaces
     Expression<Func<T, TValue>> propertySelector,
     TValue value,
     params Expression<Func<T, object>>[] includes);
+
+        Task<Result<T>> FindByAsync(
+Expression<Func<T, bool>> predicate,
+Func<IQueryable<T>, IQueryable<T>>? include = null);
+
         Task<Result<PagedResult<T>>> GetPagedAsync(
     Expression<Func<T, bool>>? filter = null,
     Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
@@ -28,6 +33,11 @@ namespace TasteHub.DataAccess.Interfaces
         Task<Result<bool>> DeleteAndSaveAsync(int id);
         Task<Result<bool>> DeleteAsync(T entity);
         Task<Result<bool>> DeleteAndSaveAsync(T entity);
+        Task<Result<bool>> DeleteRangeAsync(IEnumerable<T> entities);
+        Task<Result<bool>> DeleteRangeAndSaveAsync(IEnumerable<T> entities);
+
+        Task<Result<bool>> AddRangeAndSaveAsync(IEnumerable<T> entities);
+        Task<Result<bool>> AddRangeAsync(IEnumerable<T> entities);
 
 
     }

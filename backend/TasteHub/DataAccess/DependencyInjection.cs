@@ -26,6 +26,7 @@ namespace TasteHub.DataAccess
             services.AddScoped<IJobTitleRepository, JobTitleRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
             return services;
         }

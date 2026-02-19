@@ -39,6 +39,7 @@ const initialFormState = {
     email: "",
     username: "",
     password: "",
+    isActive: "",
     roleId: "",
     roles: [],
   },
@@ -103,7 +104,8 @@ const AddEditEmployeeModal = ({
     user_section_title,
   } = translations.pages.employees_page.form;
 
-  const { edit_employee, add_new_employee } = translations.pages.employees_page;
+  const { edit_employee, add_new_employee, active, inactive } =
+    translations.pages.employees_page;
 
   const { default_message } = translations.validations;
 
@@ -127,12 +129,76 @@ const AddEditEmployeeModal = ({
     }));
   };
 
+  // useEffect(() => {
+  //   if (supplier) {
+  //     setFormData({
+  //       personId: supplier.personId || "",
+  //       person: {
+  //         firstName: supplier.person.firstName || "",
+  //         lastName: supplier.person.lastName || "",
+  //         phone: supplier.person.phone || "",
+  //         gender: supplier.person.gender !== "" ? supplier.person.gender : "",
+  //         dateOfBirth: supplier.person.dateOfBirth || "",
+  //         imageUrl: supplier.person.imageUrl || "",
+  //         imageFile: null,
+  //         deleteImage: false,
+  //       },
+  //     });
+  //   } else {
+  //     setFormData(initialFormState);
+  //   }
+  //   setErrors({});
+  // }, [supplier, show]);
+
+  // useEffect(() => {
+  //   if (employee) {
+  //     setFormData({
+  //       ...initialFormState,
+  //       ...employee,
+  //       createUserAccount: !!employee.userId,
+  //     });
+  //   } else {
+  //     setFormData(initialFormState);
+  //   }
+  //   setErrors({});
+  // }, [employee, show]);
+
   useEffect(() => {
     if (employee) {
       setFormData({
-        ...initialFormState,
-        ...employee,
-        createUserAccount: !!employee.userId,
+        id: employee.id || "",
+        personId: employee.personId || "",
+        userId: employee.userId || "",
+        createUserAccount: employee.userId ? true : false,
+
+        hireDate: employee.hireDate || "",
+        terminationDate: employee.terminationDate || "",
+        jobTitleId: employee.jobTitleId !== "" ? employee.jobTitleId : "",
+        baseSalary: employee.baseSalary || "",
+        employmentStatus:
+          employee.employmentStatus !== "" ? employee.employmentStatus : "",
+
+        person: {
+          firstName: employee.person.firstName || "",
+          lastName: employee.person.lastName || "",
+          phone: employee.person.phone || "",
+          gender: employee.person.gender !== "" ? employee.person.gender : "",
+          dateOfBirth: employee.person.dateOfBirth || "",
+          imageUrl: employee.person.imageUrl || "",
+          imageFile: null,
+          deleteImage: false,
+        },
+
+        user: {
+          email: employee?.userInfo?.email || "",
+          username: employee?.userInfo?.username || "",
+          password: employee?.userInfo?.password || "",
+          isActive: employee?.userInfo?.isActive || "",
+          roles:
+            employee?.userInfo?.roles.map(
+              (userRole) => `${userRole.role.id}`,
+            ) || [],
+        },
       });
     } else {
       setFormData(initialFormState);
@@ -274,6 +340,10 @@ const AddEditEmployeeModal = ({
       payload.append("user.email", formData.user.email);
       payload.append("user.username", formData.user.username);
 
+      if (employee && formData.user.isActive !== "") {
+        payload.append("user.isActive", formData.user.isActive);
+      }
+
       if (formData.user.password)
         payload.append("user.password", formData.user.password);
 
@@ -291,6 +361,8 @@ const AddEditEmployeeModal = ({
 
     safeCall(onConfirm)(payload);
   };
+
+  console.log("formData -> ", formData);
 
   return (
     <AddEditModal
@@ -371,14 +443,16 @@ const AddEditEmployeeModal = ({
           showLabel={true}
         />
 
-        {/* <Input
-          type="date"
-          label={termination_date_label}
-          value={formData.terminationDate}
-          errorMessage={errors.terminationDate}
-          onChange={(e) => updateField("terminationDate", e.target.value)}
-          showLabel={true}
-        /> */}
+        {employee && (
+          <Input
+            type="date"
+            label={termination_date_label}
+            value={formData.terminationDate}
+            errorMessage={errors.terminationDate}
+            onChange={(e) => updateField("terminationDate", e.target.value)}
+            showLabel={true}
+          />
+        )}
 
         <Input
           type="number"
@@ -398,16 +472,19 @@ const AddEditEmployeeModal = ({
           errorMessage={errors.jobTitleId}
         />
 
-        {/* <EmploymentStatusSelect
-          value={formData.employmentStatus}
-          onChange={(e) => updateField("employmentStatus", e.target.value)}
-          label={employment_status_label}
-          errorMessage={errors.employmentStatus}
-        /> */}
+        {employee && (
+          <EmploymentStatusSelect
+            value={formData.employmentStatus}
+            onChange={(e) => updateField("employmentStatus", e.target.value)}
+            label={employment_status_label}
+            errorMessage={errors.employmentStatus}
+          />
+        )}
 
         <Checkbox
           label={create_user_account_label}
           checked={formData.createUserAccount}
+          disabled={employee}
           onChange={(e) => updateField("createUserAccount", e.target.checked)}
           className="accent-orange-600"
         />
@@ -444,6 +521,13 @@ const AddEditEmployeeModal = ({
                 showLabel={true}
               />
             )}
+
+            <Checkbox
+              label={formData.user.isActive == true ? active : inactive}
+              checked={formData.user.isActive}
+              onChange={(e) => updateUserField("isActive", e.target.checked)}
+              className="accent-orange-600"
+            />
 
             <RolesSelect
               name="roles"

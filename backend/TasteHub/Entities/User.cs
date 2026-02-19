@@ -23,6 +23,7 @@ namespace TasteHub.Entities
         public string Username { get; set; }
 
         public bool IsConfirmed { get; set; } = false;
+        public bool IsActive {  get; set; } = true;
 
         [Required]
         [Column(TypeName = "varchar(255)")]

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TasteHub.Business.Interfaces;
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.Employee;
@@ -200,7 +201,20 @@ namespace TasteHub.Business.Services
                 finalImageUrl = dto.Person.ImageUrl;
             }
 
+            dto.User.Password = existingResult.Data.User.Password;
+
             entity.UpdateFromDTO(dto);
+            if (dto.User.Roles != null)
+            {
+                var newRoleIds = dto.User.Roles.Select(r => r.RoleId).ToList();
+                var updateRolesResult = await _userService.UpdateUserRolesAsync(entity.User.Id, newRoleIds);
+                if (!updateRolesResult.IsSuccess)
+                {
+                    return Result<EmployeeDTO>.Failure();
+                }
+            }
+
+
             entity.Person.ImageUrl = finalImageUrl;
 
             var updateResult = await _repo.UpdateAndSaveAsync(entity);
@@ -232,7 +246,16 @@ namespace TasteHub.Business.Services
         public async Task<Result<bool>> DeleteAsync(int id)
         {
 
-            var deleteResult = await _repo.DeleteAndSaveAsync(id);
+            var existingResult = await FindByIdAsync(id);
+            if (!existingResult.IsSuccess || existingResult.Data == null)
+            {
+                return Result<bool>.Failure(
+                    ResultCodes.EmployeeNotFound,
+                    existingResult.StatusCode,
+                    "Employee not found");
+            }
+
+            var deleteResult = await _repo.DeleteAndSaveAsync(existingResult.Data);
 
             if (!deleteResult.IsSuccess)
             {
@@ -246,7 +269,15 @@ namespace TasteHub.Business.Services
         #region Private Helpers
         private async Task<Result<Employee>> FindByIdAsync(int id)
         {
-            return await _repo.FindByAsync(item => item.Id, id, item => item.Person, item => item.User, item => item.User.Roles);
+            return await _repo.FindByAsync(
+                x => x.Id == id, 
+                q => q
+                    .Include(x => x.Person)
+                    .Include(x => x.JobTitle)
+                    .Include(x => x.User)
+                        .ThenInclude(u => u.Roles)
+                            .ThenInclude(r => r.Role)
+            );
         }
         #endregion
     }

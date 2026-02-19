@@ -20,7 +20,10 @@ namespace TasteHub.DataAccess.Repositories
                 IQueryable<Employee> query = _dbSet.AsNoTracking().AsSplitQuery();
 
 
-                query = query.Include(x => x.Person).Include(x => x.User).ThenInclude(x => x.Roles);
+                query = query
+                    .Include(x => x.Person)
+                    .Include(x => x.User).ThenInclude(x => x.Roles).ThenInclude(x => x.Role)
+                    .Include(x => x.JobTitle);
 
                 var data = await query.ToListAsync();
 

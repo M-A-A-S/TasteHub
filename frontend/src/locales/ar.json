@@ -542,11 +542,15 @@
       "employee_delete_modal_message": "هل أنت متأكد أنك تريد حذف هذا الموظف؟",
       "employee_delete_modal_confirm": "حذف",
 
+      "active": "نشط",
+      "inactive": "غير نشط",
+
       "table_headers": {
         "image": "الصورة",
         "first_name": "الاسم الأول",
         "last_name": "اسم العائلة",
         "email": "البريد الإلكتروني",
+        "status": "الحالة",
         "phone": "رقم الهاتف",
         "job_title": "المسمى الوظيفي",
         "hire_date": "تاريخ التعيين",
