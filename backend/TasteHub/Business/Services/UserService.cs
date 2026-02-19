@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
 using TasteHub.Business.Interfaces;
 using TasteHub.DataAccess.Interfaces;
-using TasteHub.DTOs.Employee;
+using TasteHub.DTOs.Role;
 using TasteHub.DTOs.Supplier;
+using TasteHub.DTOs.User;
 using TasteHub.Entities;
 using TasteHub.Utilities;
 using TasteHub.Utilities.Extensions;
@@ -10,28 +11,22 @@ using TasteHub.Utilities.ResultCodes;
 
 namespace TasteHub.Business.Services
 {
-    public class EmployeeService : IEmployeeService
+    public class UserService : IUserService
     {
-
-        private readonly IEmployeeRepository _repo;
+        private readonly IUserRepository _repo;
         private readonly IImageService _imageService;
         private readonly IOptions<ImageSettings> _imageSettings;
-        private readonly IUserService _userService;
-        private readonly IPasswordService _passwordService;
 
-        public EmployeeService(IEmployeeRepository repo, IImageService imageService,
-            IOptions<ImageSettings> imageSettings, IUserService userService, 
-            IPasswordService passwordService)
+        public UserService(IUserRepository repo, IImageService imageService,
+            IOptions<ImageSettings> imageSettings)
         {
             _repo = repo;
             _imageService = imageService;
             _imageSettings = imageSettings;
-            _userService = userService;
-            _passwordService = passwordService;
         }
 
         #region Add
-        public async Task<Result<EmployeeDTO>> AddAsync(EmployeeDTO dto)
+        public async Task<Result<UserDTO>> AddAsync(UserDTO dto)
         {
             var entity = dto.ToEntity();
             string? imageUrl = null;
@@ -45,7 +40,7 @@ namespace TasteHub.Business.Services
 
                 if (!imageSaveResult.IsSuccess)
                 {
-                    return Result<EmployeeDTO>.Failure(
+                    return Result<UserDTO>.Failure(
                         imageSaveResult.Code,
                         imageSaveResult.StatusCode);
 
@@ -62,25 +57,6 @@ namespace TasteHub.Business.Services
 
             entity.Person.ImageUrl = imageUrl;
 
-            if (entity.User != null)
-            {
-                var findByEmailResult = await _userService.GetByEmailAsync(entity.User.Email);
-                var findByUsername = await _userService.GetByUsernameAsync(entity.User.Username);
-
-                if (findByEmailResult.IsSuccess && findByEmailResult.Data != null)
-                {
-                    return Result<EmployeeDTO>.Failure(ResultCodes.EmailExists);
-                }
-
-                if (findByUsername.IsSuccess && findByUsername.Data != null)
-                {
-                    return Result<EmployeeDTO>.Failure(ResultCodes.UsernameExists);
-                }
-
-                entity.User.Password = _passwordService.HashPassword(entity.User, entity.User.Password);
-                entity.User.IsConfirmed = true;
-            }
-
             var addResult = await _repo.AddAndSaveAsync(entity);
             if (!addResult.IsSuccess || addResult.Data == null)
             {
@@ -88,36 +64,36 @@ namespace TasteHub.Business.Services
                 {
                     await _imageService.DeleteImage(imageUrl);
                 }
-                return Result<EmployeeDTO>.Failure();
+                return Result<UserDTO>.Failure();
 
             }
 
             var findResult = await FindByIdAsync(addResult.Data.Id);
             if (!findResult.IsSuccess || findResult.Data == null)
             {
-                return Result<EmployeeDTO>.Failure();
+                return Result<UserDTO>.Failure();
             }
 
             var result = findResult.Data.ToDTO();
             result.Person.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(result.Person.ImageUrl);
 
-            return Result<EmployeeDTO>.Success(result);
+            return Result<UserDTO>.Success(result);
 
         }
         #endregion
 
 
         #region Get
-        public async Task<Result<IEnumerable<EmployeeDTO>>> GetAllAsync()
+        public async Task<Result<IEnumerable<UserDTO>>> GetAllAsync()
         {
-            var suppliers = await _repo.GetAllAsync();
+            var suppliers = await _repo.GetAllAsync(item => true, item => item.Person);
 
             if (!suppliers.IsSuccess || suppliers.Data == null)
             {
-                return Result<IEnumerable<EmployeeDTO>>.Failure();
+                return Result<IEnumerable<UserDTO>>.Failure();
             }
 
-            var result = new List<EmployeeDTO>();
+            var result = new List<UserDTO>();
 
             foreach (var item in suppliers.Data)
             {
@@ -129,33 +105,69 @@ namespace TasteHub.Business.Services
                 result.Add(newItem);
             }
 
-            return Result<IEnumerable<EmployeeDTO>>.Success(result);
+            return Result<IEnumerable<UserDTO>>.Success(result);
         }
 
-        public async Task<Result<EmployeeDTO>> GetByIdAsync(int id)
+        public async Task<Result<UserDTO>> GetByIdAsync(int id)
         {
             var findResult = await _repo.FindByAsync(i => i.Id, id, i => i.Person);
             if (!findResult.IsSuccess || findResult.Data == null)
             {
-                return Result<EmployeeDTO>.Failure();
+                return Result<UserDTO>.Failure();
             }
 
             var result = findResult.Data.ToDTO();
-            result.Person.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(result.Person.ImageUrl);
-            return Result<EmployeeDTO>.Success(result);
+            if (result.Person.ImageUrl != null)
+            {
+                result.Person.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(result.Person.ImageUrl);
+            }
+            return Result<UserDTO>.Success(result);
         }
+
+        public async Task<Result<UserDTO>> GetByEmailAsync(string email)
+        {
+            var findResult = await _repo.FindByAsync(i => i.Email, email, i => i.Person);
+            if (!findResult.IsSuccess || findResult.Data == null)
+            {
+                return Result<UserDTO>.Failure();
+            }
+
+            var result = findResult.Data.ToDTO();
+            if (result.Person.ImageUrl != null)
+            {
+                result.Person.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(result.Person.ImageUrl);
+            }    
+            return Result<UserDTO>.Success(result);
+        }
+
+        public async Task<Result<UserDTO>> GetByUsernameAsync(string username)
+        {
+            var findResult = await _repo.FindByAsync(i => i.Username, username, i => i.Person);
+            if (!findResult.IsSuccess || findResult.Data == null)
+            {
+                return Result<UserDTO>.Failure();
+            }
+
+            var result = findResult.Data.ToDTO();
+            if (result.Person.ImageUrl != null)
+            {
+                result.Person.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(result.Person.ImageUrl);
+            }
+            return Result<UserDTO>.Success(result);
+        }
+
         #endregion
 
         #region Update
-        public async Task<Result<EmployeeDTO>> UpdateAsync(int id, EmployeeDTO dto)
+        public async Task<Result<UserDTO>> UpdateAsync(int id, UserDTO dto)
         {
             var existingResult = await FindByIdAsync(id);
             if (!existingResult.IsSuccess || existingResult.Data == null)
             {
-                return Result<EmployeeDTO>.Failure(
-                    ResultCodes.EmployeeNotFound,
+                return Result<UserDTO>.Failure(
+                    ResultCodes.SupplierNotFound,
                     existingResult.StatusCode,
-                    "Employee not found");
+                    "Supplier not found");
             }
 
             var entity = existingResult.Data;
@@ -168,7 +180,7 @@ namespace TasteHub.Business.Services
                 var deleteResult = await _imageService.DeleteImage(oldImageUrl);
                 if (!deleteResult.IsSuccess)
                 {
-                    return Result<EmployeeDTO>.Failure(
+                    return Result<UserDTO>.Failure(
                         deleteResult.Code,
                         deleteResult.StatusCode);
                 }
@@ -186,7 +198,7 @@ namespace TasteHub.Business.Services
 
                 if (!replaceResult.IsSuccess)
                 {
-                    return Result<EmployeeDTO>.Failure(
+                    return Result<UserDTO>.Failure(
                         replaceResult.Code,
                         replaceResult.StatusCode);
                 }
@@ -211,19 +223,19 @@ namespace TasteHub.Business.Services
                 {
                     await _imageService.DeleteImage(finalImageUrl);
                 }
-                return Result<EmployeeDTO>.Failure();
+                return Result<UserDTO>.Failure();
             }
 
             var findResult = await FindByIdAsync(updateResult.Data.Id);
             if (!findResult.IsSuccess || findResult.Data == null)
             {
-                return Result<EmployeeDTO>.Failure();
+                return Result<UserDTO>.Failure();
             }
 
             var result = findResult.Data.ToDTO();
             result.Person.ImageUrl = ImageUrlHelper.ToAbsoluteUrl(result.Person.ImageUrl);
 
-            return Result<EmployeeDTO>.Success(result);
+            return Result<UserDTO>.Success(result);
 
         }
         #endregion
@@ -231,6 +243,14 @@ namespace TasteHub.Business.Services
         #region Delete
         public async Task<Result<bool>> DeleteAsync(int id)
         {
+            var existing = await FindByIdAsync(id);
+
+            if (!existing.IsSuccess || existing.Data == null)
+            {
+                return Result<bool>.Failure(ResultCodes.SupplierNotFound);
+            }
+
+            var imageUrl = existing.Data.Person?.ImageUrl;
 
             var deleteResult = await _repo.DeleteAndSaveAsync(id);
 
@@ -239,15 +259,21 @@ namespace TasteHub.Business.Services
                 return deleteResult;
             }
 
+            if (!string.IsNullOrWhiteSpace(imageUrl))
+            {
+                await _imageService.DeleteImage(imageUrl);
+            }
+
             return Result<bool>.Success(true);
         }
         #endregion
 
         #region Private Helpers
-        private async Task<Result<Employee>> FindByIdAsync(int id)
+        private async Task<Result<User>> FindByIdAsync(int id)
         {
-            return await _repo.FindByAsync(item => item.Id, id, item => item.Person, item => item.User, item => item.User.Roles);
+            return await _repo.FindByAsync(item => item.Id, id, item => item.Person);
         }
         #endregion
+
     }
 }

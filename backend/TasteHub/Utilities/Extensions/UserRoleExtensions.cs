@@ -40,8 +40,8 @@ namespace TasteHub.Utilities.Extensions
             {
                 Id = DTO.Id ?? default,
                 RoleId = DTO.RoleId,
-                UserId = DTO.UserId,
-                IsActive = DTO.IsActive,
+                //UserId = DTO.UserId,
+                IsActive = DTO.IsActive ?? true,
             };
         }
 
@@ -54,8 +54,8 @@ namespace TasteHub.Utilities.Extensions
             }
 
             entity.RoleId = DTO.RoleId;
-            entity.UserId = DTO.UserId;
-            entity.IsActive = DTO.IsActive;
+            //entity.UserId = DTO.UserId;
+            entity.IsActive = DTO.IsActive ?? true;
 
             entity.UpdatedAt = DateTime.UtcNow;
         }

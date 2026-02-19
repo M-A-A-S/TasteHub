@@ -23,11 +23,18 @@ const Checkbox = ({
         disabled={disabled}
         onChange={handleChange}
         {...props}
+        // className={`
+        //   h-5 w-5 rounded-md border-2
+        //   bg-gray-50 dark:bg-slate-800
+        //   border-gray-300 dark:border-gray-700
+        //   text-orange-600 focus:ring-2 focus:ring-orange-500
+        //   ${errorMessage ? "border-orange-500" : ""}
+        // `}
         className={`
-          h-5 w-5 rounded-md border-2
+          h-5 w-5 rounded-md border-2 cursor-pointer
           bg-gray-50 dark:bg-slate-800
           border-gray-300 dark:border-gray-700
-          text-orange-600 focus:ring-2 focus:ring-orange-500
+          text-orange-600 
           ${errorMessage ? "border-orange-500" : ""}
         `}
       />

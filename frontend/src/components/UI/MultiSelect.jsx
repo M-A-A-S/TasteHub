@@ -1,9 +1,9 @@
 import { useLanguage } from "../../hooks/useLanguage";
 
-const Select = ({
+const MultiSelect = ({
   label,
   name,
-  value,
+  selected = [],
   onChange,
   options = [],
   className = "",
@@ -11,10 +11,17 @@ const Select = ({
   disabled = false,
   errorMessage = "",
   showLabel = false,
-  multiple = false,
   ...props
 }) => {
   const { language } = useLanguage();
+
+  // Handle multiple selection change
+  const handleChange = (e) => {
+    const selectedOptions = Array.from(e.target.selectedOptions).map(
+      (opt) => opt.value,
+    );
+    onChange(selectedOptions);
+  };
 
   return (
     <div className={`flex flex-col gap-1 ${className}`}>
@@ -32,29 +39,21 @@ const Select = ({
       <select
         id={name}
         name={name}
-        value={value}
-        onChange={(e) => onChange(e)}
+        value={selected}
+        onChange={handleChange}
         required={required}
         disabled={disabled}
-        multiple={multiple}
+        multiple
         className={`
           w-full cursor-pointer rounded-xl border-2 px-4 py-2 text-sm
           bg-gray-50 dark:bg-slate-800 
           border-gray-200 dark:border-gray-700
           focus:outline-none focus:ring-2 focus:ring-orange-500
           disabled:cursor-not-allowed disabled:opacity-60
-          ${
-            errorMessage
-              ? "border-red-500"
-              : "border-gray-300 hover:border-gray-400"
-          }
+          ${errorMessage ? "border-red-500" : "border-gray-300 hover:border-gray-400"}
         `}
         {...props}
       >
-        <option value="" disabled>
-          {language === "en" ? "Select an option" : "اختر خيارًا"}
-        </option>
-
         {options.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}
@@ -69,4 +68,4 @@ const Select = ({
   );
 };
 
-export default Select;
+export default MultiSelect;

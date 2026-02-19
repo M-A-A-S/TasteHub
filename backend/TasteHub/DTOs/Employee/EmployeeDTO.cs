@@ -18,8 +18,11 @@ namespace TasteHub.DTOs.Employee
         public decimal BaseSalary { get; set; }
         public EmploymentStatus EmploymentStatus { get; set; }
 
+        public bool CreateUserAccount { get; set; }
+
         public PersonDTO Person { get; set; } = null;
         public UserDTO? User { get; set; }
-        public JobTitleDTO JobTitle { get; set; } = null;
+        public PublicUserDTO? UserInfo { get; set; }
+        public JobTitleDTO? JobTitle { get; set; } = null;
     }
 }

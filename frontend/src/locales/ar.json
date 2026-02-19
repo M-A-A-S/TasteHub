@@ -524,6 +524,102 @@
         "created_at": "تاريخ الإنشاء",
         "updated_at": "تاريخ التحديث"
       }
+    },
+    "employees_page": {
+      "title": "الموظفون",
+      "description": "إدارة الموظفين ومعلوماتهم الوظيفية.",
+      "add_new_employee": "إضافة موظف جديد",
+      "edit_employee": "تعديل موظف",
+
+      "employee_add_success": "تمت إضافة الموظف بنجاح!",
+      "employee_add_fail": "فشل في إضافة الموظف.",
+      "employee_update_success": "تم تحديث الموظف بنجاح!",
+      "employee_update_fail": "فشل في تحديث الموظف.",
+      "employee_delete_success": "تم حذف الموظف بنجاح!",
+      "employee_delete_fail": "فشل في حذف الموظف.",
+
+      "employee_delete_modal_title": "حذف موظف",
+      "employee_delete_modal_message": "هل أنت متأكد أنك تريد حذف هذا الموظف؟",
+      "employee_delete_modal_confirm": "حذف",
+
+      "table_headers": {
+        "image": "الصورة",
+        "first_name": "الاسم الأول",
+        "last_name": "اسم العائلة",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "job_title": "المسمى الوظيفي",
+        "hire_date": "تاريخ التعيين",
+        "termination_date": "تاريخ إنهاء الخدمة",
+        "base_salary": "الراتب الأساسي",
+        "employment_status": "حالة التوظيف",
+        "actions": "الإجراءات"
+      },
+
+      "form": {
+        "first_name_label": "الاسم الأول",
+        "first_name_placeholder": "أدخل الاسم الأول",
+        "first_name_error": "الاسم الأول مطلوب",
+
+        "last_name_label": "اسم العائلة",
+        "last_name_placeholder": "أدخل اسم العائلة",
+        "last_name_error": "اسم العائلة مطلوب",
+
+        "phone_label": "رقم الهاتف",
+        "phone_placeholder": "أدخل رقم الهاتف",
+        "phone_error": "رقم الهاتف مطلوب",
+
+        "email_label": "البريد الإلكتروني",
+        "email_placeholder": "أدخل البريد الإلكتروني",
+        "email_error": "البريد الإلكتروني مطلوب",
+
+        "username_label": "اسم المستخدم",
+        "username_placeholder": "أدخل اسم المستخدم",
+        "username_error": "اسم المستخدم مطلوب",
+
+        "password_label": "كلمة المرور",
+        "password_placeholder": "أدخل كلمة المرور",
+        "password_error": "كلمة المرور مطلوبة",
+
+        "gender_label": "الجنس",
+        "gender_placeholder": "اختر الجنس",
+        "gender_error": "الجنس مطلوب",
+
+        "date_of_birth_label": "تاريخ الميلاد",
+        "date_of_birth_placeholder": "اختر تاريخ الميلاد",
+        "date_of_birth_error": "تاريخ الميلاد مطلوب",
+
+        "hire_date_label": "تاريخ التعيين",
+        "hire_date_placeholder": "اختر تاريخ التعيين",
+        "hire_date_error": "تاريخ التعيين مطلوب",
+
+        "termination_date_label": "تاريخ إنهاء الخدمة",
+        "termination_date_placeholder": "اختر تاريخ إنهاء الخدمة",
+
+        "job_title_label": "المسمى الوظيفي",
+        "job_title_placeholder": "اختر المسمى الوظيفي",
+        "job_title_error": "المسمى الوظيفي مطلوب",
+
+        "base_salary_label": "الراتب الأساسي",
+        "base_salary_placeholder": "أدخل الراتب الأساسي",
+        "base_salary_error": "الراتب الأساسي مطلوب",
+
+        "employment_status_label": "حالة التوظيف",
+        "employment_status_placeholder": "اختر حالة التوظيف",
+        "employment_status_error": "حالة التوظيف مطلوبة",
+
+        "roles_label": "الأدوار",
+        "roles_placeholder": "اختر الأدوار",
+        "roles_error": "يجب اختيار دور واحد على الأقل",
+        "image_label": "الصورة الشخصية",
+        "image_placeholder": "قم برفع صورة الموظف",
+        "image_optional": "الصورة اختيارية",
+
+        "create_user_account_label": "إنشاء حساب للنظام؟",
+        "user_section_title": "معلومات حساب النظام",
+
+        "delete_image_label": "إزالة الصورة الحالية"
+      }
     }
   },
   "server_codes": {},
@@ -561,5 +657,11 @@
   "stock_movement_types": {
     "in": "زيادة",
     "out": "نقص"
+  },
+  "employment_status": {
+    "active": "نشط",
+    "on_leave": "في إجازة",
+    "suspended": "موقوف",
+    "terminated": "منتهي الخدمة"
   }
 }

@@ -21,7 +21,8 @@ namespace TasteHub.Utilities.Extensions
                 PersonId = entity.PersonId,
                 Person = entity?.Person?.ToDTO(),
                 UserId = entity.UserId,
-                User = entity.User.ToDTO(),
+                //User = entity.User.ToDTO(),
+                UserInfo = entity.User.ToPublicDTO(),
                 HireDate = entity.HireDate,
                 TerminationDate = entity.TerminationDate,
                 JobTitleId = entity.JobTitleId,
@@ -38,13 +39,30 @@ namespace TasteHub.Utilities.Extensions
                 return null;
             }
 
+            Person personEntity = DTO.Person?.ToEntity();
+
+            User userEntity = null;
+            if (DTO.CreateUserAccount && DTO.User != null)
+            {
+                userEntity = new User
+                {
+                    Email = DTO.User.Email,
+                    Password = DTO.User.Password,
+                    Username = DTO.User.Username,
+                    Person = personEntity,
+                    Roles = DTO.User?.Roles
+                            .Select(r => new Entities.UserRole
+                            {
+                                RoleId = r.RoleId
+                            }).ToList() ?? new List<Entities.UserRole>()
+                };
+            }
+
             return new Employee
             {
                 Id = DTO.Id ?? default,
-                PersonId = DTO.PersonId ?? default,
-                Person = DTO?.Person?.ToEntity(),
-                UserId = DTO.UserId ?? default,
-                User = DTO?.User?.ToEntity(),
+                Person = personEntity,
+                User = userEntity,
                 HireDate = DTO.HireDate,
                 TerminationDate = DTO.TerminationDate,
                 JobTitleId = DTO.JobTitleId,

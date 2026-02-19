@@ -49,3 +49,10 @@ export const DEDUCTION_REASONS = [
   STOCK_REASON.WASTE,
   STOCK_REASON.USAGE,
 ];
+
+export const EmploymentStatuses = [
+  { value: 1, key: "active" },
+  { value: 2, key: "on_leave" },
+  { value: 3, key: "suspended" },
+  { value: 4, key: "terminated" },
+];

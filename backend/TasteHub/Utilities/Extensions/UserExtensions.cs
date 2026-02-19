@@ -26,13 +26,40 @@ namespace TasteHub.Utilities.Extensions
                 CreatedAt = entity.CreatedAt,
                 UpdatedAt = entity.UpdatedAt,
                 Person = entity?.Person?.ToDTO(),
-                Roles = entity.Roles.Select(r => new UserRoleDTO
+                Roles = entity.Roles?.Select(r => new UserRoleDTO
                 {
                     Id = r.Id,
                     RoleId = r.RoleId,
                     UserId = r.UserId,
                     Role = r.Role.ToDTO(),
-                }).ToList()
+                }).ToList() ?? new List<UserRoleDTO>()
+            };
+        }
+
+        public static PublicUserDTO ToPublicDTO(this User entity)
+        {
+            if (entity == null)
+            {
+                return null;
+            }
+
+
+            return new PublicUserDTO
+            {
+                Id = entity.Id,
+                PersonId = entity.PersonId,
+                Email = entity.Email,
+                IsConfirmed = entity.IsConfirmed,
+                CreatedAt = entity.CreatedAt,
+                UpdatedAt = entity.UpdatedAt,
+                Person = entity?.Person?.ToDTO(),
+                Roles = entity.Roles?.Select(r => new UserRoleDTO
+                {
+                    Id = r.Id,
+                    RoleId = r.RoleId,
+                    UserId = r.UserId,
+                    Role = r.Role.ToDTO(),
+                }).ToList() ?? new List<UserRoleDTO>()
             };
         }
 
@@ -49,6 +76,7 @@ namespace TasteHub.Utilities.Extensions
                 PersonId = DTO.PersonId ?? default,
                 Person = DTO?.Person?.ToEntity(),
                 Email = DTO.Email,
+                Username = DTO.Username,
                 IsConfirmed = DTO.IsConfirmed,
                 Password = DTO.Password,
             };
