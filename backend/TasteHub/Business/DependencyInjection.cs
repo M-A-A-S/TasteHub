@@ -28,6 +28,11 @@ namespace TasteHub.Business
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IShiftTypeService, ShiftTypeService>();
+            services.AddScoped<IWorkScheduleService, WorkScheduleService>();
+            services.AddScoped<IAttendanceService, AttendanceService>();
+            services.AddScoped<ILeaveService, LeaveService>();
+            services.AddScoped<ILeaveTypeService, LeaveTypeService>();
+            services.AddScoped<IPayrollService, PayrollService>();
             return services;
         }
     }
