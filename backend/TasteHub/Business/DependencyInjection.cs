@@ -27,6 +27,7 @@ namespace TasteHub.Business
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IShiftTypeService, ShiftTypeService>();
             return services;
         }
     }
