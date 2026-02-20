@@ -141,6 +141,10 @@ namespace TasteHub.DataAccess.Repositories
             try
             {
                 var deleteResult = await DeleteAsync(id);
+                if (!deleteResult.IsSuccess)
+                {
+                    return Result<bool>.Failure(deleteResult.Code);
+                }
                 await _context.SaveChangesAsync();
                 return Result<bool>.Success(true);
             }
