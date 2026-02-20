@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using TasteHub.Business.Interfaces;
+using TasteHub.DataAccess;
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.Role;
 using TasteHub.DTOs.Supplier;
@@ -16,16 +17,19 @@ namespace TasteHub.Business.Services
     {
         private readonly IUserRepository _repo;
         private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IImageService _imageService;
         private readonly IOptions<ImageSettings> _imageSettings;
 
         public UserService(IUserRepository repo, IImageService imageService,
-            IOptions<ImageSettings> imageSettings, IUserRoleRepository userRoleRepository)
+            IOptions<ImageSettings> imageSettings, IUserRoleRepository userRoleRepository,
+            IUnitOfWork unitOfWork)
         {
             _repo = repo;
             _imageService = imageService;
             _imageSettings = imageSettings;
             _userRoleRepository = userRoleRepository;
+            _unitOfWork = unitOfWork;
         }
 
         #region Add
@@ -288,7 +292,7 @@ namespace TasteHub.Business.Services
             .ToList();
 
             // TODO: use unit of work or tractions
-            var deleteResult = await _userRoleRepository.DeleteRangeAndSaveAsync(rolesToRemove);
+            var deleteResult = await _unitOfWork.UserRoles.DeleteRangeAsync(rolesToRemove);
 
             if (!deleteResult.IsSuccess)
             {
@@ -300,7 +304,7 @@ namespace TasteHub.Business.Services
                 .Select(id => new UserRole { UserId = existingResult.Data.Id, RoleId = id })
                 .ToList();
 
-            var addResult =  await _userRoleRepository.AddRangeAndSaveAsync(rolesToAdd);
+            var addResult =  await _unitOfWork.UserRoles.AddRangeAsync(rolesToAdd);
 
             if (!addResult.IsSuccess)
             {

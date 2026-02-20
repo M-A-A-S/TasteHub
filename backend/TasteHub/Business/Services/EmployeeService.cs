@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using TasteHub.Business.Interfaces;
+using TasteHub.DataAccess;
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.Employee;
 using TasteHub.DTOs.Supplier;
@@ -14,17 +15,17 @@ namespace TasteHub.Business.Services
     public class EmployeeService : IEmployeeService
     {
 
-        private readonly IEmployeeRepository _repo;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IImageService _imageService;
         private readonly IOptions<ImageSettings> _imageSettings;
         private readonly IUserService _userService;
         private readonly IPasswordService _passwordService;
 
-        public EmployeeService(IEmployeeRepository repo, IImageService imageService,
+        public EmployeeService(IUnitOfWork unitOfWork, IImageService imageService,
             IOptions<ImageSettings> imageSettings, IUserService userService, 
             IPasswordService passwordService)
         {
-            _repo = repo;
+            _unitOfWork = unitOfWork;
             _imageService = imageService;
             _imageSettings = imageSettings;
             _userService = userService;
@@ -82,7 +83,7 @@ namespace TasteHub.Business.Services
                 entity.User.IsConfirmed = true;
             }
 
-            var addResult = await _repo.AddAndSaveAsync(entity);
+            var addResult = await _unitOfWork.Employees.AddAsync(entity);
             if (!addResult.IsSuccess || addResult.Data == null)
             {
                 if (!string.IsNullOrEmpty(imageUrl))
@@ -91,6 +92,12 @@ namespace TasteHub.Business.Services
                 }
                 return Result<EmployeeDTO>.Failure();
 
+            }
+
+            var saveResult = await _unitOfWork.SaveChangesAsync();
+            if (!saveResult.IsSuccess)
+            {
+                return Result<EmployeeDTO>.Failure(saveResult.Code);
             }
 
             var findResult = await FindByIdAsync(addResult.Data.Id);
@@ -111,7 +118,7 @@ namespace TasteHub.Business.Services
         #region Get
         public async Task<Result<IEnumerable<EmployeeDTO>>> GetAllAsync()
         {
-            var suppliers = await _repo.GetAllAsync();
+            var suppliers = await _unitOfWork.Employees.GetAllAsync();
 
             if (!suppliers.IsSuccess || suppliers.Data == null)
             {
@@ -135,7 +142,7 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<EmployeeDTO>> GetByIdAsync(int id)
         {
-            var findResult = await _repo.FindByAsync(i => i.Id, id, i => i.Person);
+            var findResult = await _unitOfWork.Employees.FindByAsync(i => i.Id, id, i => i.Person);
             if (!findResult.IsSuccess || findResult.Data == null)
             {
                 return Result<EmployeeDTO>.Failure();
@@ -217,7 +224,7 @@ namespace TasteHub.Business.Services
 
             entity.Person.ImageUrl = finalImageUrl;
 
-            var updateResult = await _repo.UpdateAndSaveAsync(entity);
+            var updateResult = await _unitOfWork.Employees.UpdateAsync(entity);
             if (!updateResult.IsSuccess)
             {
                 if (dto.Person?.ImageFile != null &&
@@ -227,6 +234,13 @@ namespace TasteHub.Business.Services
                 }
                 return Result<EmployeeDTO>.Failure();
             }
+
+            var saveResult = await _unitOfWork.SaveChangesAsync();
+            if (!saveResult.IsSuccess)
+            {
+                return Result<EmployeeDTO>.Failure(saveResult.Code);
+            }
+
 
             var findResult = await FindByIdAsync(updateResult.Data.Id);
             if (!findResult.IsSuccess || findResult.Data == null)
@@ -255,28 +269,56 @@ namespace TasteHub.Business.Services
                     "Employee not found");
             }
 
-            var deleteResult = await _repo.DeleteAndSaveAsync(existingResult.Data);
+            var employee = existingResult.Data;
 
-            if (!deleteResult.IsSuccess)
+            if (employee.User != null)
             {
-                return deleteResult;
+                if (employee.User.Roles != null && employee.User.Roles.Any())
+                {
+                    await _unitOfWork.UserRoles.DeleteRangeAsync(employee.User.Roles);
+                }
+
+                await _unitOfWork.Users.DeleteAsync(employee.User);
+
             }
+
+            await _unitOfWork.Employees.DeleteAsync(employee);
+
+            if (!string.IsNullOrWhiteSpace(employee.Person.ImageUrl))
+            {
+                var imageDeleteResult = await _imageService.DeleteImage(employee.Person.ImageUrl);
+                // log failure but continue deletion
+                if (!imageDeleteResult.IsSuccess)
+                {
+                    Console.WriteLine($"Failed to delete image: {employee.Person.ImageUrl}");
+                }
+            }
+
+            await _unitOfWork.People.DeleteAsync(employee.Person);
+
+            var saveResult = await _unitOfWork.SaveChangesAsync();
+            if (!saveResult.IsSuccess)
+                return Result<bool>.Failure(saveResult.Code);
 
             return Result<bool>.Success(true);
         }
+        
         #endregion
 
         #region Private Helpers
         private async Task<Result<Employee>> FindByIdAsync(int id)
         {
-            return await _repo.FindByAsync(
+            return await _unitOfWork.Employees.FindByAsync(
                 x => x.Id == id, 
                 q => q
                     .Include(x => x.Person)
                     .Include(x => x.JobTitle)
+                    //.Include(x => x.User)
+                    //    .ThenInclude(u => u.Person)
                     .Include(x => x.User)
                         .ThenInclude(u => u.Roles)
                             .ThenInclude(r => r.Role)
+   
             );
         }
         #endregion

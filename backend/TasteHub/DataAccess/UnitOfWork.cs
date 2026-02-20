@@ -1,4 +1,6 @@
 ﻿using TasteHub.DataAccess.Interfaces;
+using TasteHub.Utilities;
+using TasteHub.Utilities.ResultCodes;
 
 namespace TasteHub.DataAccess
 {
@@ -15,6 +17,11 @@ namespace TasteHub.DataAccess
         public IMenuItemExtraRepository MenuItemExtras { get; }
         public IExtraRepository Extras { get; }
 
+        public IEmployeeRepository Employees { get; }
+        public IUserRepository Users { get; }
+        public IUserRoleRepository UserRoles { get; }
+        public IPersonRepository People { get; }
+
         public UnitOfWork(AppDbContext context, 
             ILogger<UnitOfWork> logger, 
             IOrderRepository orders, 
@@ -23,7 +30,11 @@ namespace TasteHub.DataAccess
             IMenuItemRepository menuItems,
             IMenuItemSizeRepository menuItemSizes,
             IMenuItemExtraRepository menuItemExtras,
-            IExtraRepository extras
+            IExtraRepository extras,
+            IEmployeeRepository employees,
+            IUserRepository users,
+            IUserRoleRepository userRoles,
+            IPersonRepository people
             )
         {
             _context = context;
@@ -35,18 +46,36 @@ namespace TasteHub.DataAccess
             MenuItemExtras = menuItemExtras;
             Extras = extras;
             _logger = logger;
+            Employees = employees;
+            Users = users;
+            UserRoles = userRoles;
+            People = people;
         }
 
-        public async Task<int> SaveChangesAsync()
+        //public async Task<int> SaveChangesAsync()
+        //{
+        //    try
+        //    {
+        //        return await _context.SaveChangesAsync();
+        //    } 
+        //    catch ( Exception ex )
+        //    {
+        //        _logger.LogError(ex, "Error saving changes in UnitOfWork");
+        //        throw;
+        //    }
+        //}
+
+        public async Task<Result<int>> SaveChangesAsync()
         {
             try
             {
-                return await _context.SaveChangesAsync();
-            } 
-            catch ( Exception ex )
+                var changes = await _context.SaveChangesAsync();
+                return Result<int>.Success(changes);
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Error saving changes in UnitOfWork");
-                throw;
+                return Result<int>.Failure(ResultCodes.DbError);
             }
         }
 

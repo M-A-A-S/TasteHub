@@ -1,4 +1,5 @@
 ﻿using TasteHub.DataAccess.Interfaces;
+using TasteHub.Utilities;
 
 namespace TasteHub.DataAccess
 {
@@ -11,8 +12,13 @@ namespace TasteHub.DataAccess
         IMenuItemSizeRepository MenuItemSizes {  get; }
         IMenuItemExtraRepository MenuItemExtras { get; }
         IExtraRepository Extras { get; }
+        public IEmployeeRepository Employees { get; }
+        public IUserRepository Users { get; }
+        public IUserRoleRepository UserRoles { get; }
+        public IPersonRepository People { get; }
 
-        Task<int> SaveChangesAsync();
+        //Task<int> SaveChangesAsync();
+        Task<Result<int>> SaveChangesAsync();
 
     }
 }

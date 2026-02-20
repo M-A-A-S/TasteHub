@@ -107,12 +107,12 @@ const EmployeesPage = () => {
       result = await create(`Employees`, payload);
       setEmployees((prev) => [...prev, result.data]);
       showSuccess(result?.code, employee_add_success);
+      closeModal();
     } catch (error) {
       console.log("error -> ", error);
       showFail(result?.code, employee_add_fail);
     } finally {
       setActionLoading(false);
-      closeModal();
     }
   }
 
@@ -125,12 +125,12 @@ const EmployeesPage = () => {
         prev.map((cat) => (cat.id === result?.data?.id ? result.data : cat)),
       );
       showSuccess(result?.code, employee_update_success);
+      closeModal();
     } catch (error) {
       console.log("error -> ", error);
       showFail(result?.code, employee_update_fail);
     } finally {
       setActionLoading(false);
-      closeModal();
     }
   }
 
@@ -145,12 +145,12 @@ const EmployeesPage = () => {
       );
 
       showSuccess(result?.code, employee_delete_success);
+      closeModal();
     } catch (error) {
       console.log("error -> ", error);
       showFail(result?.code, employee_delete_fail);
     } finally {
       setActionLoading(false);
-      closeModal();
     }
   }
 

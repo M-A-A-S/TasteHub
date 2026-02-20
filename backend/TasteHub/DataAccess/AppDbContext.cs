@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using TasteHub.Entities;
 
 namespace TasteHub.DataAccess
 {
@@ -68,5 +69,11 @@ namespace TasteHub.DataAccess
             }
 
         }
+        
+        private void SetDeleteBehaviorToCascade(ModelBuilder modelBuilder)
+        {
+        }
+
+
     }
 }
