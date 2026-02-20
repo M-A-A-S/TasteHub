@@ -29,6 +29,7 @@ namespace TasteHub.DataAccess
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IShiftTypeRepository, ShiftTypeRepository>();
+            services.AddScoped<IWorkScheduleRepository, WorkScheduleRepository>();
 
             return services;
         }

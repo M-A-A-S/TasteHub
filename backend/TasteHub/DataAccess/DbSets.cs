@@ -51,7 +51,7 @@ namespace TasteHub.DataAccess
         public DbSet<LeaveType> LeaveTypes { get; set; } = null!;
         public DbSet<Payroll> Payrolls { get; set; } = null!;
 
-        // Lookup tables (Statuses, Types, etc.)
+        // Lookup tables (Statuses, Types, etc.) 
 
     }
 }
