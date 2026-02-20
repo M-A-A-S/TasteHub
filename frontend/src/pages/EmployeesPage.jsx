@@ -217,6 +217,7 @@ const EmployeesPage = () => {
               handleDeleteEmployee={handleDeleteEmployee}
               getFullName={getFullName}
               getGenderName={getGenderName}
+              GetEmploymentStatusName={GetEmploymentStatusName}
             />
           )}
         </>

@@ -522,12 +522,14 @@ const AddEditEmployeeModal = ({
               />
             )}
 
-            <Checkbox
-              label={formData.user.isActive == true ? active : inactive}
-              checked={formData.user.isActive}
-              onChange={(e) => updateUserField("isActive", e.target.checked)}
-              className="accent-orange-600"
-            />
+            {employee && (
+              <Checkbox
+                label={formData.user.isActive == true ? active : inactive}
+                checked={formData.user.isActive}
+                onChange={(e) => updateUserField("isActive", e.target.checked)}
+                className="accent-orange-600"
+              />
+            )}
 
             <RolesSelect
               name="roles"

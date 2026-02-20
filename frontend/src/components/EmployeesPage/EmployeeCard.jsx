@@ -10,7 +10,8 @@ import {
   VenusAndMars,
 } from "lucide-react";
 import { useLanguage } from "../../hooks/useLanguage";
-import { formatMoney, safeCall } from "../../utils/utils";
+import { formatMoney } from "../../utils/utils";
+import EmployeeActions from "./EmployeeActions";
 
 const EmployeeCard = ({
   employee,
@@ -20,8 +21,6 @@ const EmployeeCard = ({
   getGenderName,
   GetEmploymentStatusName,
 }) => {
-  const onEdit = safeCall(handleEditEmployee);
-  const onDelete = safeCall(handleDeleteEmployee);
   const { translations, language } = useLanguage();
 
   const {
@@ -82,21 +81,12 @@ const EmployeeCard = ({
         </div>
 
         {/* Actions */}
-        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition">
-          <button
-            onClick={() => onEdit(employee)}
-            className="p-2 rounded-xl bg-gray-50 dark:bg-slate-700 hover:bg-orange-50 text-gray-500 hover:text-orange-600"
-          >
-            <Edit3 size={16} />
-          </button>
-
-          <button
-            onClick={() => onDelete(employee)}
-            className="p-2 rounded-xl bg-gray-50 dark:bg-slate-700 hover:bg-red-50 text-gray-500 hover:text-red-600"
-          >
-            <Trash2 size={16} />
-          </button>
-        </div>
+        <EmployeeActions
+          handleEditEmployee={handleEditEmployee}
+          handleDeleteEmployee={handleDeleteEmployee}
+          employee={employee}
+          className="opacity-0 group-hover:opacity-100 transition"
+        />
       </div>
 
       {/* Info Section */}
