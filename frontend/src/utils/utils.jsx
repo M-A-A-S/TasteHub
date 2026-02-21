@@ -24,6 +24,9 @@ export const formatMoney = (value, language = "en") => {
   }).format(number);
 };
 
+export const formatTime = (time) =>
+  time && time.length === 5 ? `${time}:00` : time;
+
 export const formatNumber = (value) =>
   new Intl.NumberFormat("en-US").format(value);
 

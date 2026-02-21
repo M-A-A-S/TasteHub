@@ -22,6 +22,7 @@
 
     "hr_management": "إدارة الموارد البشرية",
     "employees": "الموظفين",
+    "shift_types": "أنواع الورديات",
     "work_schedules": "جداول العمل",
     "attendances": "الحضور",
     "leaves": "الإجازات",
@@ -625,6 +626,61 @@
         "user_section_title": "معلومات حساب النظام",
 
         "delete_image_label": "إزالة الصورة الحالية"
+      }
+    },
+    "shift_types_page": {
+      "title": "أنواع الورديات",
+      "description": "إدارة أنواع الورديات وساعات العمل الخاصة بها.",
+      "add_new_shift_type": "إضافة نوع وردية جديد",
+      "edit_shift_type": "تعديل نوع الوردية",
+
+      "shift_type_add_success": "تمت إضافة نوع الوردية بنجاح!",
+      "shift_type_add_fail": "فشل في إضافة نوع الوردية.",
+      "shift_type_update_success": "تم تحديث نوع الوردية بنجاح!",
+      "shift_type_update_fail": "فشل في تحديث نوع الوردية.",
+      "shift_type_delete_success": "تم حذف نوع الوردية بنجاح!",
+      "shift_type_delete_fail": "فشل في حذف نوع الوردية.",
+
+      "shift_type_delete_modal_title": "حذف نوع الوردية",
+      "shift_type_delete_modal_message": "هل أنت متأكد أنك تريد حذف نوع الوردية هذا؟",
+      "shift_type_delete_modal_confirm": "حذف",
+
+      "min": "دقيقة",
+
+      "table_headers": {
+        "shift_name": "اسم الوردية",
+        "start_time": "وقت البدء",
+        "end_time": "وقت الانتهاء",
+        "break_minutes": "مدة الاستراحة (بالدقائق)",
+        "description": "الوصف",
+        "actions": "الإجراءات"
+      },
+
+      "form": {
+        "shift_name_en_label": "اسم الوردية (بالإنجليزية)",
+        "shift_name_en_placeholder": "أدخل اسم الوردية باللغة الإنجليزية",
+        "shift_name_en_error": "اسم الوردية باللغة الإنجليزية مطلوب",
+
+        "shift_name_ar_label": "اسم الوردية (بالعربية)",
+        "shift_name_ar_placeholder": "أدخل اسم الوردية باللغة العربية",
+        "shift_name_ar_error": "اسم الوردية باللغة العربية مطلوب",
+
+        "start_time_label": "وقت البدء",
+        "start_time_placeholder": "اختر وقت البدء",
+        "start_time_error": "وقت البدء مطلوب",
+
+        "end_time_label": "وقت الانتهاء",
+        "end_time_placeholder": "اختر وقت الانتهاء",
+        "end_time_error": "وقت الانتهاء مطلوب",
+
+        "break_minutes_label": "مدة الاستراحة (بالدقائق)",
+        "break_minutes_placeholder": "أدخل مدة الاستراحة بالدقائق",
+        "break_minutes_negative_error": "لا يمكن أن تكون مدة الاستراحة سالبة",
+
+        "time_order_error": "وقت الانتهاء يجب أن يكون بعد وقت البدء",
+
+        "description_label": "الوصف",
+        "description_placeholder": "أدخل وصف الوردية (اختياري)"
       }
     }
   },

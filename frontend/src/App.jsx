@@ -16,6 +16,7 @@ import SuppliersPage from "./pages/SuppliersPage";
 import InventoryTransactionsPage from "./pages/inventoryTransactionsPage";
 import IngredientBatchesPage from "./pages/IngredientBatchesPage";
 import EmployeesPage from "./pages/EmployeesPage";
+import ShiftTypesPage from "./pages/ShiftTypesPage";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
               element={<IngredientBatchesPage />}
             />
             <Route path="/hr/employees" element={<EmployeesPage />} />
+            <Route path="/hr/shift-types" element={<ShiftTypesPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

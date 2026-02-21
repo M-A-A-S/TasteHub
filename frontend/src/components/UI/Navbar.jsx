@@ -12,16 +12,26 @@ const Navbar = () => {
   const pageMap = {
     "/dashboard": "dashboard",
 
+    // Menu Module
     "/menu-items": "menu_items",
     "/menu-categories": "categories",
     "/extras-groups": "extras_groups",
     "/extras": "extras",
     "/sizes": "sizes",
 
+    // Inventory Module
     "/ingredients": "ingredients",
     "/suppliers": "suppliers",
     "/inventory-transactions": "inventory_transactions",
     "/inventory-batches": "inventory_batches",
+
+    // HR Module
+    "/hr/employees": "employees",
+    "/hr/shift-types": "shift_types",
+    "/hr/work-schedules": "work_schedules",
+    "/hr/attendances": "attendances",
+    "/hr/leaves": "leaves",
+    "/hr/payrolls": "payrolls",
 
     "/point-of-sale": "point_of_sale",
     "/orders": "orders",

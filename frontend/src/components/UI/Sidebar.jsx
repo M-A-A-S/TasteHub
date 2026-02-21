@@ -102,6 +102,18 @@ const menus = {
     },
 
     {
+      key: "orders",
+      path: "/orders",
+      icon: <Package />,
+    },
+
+    {
+      key: "analytics",
+      path: "/analytics",
+      icon: <ChartColumn />,
+    },
+
+    {
       key: "menu_management",
       icon: <ChefHat />,
       children: [
@@ -161,22 +173,15 @@ const menus = {
     },
 
     {
-      key: "orders",
-      path: "/orders",
-      icon: <Package />,
-    },
-
-    {
-      key: "analytics",
-      path: "/analytics",
-      icon: <ChartColumn />,
-    },
-
-    {
       key: "hr_management",
       icon: <Users />,
       children: [
         { key: "employees", path: "/hr/employees", icon: <User /> },
+        {
+          key: "shift_types",
+          path: "/hr/shift-types",
+          icon: <Calendar />,
+        },
         {
           key: "work_schedules",
           path: "/hr/work-schedules",
