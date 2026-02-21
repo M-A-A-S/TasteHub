@@ -26,7 +26,8 @@
     "work_schedules": "جداول العمل",
     "attendances": "الحضور",
     "leaves": "الإجازات",
-    "payrolls": "الرواتب"
+    "payrolls": "الرواتب",
+    "leave_types": "أنواع الإجازات"
   },
   "common": {
     "save": "حفظ",
@@ -681,6 +682,52 @@
 
         "description_label": "الوصف",
         "description_placeholder": "أدخل وصف الوردية (اختياري)"
+      }
+    },
+    "leave_types_page": {
+      "title": "أنواع الإجازات",
+      "description": "إدارة أنواع الإجازات وحدودها السنوية.",
+      "add_new_leave_type": "إضافة نوع إجازة جديد",
+      "edit_leave_type": "تعديل نوع الإجازة",
+
+      "leave_type_add_success": "تمت إضافة نوع الإجازة بنجاح!",
+      "leave_type_add_fail": "فشل في إضافة نوع الإجازة.",
+      "leave_type_update_success": "تم تحديث نوع الإجازة بنجاح!",
+      "leave_type_update_fail": "فشل في تحديث نوع الإجازة.",
+      "leave_type_delete_success": "تم حذف نوع الإجازة بنجاح!",
+      "leave_type_delete_fail": "فشل في حذف نوع الإجازة.",
+
+      "leave_type_delete_modal_title": "حذف نوع الإجازة",
+      "leave_type_delete_modal_message": "هل أنت متأكد أنك تريد حذف نوع الإجازة هذا؟",
+      "leave_type_delete_modal_confirm": "حذف",
+
+      "paid": "مدفوعة",
+      "unpaid": "غير مدفوعة",
+      "days": "يوم",
+
+      "table_headers": {
+        "name": "اسم الإجازة",
+        "is_paid": "نوع الدفع",
+        "default_days_per_year": "عدد الأيام الافتراضي سنوياً",
+        "created_at": "تاريخ الإنشاء",
+        "updated_at": "تاريخ التحديث",
+        "actions": "الإجراءات"
+      },
+
+      "form": {
+        "name_en_label": "اسم الإجازة (بالإنجليزية)",
+        "name_en_placeholder": "أدخل اسم الإجازة باللغة الإنجليزية",
+        "name_en_error": "اسم الإجازة باللغة الإنجليزية مطلوب",
+
+        "name_ar_label": "اسم الإجازة (بالعربية)",
+        "name_ar_placeholder": "أدخل اسم الإجازة باللغة العربية",
+        "name_ar_error": "اسم الإجازة باللغة العربية مطلوب",
+
+        "is_paid_label": "هل الإجازة مدفوعة؟",
+        "default_days_label": "عدد الأيام الافتراضي سنوياً",
+        "default_days_placeholder": "أدخل عدد الأيام",
+        "default_days_error": "عدد الأيام الافتراضي مطلوب",
+        "default_days_negative_error": "لا يمكن أن يكون عدد الأيام سالباً"
       }
     }
   },

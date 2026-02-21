@@ -28,6 +28,7 @@ const Navbar = () => {
     // HR Module
     "/hr/employees": "employees",
     "/hr/shift-types": "shift_types",
+    "/hr/leave-types": "leave_types",
     "/hr/work-schedules": "work_schedules",
     "/hr/attendances": "attendances",
     "/hr/leaves": "leaves",

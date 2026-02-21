@@ -183,6 +183,11 @@ const menus = {
           icon: <Calendar />,
         },
         {
+          key: "leave_types",
+          path: "/hr/leave-types",
+          icon: <FileText />,
+        },
+        {
           key: "work_schedules",
           path: "/hr/work-schedules",
           icon: <Calendar />,
