@@ -1,4 +1,5 @@
-﻿using TasteHub.DTOs.JobTitle;
+﻿using TasteHub.DTOs.Employee;
+using TasteHub.DTOs.JobTitle;
 using TasteHub.DTOs.WorkSchedule;
 using TasteHub.Entities;
 
@@ -20,9 +21,19 @@ namespace TasteHub.Utilities.Extensions
                 ShiftTypeId = entity.ShiftTypeId,
                 DayOfWeek = entity.DayOfWeek,
                 IsActive = entity.IsActive,
+                AdditionalNotes = entity.AdditionalNotes,
                 CreatedAt = entity.CreatedAt,
                 UpdatedAt = entity.UpdatedAt,
                 ShiftType = entity?.ShiftType?.ToDTO(),
+                Employee = new EmployeeDTO 
+                {
+                    Id = entity?.Employee.Id,
+                    EmploymentStatus = entity.Employee.EmploymentStatus,
+                    HireDate = entity.Employee.HireDate,
+                    TerminationDate = entity.Employee.TerminationDate,
+                    BaseSalary = entity.Employee.BaseSalary,
+                    Person = entity.Employee.Person.ToDTO(),
+                }
             };
         }
 
@@ -39,6 +50,7 @@ namespace TasteHub.Utilities.Extensions
                 EmployeeId = DTO.EmployeeId,
                 ShiftTypeId = DTO.ShiftTypeId,
                 DayOfWeek = DTO.DayOfWeek,
+                AdditionalNotes = DTO.AdditionalNotes,
                 IsActive = DTO.IsActive,
             };
         }
@@ -54,6 +66,7 @@ namespace TasteHub.Utilities.Extensions
             entity.EmployeeId = DTO.EmployeeId;
             entity.ShiftTypeId = DTO.ShiftTypeId;
             entity.DayOfWeek = DTO.DayOfWeek;
+            entity.AdditionalNotes = DTO.AdditionalNotes;
             entity.IsActive = DTO.IsActive;
 
             entity.UpdatedAt = DateTime.UtcNow;

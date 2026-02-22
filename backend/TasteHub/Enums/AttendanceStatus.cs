@@ -2,7 +2,11 @@
 {
     public enum AttendanceStatus
     {
-        Present, 
-        Absent
+        NotRecorded = 0,
+        Present = 1,
+        Absent = 2,
+        Leave = 3,
+        Holiday = 4,
+        Weekend = 5
     }
 }

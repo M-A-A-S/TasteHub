@@ -56,3 +56,22 @@ export const EmploymentStatuses = [
   { value: 3, key: "suspended" },
   { value: 4, key: "terminated" },
 ];
+
+export const DaysOfWeek = [
+  { value: 0, key: "sunday" },
+  { value: 1, key: "monday" },
+  { value: 2, key: "tuesday" },
+  { value: 3, key: "wednesday" },
+  { value: 4, key: "thursday" },
+  { value: 5, key: "friday" },
+  { value: 6, key: "saturday" },
+];
+
+export const AttendanceStatus = [
+  { value: 0, key: "not_recorded" },
+  { value: 1, key: "present" },
+  { value: 2, key: "absent" },
+  { value: 3, key: "leave" },
+  { value: 4, key: "holiday" },
+  { value: 5, key: "weekend" },
+];

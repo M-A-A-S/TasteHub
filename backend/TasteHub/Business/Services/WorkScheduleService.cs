@@ -1,4 +1,5 @@
-﻿using TasteHub.Business.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TasteHub.Business.Interfaces;
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.WorkSchedule;
 using TasteHub.Entities;
@@ -44,7 +45,9 @@ namespace TasteHub.Business.Services
         #region Get
         public async Task<Result<IEnumerable<WorkScheduleDTO>>> GetAllAsync()
         {
-            var suppliers = await _repo.GetAllAsync();
+            var suppliers = await _repo.GetAllAsync(include: q => q.Include(x => x.ShiftType)
+                .Include(x => x.Employee)
+                .ThenInclude(x => x.Person));
 
             if (!suppliers.IsSuccess || suppliers.Data == null)
             {
@@ -64,7 +67,11 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<WorkScheduleDTO>> GetByIdAsync(int id)
         {
-            var findResult = await _repo.FindByAsync(i => i.Id == id);
+            var findResult = await _repo.FindByAsync(i => i.Id == id, 
+                q => q.Include(x => x.ShiftType)
+                .Include(x => x.Employee)
+                .ThenInclude(x => x.Person));
+
             if (!findResult.IsSuccess || findResult.Data == null)
             {
                 return Result<WorkScheduleDTO>.Failure();
@@ -120,7 +127,9 @@ namespace TasteHub.Business.Services
         #region Private Helpers
         private async Task<Result<WorkSchedule>> FindByIdAsync(int id)
         {
-            return await _repo.FindByAsync(item => item.Id, id);
+            return await _repo.FindByAsync(item => item.Id == id, q => q.Include(x => x.ShiftType)
+                .Include(x => x.Employee)
+                .ThenInclude(x => x.Person));
         }
         #endregion
     }

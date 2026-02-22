@@ -18,6 +18,8 @@ import IngredientBatchesPage from "./pages/IngredientBatchesPage";
 import EmployeesPage from "./pages/EmployeesPage";
 import ShiftTypesPage from "./pages/ShiftTypesPage";
 import LeaveTypesPage from "./pages/LeaveTypesPage";
+import WorkSchedulesPage from "./pages/WorkSchedulesPage";
+import AttendancePage from "./pages/AttendancePage";
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
             <Route path="/hr/employees" element={<EmployeesPage />} />
             <Route path="/hr/shift-types" element={<ShiftTypesPage />} />
             <Route path="/hr/leave-types" element={<LeaveTypesPage />} />
+            <Route path="/hr/work-schedules" element={<WorkSchedulesPage />} />
+            <Route path="/hr/attendances" element={<AttendancePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

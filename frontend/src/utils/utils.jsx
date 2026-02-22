@@ -47,7 +47,7 @@ export function showSuccess(serverCode = "", frontMessage = "") {
   const translations = getTranslations();
 
   const message =
-    (serverCode && translations?.server_messages?.[serverCode]) ||
+    (serverCode && translations?.server_codes?.[serverCode]) ||
     frontMessage ||
     translations.common.success ||
     "Operation successful!";
@@ -58,8 +58,11 @@ export function showSuccess(serverCode = "", frontMessage = "") {
 export function showFail(serverCode = "", frontMessage = "") {
   const translations = getTranslations();
 
+  console.log("serverCode -> ", serverCode);
+  console.log("translations -> ", translations);
+
   const message =
-    (serverCode && translations?.server_messages?.[serverCode]) ||
+    (serverCode && translations?.server_codes?.[serverCode]) ||
     frontMessage ||
     translations.common.fail ||
     "Operation failed!";

@@ -31,6 +31,7 @@ namespace TasteHub.Entities
         public bool IsApproved { get; set; } = false;
 
         public string? AdditionalNotes { get; set; }
+        //public int? RecordedByUserId { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

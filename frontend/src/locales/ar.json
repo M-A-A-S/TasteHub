@@ -729,9 +729,107 @@
         "default_days_error": "عدد الأيام الافتراضي مطلوب",
         "default_days_negative_error": "لا يمكن أن يكون عدد الأيام سالباً"
       }
+    },
+    "work_schedules_page": {
+      "title": "جداول العمل",
+      "description": "إدارة جداول عمل الموظفين والورديات.",
+
+      "add_new_work_schedule": "إضافة جدول عمل جديد",
+      "edit_work_schedule": "تعديل جدول العمل",
+
+      "work_schedule_add_success": "تمت إضافة جدول العمل بنجاح!",
+      "work_schedule_add_fail": "فشل في إضافة جدول العمل.",
+      "work_schedule_update_success": "تم تحديث جدول العمل بنجاح!",
+      "work_schedule_update_fail": "فشل في تحديث جدول العمل.",
+      "work_schedule_delete_success": "تم حذف جدول العمل بنجاح!",
+      "work_schedule_delete_fail": "فشل في حذف جدول العمل.",
+
+      "work_schedule_delete_modal_title": "حذف جدول العمل",
+      "work_schedule_delete_modal_message": "هل أنت متأكد أنك تريد حذف جدول العمل هذا؟",
+      "work_schedule_delete_modal_confirm": "حذف",
+
+      "active": "نشط",
+      "inactive": "غير نشط",
+
+      "days": {
+        "sunday": "الأحد",
+        "monday": "الاثنين",
+        "tuesday": "الثلاثاء",
+        "wednesday": "الأربعاء",
+        "thursday": "الخميس",
+        "friday": "الجمعة",
+        "saturday": "السبت"
+      },
+
+      "table_headers": {
+        "employee": "الموظف",
+        "shift_type": "نوع الوردية",
+        "day_of_week": "اليوم",
+        "is_active": "الحالة",
+        "notes": "ملاحظات",
+        "actions": "الإجراءات"
+      },
+
+      "form": {
+        "employee_label": "الموظف",
+        "employee_placeholder": "اختر الموظف",
+        "employee_error": "الموظف مطلوب",
+
+        "shift_type_label": "نوع الوردية",
+        "shift_type_placeholder": "اختر نوع الوردية",
+        "shift_type_error": "نوع الوردية مطلوب",
+
+        "day_of_week_label": "اليوم",
+        "day_of_week_placeholder": "اختر اليوم",
+        "day_of_week_error": "اليوم مطلوب",
+
+        "is_active_label": "هل الجدول نشط؟",
+        "notes_label": "ملاحظات إضافية",
+        "notes_placeholder": "أدخل ملاحظات (اختياري)"
+      }
+    },
+    "attendance_page": {
+      "title": "الحضور اليومي",
+      "description": "تتبع وإدارة حضور الموظفين، بما في ذلك تسجيل الدخول والخروج وحالة الحضور اليومية.",
+
+      "attendance_checkin_success": "تم تسجيل الحضور بنجاح",
+      "attendance_checkin_fail": "فشل تسجيل الحضور",
+      "attendance_checkout_success": "تم تسجيل الانصراف بنجاح",
+      "attendance_checkout_fail": "فشل تسجيل الانصراف",
+
+      "check_in_btn": "تسجيل حضور",
+      "check_out_btn": "تسجيل انصراف",
+
+      "min": "دقيقة",
+
+      "status_labels": {
+        "NotRecorded": "غير مسجل",
+        "Present": "حاضر",
+        "Absent": "غائب",
+        "Leave": "إجازة",
+        "Holiday": "عطلة",
+        "Weekend": "نهاية أسبوع"
+      },
+
+      "table_headers": {
+        "employee": "الموظف",
+        "check_in": "وقت الحضور",
+        "check_out": "وقت الانصراف",
+        "late_minutes": "دقائق التأخير",
+        "overtime_minutes": "دقائق العمل الإضافي",
+        "status": "الحالة",
+        "actions": "الإجراءات"
+      }
     }
   },
-  "server_codes": {},
+  "server_codes": {
+    "already_checked_in": "تم تسجيل حضور الموظف مسبقاً اليوم",
+    "check_in_required": "يجب تسجيل الحضور أولاً قبل تسجيل الانصراف",
+    "already_checked_out": "تم تسجيل الانصراف مسبقاً اليوم",
+    "no_active_work_schedule_for_today": "لا يوجد جدول عمل نشط لهذا اليوم",
+    "not_within_shift_time": "يمكنك تسجيل الحضور فقط خلال وقت الدوام المحدد",
+    "early_checkout_not_allowed": "لا يمكن تسجيل الانصراف قبل انتهاء وقت الدوام"
+  },
   "validations": {
     "required": "هذا الحقل مطلوب",
     "invalid_email": "الرجاء إدخال بريد إلكتروني صالح",
@@ -772,5 +870,13 @@
     "on_leave": "في إجازة",
     "suspended": "موقوف",
     "terminated": "منتهي الخدمة"
+  },
+  "attendance_status": {
+    "not_recorded": "غير مسجل",
+    "present": "حاضر",
+    "absent": "غائب",
+    "leave": "في إجازة",
+    "holiday": "عطلة رسمية",
+    "weekend": "عطلة نهاية الأسبوع"
   }
 }

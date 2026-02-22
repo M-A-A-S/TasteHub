@@ -21,6 +21,8 @@ namespace TasteHub.DataAccess
         public IUserRepository Users { get; }
         public IUserRoleRepository UserRoles { get; }
         public IPersonRepository People { get; }
+        public IAttendanceRepository Attendances { get; }
+        public IWorkScheduleRepository WorkSchedules { get; }
 
         public UnitOfWork(AppDbContext context, 
             ILogger<UnitOfWork> logger, 
@@ -34,7 +36,9 @@ namespace TasteHub.DataAccess
             IEmployeeRepository employees,
             IUserRepository users,
             IUserRoleRepository userRoles,
-            IPersonRepository people
+            IPersonRepository people,
+            IAttendanceRepository attendances,
+            IWorkScheduleRepository workSchedules
             )
         {
             _context = context;
@@ -50,6 +54,8 @@ namespace TasteHub.DataAccess
             Users = users;
             UserRoles = userRoles;
             People = people;
+            Attendances = attendances;
+            WorkSchedules = workSchedules;
         }
 
         //public async Task<int> SaveChangesAsync()

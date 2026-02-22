@@ -302,6 +302,36 @@ namespace TasteHub.DataAccess.Repositories
         }
 
 
+        public virtual async Task<Result<IEnumerable<T>>> GetAllAsync(
+  Expression<Func<T, bool>> predicate = null,
+Func<IQueryable<T>, IQueryable<T>>? include = null)
+        {
+            try
+            {
+                //IQueryable<T> query = _dbSet.AsNoTracking().AsSplitQuery();
+                IQueryable<T> query = _dbSet.AsSplitQuery();
+
+                if (include != null)
+                {
+                    query = include(query);
+                }
+
+                if (predicate != null)
+                {
+                    query = query.Where(predicate);
+                }
+
+                var data = await query.ToListAsync();
+
+                return Result<IEnumerable<T>>.Success(data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while retrieving all entities.");
+                return Result<IEnumerable<T>>.Failure(ResultCodes.ServerError, 500, "Server error");
+            }
+        }
+
         public virtual async Task<Result<T>> FindByAsync(
 Expression<Func<T, bool>> predicate,
 Func<IQueryable<T>, IQueryable<T>>? include = null)

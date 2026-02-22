@@ -9,6 +9,8 @@ namespace TasteHub.Business.Interfaces
         Task<Result<AttendanceDTO>> UpdateAsync(int id, AttendanceDTO dto);
         Task<Result<bool>> DeleteAsync(int id);
         Task<Result<AttendanceDTO>> GetByIdAsync(int id);
-        Task<Result<IEnumerable<AttendanceDTO>>> GetAllAsync();
+        Task<Result<IEnumerable<AttendanceDTO>>> GetAllAsync(AttendanceFiltersDTO filters);
+        Task<Result<bool>> CheckInAsync(int employeeId);
+        Task<Result<bool>> CheckOutAsync(int employeeId);
     }
 }

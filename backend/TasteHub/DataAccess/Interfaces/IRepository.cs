@@ -14,6 +14,10 @@ namespace TasteHub.DataAccess.Interfaces
     TValue value,
     params Expression<Func<T, object>>[] includes);
 
+        Task<Result<IEnumerable<T>>> GetAllAsync(
+  Expression<Func<T, bool>> predicate = null,
+Func<IQueryable<T>, IQueryable<T>>? include = null);
+
         Task<Result<T>> FindByAsync(
 Expression<Func<T, bool>> predicate,
 Func<IQueryable<T>, IQueryable<T>>? include = null);

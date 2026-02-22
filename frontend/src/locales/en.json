@@ -728,9 +728,107 @@
         "default_days_error": "Default days per year is required",
         "default_days_negative_error": "Days cannot be negative"
       }
+    },
+    "work_schedules_page": {
+      "title": "Work Schedules",
+      "description": "Manage employee work schedules and shift assignments.",
+
+      "add_new_work_schedule": "Add New Work Schedule",
+      "edit_work_schedule": "Edit Work Schedule",
+
+      "work_schedule_add_success": "Work schedule added successfully!",
+      "work_schedule_add_fail": "Failed to add work schedule.",
+      "work_schedule_update_success": "Work schedule updated successfully!",
+      "work_schedule_update_fail": "Failed to update work schedule.",
+      "work_schedule_delete_success": "Work schedule deleted successfully!",
+      "work_schedule_delete_fail": "Failed to delete work schedule.",
+
+      "work_schedule_delete_modal_title": "Delete Work Schedule",
+      "work_schedule_delete_modal_message": "Are you sure you want to delete this work schedule?",
+      "work_schedule_delete_modal_confirm": "Delete",
+
+      "active": "Active",
+      "inactive": "Inactive",
+
+      "days": {
+        "sunday": "Sunday",
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday"
+      },
+
+      "table_headers": {
+        "employee": "Employee",
+        "shift_type": "Shift Type",
+        "day_of_week": "Day",
+        "is_active": "Status",
+        "notes": "Notes",
+        "actions": "Actions"
+      },
+
+      "form": {
+        "employee_label": "Employee",
+        "employee_placeholder": "Select employee",
+        "employee_error": "Employee is required",
+
+        "shift_type_label": "Shift Type",
+        "shift_type_placeholder": "Select shift type",
+        "shift_type_error": "Shift type is required",
+
+        "day_of_week_label": "Day of Week",
+        "day_of_week_placeholder": "Select day",
+        "day_of_week_error": "Day of week is required",
+
+        "is_active_label": "Is Active?",
+        "notes_label": "Additional Notes",
+        "notes_placeholder": "Enter notes (optional)"
+      }
+    },
+    "attendance_page": {
+      "title": "Daily Attendance",
+      "description": "Track and manage employee attendance, including check-ins, check-outs, and daily status records.",
+
+      "attendance_checkin_success": "Check-in recorded successfully!",
+      "attendance_checkin_fail": "Failed to record check-in.",
+      "attendance_checkout_success": "Check-out recorded successfully!",
+      "attendance_checkout_fail": "Failed to record check-out.",
+
+      "check_in_btn": "Check In",
+      "check_out_btn": "Check Out",
+
+      "min": "min",
+
+      "status_labels": {
+        "NotRecorded": "Not Recorded",
+        "Present": "Present",
+        "Absent": "Absent",
+        "Leave": "On Leave",
+        "Holiday": "Holiday",
+        "Weekend": "Weekend"
+      },
+
+      "table_headers": {
+        "employee": "Employee",
+        "check_in": "Check In",
+        "check_out": "Check Out",
+        "late_minutes": "Late (min)",
+        "overtime_minutes": "Overtime (min)",
+        "status": "Status",
+        "actions": "Actions"
+      }
     }
   },
-  "server_codes": {},
+  "server_codes": {
+    "already_checked_in": "Employee already checked in today",
+    "check_in_required": "Check-in is required before check-out",
+    "already_checked_out": "Employee already checked out today",
+    "no_active_work_schedule_for_today": "No active work schedule found for today",
+    "not_within_shift_time": "You can only check in during your assigned shift time",
+    "early_checkout_not_allowed": "Early check-out is not allowed before shift end time"
+  },
   "validations": {
     "required": "This field is required",
     "invalid_email": "Please enter a valid email address",
@@ -770,5 +868,13 @@
     "on_leave": "On Leave",
     "suspended": "Suspended",
     "terminated": "Terminated"
+  },
+  "attendance_status": {
+    "not_recorded": "Not Recorded",
+    "present": "Present",
+    "absent": "Absent",
+    "leave": "On Leave",
+    "holiday": "Holiday",
+    "weekend": "Weekend"
   }
 }

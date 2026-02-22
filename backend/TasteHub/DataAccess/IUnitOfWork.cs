@@ -16,6 +16,8 @@ namespace TasteHub.DataAccess
         public IUserRepository Users { get; }
         public IUserRoleRepository UserRoles { get; }
         public IPersonRepository People { get; }
+        public IAttendanceRepository Attendances { get; }
+        public IWorkScheduleRepository WorkSchedules { get; }
 
         //Task<int> SaveChangesAsync();
         Task<Result<int>> SaveChangesAsync();
