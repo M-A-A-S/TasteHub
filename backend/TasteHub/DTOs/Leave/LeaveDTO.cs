@@ -17,6 +17,7 @@ namespace TasteHub.DTOs.Leave
         public LeaveStatus LeaveStatus { get; set; } = LeaveStatus.Pending;
         public int? ApprovedByEmployeeId { get; set; }
         public DateTime? ApprovedAt { get; set; }
+        public bool? IsApprove { get; set; }
         public string? Reason { get; set; }
         public string? AdditionalNotes { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;

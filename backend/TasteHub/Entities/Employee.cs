@@ -43,5 +43,6 @@ namespace TasteHub.Entities
         public ICollection<Leave>? ApprovedLeaves { get; set; }
         public ICollection<Payroll>? Payrolls { get; set; }
         public ICollection<WorkSchedule>? WorkSchedules { get; set; }
+        public ICollection<LeaveBalance>? LeaveBalances { get; set; }
     }
 }

@@ -44,5 +44,24 @@ namespace TasteHub.Controllers
         {
             return FromResult(await _service.DeleteAsync(id));
         }
+
+        [HttpPost("request")]
+        public async Task<IActionResult> RequestLeave([FromBody] LeaveDTO DTO)
+        {
+            return FromResult(await _service.CreateLeaveAsync(DTO));
+        }
+
+        [HttpPut("leave")]
+        public async Task<IActionResult> ApproveLeave([FromBody] LeaveDTO DTO)
+        {
+            return FromResult(await _service.ApproveLeaveAsync(DTO));
+        }
+
+        [HttpPut("cancel/{id}")]
+        public async Task<IActionResult> Cancel(int id)
+        {
+            return FromResult(await _service.CancelLeaveAsync(id));
+        }
+
     }
 }

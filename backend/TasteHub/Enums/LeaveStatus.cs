@@ -3,6 +3,8 @@
     public enum LeaveStatus
     {
         Pending,
-        Approved
+        Approved,
+        Rejected,
+        Cancelled
     }
 }

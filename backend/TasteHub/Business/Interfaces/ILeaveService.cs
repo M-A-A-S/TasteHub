@@ -10,5 +10,8 @@ namespace TasteHub.Business.Interfaces
         Task<Result<bool>> DeleteAsync(int id);
         Task<Result<LeaveDTO>> GetByIdAsync(int id);
         Task<Result<IEnumerable<LeaveDTO>>> GetAllAsync();
+        Task<Result<bool>> CreateLeaveAsync(LeaveDTO dto);
+        Task<Result<bool>> ApproveLeaveAsync(LeaveDTO dto);
+        Task<Result<bool>> CancelLeaveAsync(int leaveId);
     }
 }

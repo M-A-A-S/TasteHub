@@ -347,8 +347,8 @@
       "low_stock_alerts": "تنبيهات نفاد المخزون",
       "sales_velocity": "سرعة المبيعات",
       "popular_dishes": "الأطباق الشهيرة",
-      "title": "نظرة عامة على المتجر",
-      "description": "مرحبًا بعودتك، المسؤول. هذا ما يحدث اليوم.",
+      "title": "لوحة تحكم المطعم",
+      "description": "مرحبًا بعودتك، مدير النظام. إليك نظرة شاملة على عمليات المطعم اليوم.",
       "orders": "طلبات"
     },
     "ingredients_page": {
@@ -818,6 +818,96 @@
         "late_minutes": "دقائق التأخير",
         "overtime_minutes": "دقائق العمل الإضافي",
         "status": "الحالة",
+        "actions": "الإجراءات"
+      }
+    },
+
+    "leave_requests_page": {
+      "title": "طلبات الإجازة",
+      "description": "تقديم ومتابعة طلبات الإجازة الخاصة بك ومراقبة حالة الموافقة عليها.",
+
+      "request_leave_btn": "طلب إجازة",
+      "cancel_leave_btn": "إلغاء الطلب",
+      "view_details_btn": "عرض التفاصيل",
+
+      "leave_request_success": "تم تقديم طلب الإجازة بنجاح!",
+      "leave_request_fail": "فشل في تقديم طلب الإجازة.",
+      "leave_cancel_success": "تم إلغاء طلب الإجازة بنجاح!",
+      "leave_cancel_fail": "فشل في إلغاء طلب الإجازة.",
+
+      "form_labels": {
+        "leave_type": "نوع الإجازة",
+        "start_date": "تاريخ البداية",
+        "end_date": "تاريخ النهاية",
+        "total_days": "إجمالي الأيام",
+        "reason": "السبب",
+        "additional_notes": "ملاحظات إضافية"
+      },
+
+      "validation_messages": {
+        "balance_exceeded": "عدد الأيام المطلوبة يتجاوز رصيد الإجازات المتاح.",
+        "date_invalid": "يجب أن يكون تاريخ النهاية بعد تاريخ البداية.",
+        "overlapping_leave": "لديك إجازة معتمدة خلال هذه الفترة."
+      },
+
+      "status_labels": {
+        "Pending": "قيد الانتظار",
+        "Approved": "تمت الموافقة",
+        "Rejected": "مرفوض",
+        "Cancelled": "ملغي"
+      },
+
+      "table_headers": {
+        "leave_type": "نوع الإجازة",
+        "start_date": "تاريخ البداية",
+        "end_date": "تاريخ النهاية",
+        "total_days": "الأيام",
+        "status": "الحالة",
+        "created_at": "تاريخ التقديم",
+        "actions": "الإجراءات"
+      }
+    },
+
+    "leave_approvals_page": {
+      "title": "الموافقة على الإجازات",
+      "description": "مراجعة وإدارة طلبات إجازات الموظفين.",
+
+      "approve_btn": "موافقة",
+      "reject_btn": "رفض",
+      "view_details_btn": "عرض التفاصيل",
+
+      "approve_success": "تمت الموافقة على طلب الإجازة بنجاح!",
+      "approve_fail": "فشل في الموافقة على طلب الإجازة.",
+      "reject_success": "تم رفض طلب الإجازة بنجاح!",
+      "reject_fail": "فشل في رفض طلب الإجازة.",
+
+      "rejection_reason_label": "سبب الرفض",
+      "approval_notes_label": "ملاحظات المدير",
+
+      "filters": {
+        "all": "جميع الطلبات",
+        "pending": "قيد الانتظار",
+        "approved": "تمت الموافقة",
+        "rejected": "مرفوض",
+        "cancelled": "ملغي"
+      },
+
+      "status_labels": {
+        "Pending": "قيد الانتظار",
+        "Approved": "تمت الموافقة",
+        "Rejected": "مرفوض",
+        "Cancelled": "ملغي"
+      },
+
+      "table_headers": {
+        "employee": "الموظف",
+        "leave_type": "نوع الإجازة",
+        "start_date": "تاريخ البداية",
+        "end_date": "تاريخ النهاية",
+        "total_days": "الأيام",
+        "status": "الحالة",
+        "submitted_at": "تاريخ التقديم",
+        "approved_at": "تاريخ الموافقة",
         "actions": "الإجراءات"
       }
     }

@@ -344,8 +344,8 @@
       "low_stock_alerts": "Low Stock Alerts",
       "sales_velocity": "Sales Velocity",
       "popular_dishes": "Popular Dishes",
-      "title": "Store Overview",
-      "description": "Welcome back, Admin. Here's what's happening today.",
+      "title": "Restaurant Dashboard",
+      "description": "Welcome back, Admin. Here's an overview of today's restaurant operations.",
       "orders": "Orders"
     },
     "ingredients_page": {
@@ -817,6 +817,95 @@
         "late_minutes": "Late (min)",
         "overtime_minutes": "Overtime (min)",
         "status": "Status",
+        "actions": "Actions"
+      }
+    },
+    "leave_requests_page": {
+      "title": "Leave Requests",
+      "description": "Submit and track your leave requests and monitor their approval status.",
+
+      "request_leave_btn": "Request Leave",
+      "cancel_leave_btn": "Cancel Request",
+      "view_details_btn": "View Details",
+
+      "leave_request_success": "Leave request submitted successfully!",
+      "leave_request_fail": "Failed to submit leave request.",
+      "leave_cancel_success": "Leave request canceled successfully!",
+      "leave_cancel_fail": "Failed to cancel leave request.",
+
+      "form_labels": {
+        "leave_type": "Leave Type",
+        "start_date": "Start Date",
+        "end_date": "End Date",
+        "total_days": "Total Days",
+        "reason": "Reason",
+        "additional_notes": "Additional Notes"
+      },
+
+      "validation_messages": {
+        "balance_exceeded": "Requested days exceed your available leave balance.",
+        "date_invalid": "End date must be after start date.",
+        "overlapping_leave": "You already have approved leave during this period."
+      },
+
+      "status_labels": {
+        "Pending": "Pending",
+        "Approved": "Approved",
+        "Rejected": "Rejected",
+        "Cancelled": "Cancelled"
+      },
+
+      "table_headers": {
+        "leave_type": "Leave Type",
+        "start_date": "Start Date",
+        "end_date": "End Date",
+        "total_days": "Days",
+        "status": "Status",
+        "created_at": "Submitted At",
+        "actions": "Actions"
+      }
+    },
+
+    "leave_approvals_page": {
+      "title": "Leave Approvals",
+      "description": "Review and manage employee leave approval requests.",
+
+      "approve_btn": "Approve",
+      "reject_btn": "Reject",
+      "view_details_btn": "View Details",
+
+      "approve_success": "Leave request approved successfully!",
+      "approve_fail": "Failed to approve leave request.",
+      "reject_success": "Leave request rejected successfully!",
+      "reject_fail": "Failed to reject leave request.",
+
+      "rejection_reason_label": "Rejection Reason",
+      "approval_notes_label": "Manager Notes",
+
+      "filters": {
+        "all": "All Requests",
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "cancelled": "Cancelled"
+      },
+
+      "status_labels": {
+        "Pending": "Pending",
+        "Approved": "Approved",
+        "Rejected": "Rejected",
+        "Cancelled": "Cancelled"
+      },
+
+      "table_headers": {
+        "employee": "Employee",
+        "leave_type": "Leave Type",
+        "start_date": "Start Date",
+        "end_date": "End Date",
+        "total_days": "Days",
+        "status": "Status",
+        "submitted_at": "Submitted At",
+        "approved_at": "Approved At",
         "actions": "Actions"
       }
     }
