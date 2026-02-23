@@ -199,6 +199,11 @@ const menus = {
           path: "/hr/leave-requests",
           icon: <FileText />,
         },
+        {
+          key: "leave_approvals",
+          path: "/hr/leave-approvals",
+          icon: <FileText />,
+        },
         { key: "payrolls", path: "/hr/payrolls", icon: <DollarSign /> },
       ],
     },

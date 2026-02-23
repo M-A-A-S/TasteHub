@@ -842,6 +842,14 @@
       "cancel": "تراجع",
       "confirm_cancel": "نعم، قم بإلغاء الطلب",
 
+      "approve_modal_title": "الموافقة على طلب الإجازة",
+      "approve_modal_message": "هل أنت متأكد أنك تريد الموافقة على طلب الإجازة؟ سيتم خصم الرصيد من إجازات الموظف.",
+      "confirm_approve": "تأكيد الموافقة",
+
+      "reject_modal_title": "رفض طلب الإجازة",
+      "reject_modal_message": "هل أنت متأكد أنك تريد رفض طلب الإجازة؟ لا يمكن التراجع عن هذا الإجراء.",
+      "confirm_reject": "تأكيد الرفض",
+
       "form": {
         "employee_label": "الموظف",
         "employee_placeholder": "اختر الموظف",
@@ -925,6 +933,14 @@
 
       "rejection_reason_label": "سبب الرفض",
       "approval_notes_label": "ملاحظات المدير",
+
+      "approve_modal_title": "الموافقة على طلب الإجازة",
+      "approve_modal_message": "هل أنت متأكد أنك تريد الموافقة على طلب الإجازة؟ سيتم خصم الرصيد من إجازات الموظف.",
+      "confirm_approve": "تأكيد الموافقة",
+
+      "reject_modal_title": "رفض طلب الإجازة",
+      "reject_modal_message": "هل أنت متأكد أنك تريد رفض طلب الإجازة؟ لا يمكن التراجع عن هذا الإجراء.",
+      "confirm_reject": "تأكيد الرفض",
 
       "filters": {
         "all": "جميع الطلبات",

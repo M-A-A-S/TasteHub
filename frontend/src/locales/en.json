@@ -924,6 +924,14 @@
       "rejection_reason_label": "Rejection Reason",
       "approval_notes_label": "Manager Notes",
 
+      "approve_modal_title": "Approve Leave Request",
+      "approve_modal_message": "Are you sure you want to approve this leave request? The employee's leave balance will be deducted.",
+      "confirm_approve": "Confirm Approval",
+
+      "reject_modal_title": "Reject Leave Request",
+      "reject_modal_message": "Are you sure you want to reject this leave request? This action cannot be undone.",
+      "confirm_reject": "Confirm Rejection",
+
       "filters": {
         "all": "All Requests",
         "pending": "Pending",

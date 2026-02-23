@@ -51,7 +51,7 @@ namespace TasteHub.Controllers
             return FromResult(await _service.CreateLeaveAsync(DTO));
         }
 
-        [HttpPut("leave")]
+        [HttpPut("approve")]
         public async Task<IActionResult> ApproveLeave([FromBody] LeaveDTO DTO)
         {
             return FromResult(await _service.ApproveLeaveAsync(DTO));

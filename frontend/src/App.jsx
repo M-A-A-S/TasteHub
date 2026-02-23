@@ -21,6 +21,7 @@ import LeaveTypesPage from "./pages/LeaveTypesPage";
 import WorkSchedulesPage from "./pages/WorkSchedulesPage";
 import AttendancePage from "./pages/AttendancePage";
 import LeaveRequestsPage from "./pages/LeaveRequestsPage";
+import LeaveApprovalsPage from "./pages/LeaveApprovalsPage";
 
 function App() {
   return (
@@ -53,6 +54,10 @@ function App() {
             <Route path="/hr/work-schedules" element={<WorkSchedulesPage />} />
             <Route path="/hr/attendances" element={<AttendancePage />} />
             <Route path="/hr/leave-requests" element={<LeaveRequestsPage />} />
+            <Route
+              path="/hr/leave-approvals"
+              element={<LeaveApprovalsPage />}
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
