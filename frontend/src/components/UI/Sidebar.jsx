@@ -193,7 +193,12 @@ const menus = {
           icon: <Calendar />,
         },
         { key: "attendances", path: "/hr/attendances", icon: <Clock /> },
-        { key: "leaves", path: "/hr/leaves", icon: <FileText /> },
+        // { key: "leaves", path: "/hr/leaves", icon: <FileText /> },
+        {
+          key: "leave_requests",
+          path: "/hr/leave-requests",
+          icon: <FileText />,
+        },
         { key: "payrolls", path: "/hr/payrolls", icon: <DollarSign /> },
       ],
     },

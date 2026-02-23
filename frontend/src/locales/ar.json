@@ -26,6 +26,8 @@
     "work_schedules": "جداول العمل",
     "attendances": "الحضور",
     "leaves": "الإجازات",
+    "leave_requests": "طلبات الإجازة",
+    "leave_approvals": "الموافقة على الإجازات",
     "payrolls": "الرواتب",
     "leave_types": "أنواع الإجازات"
   },
@@ -835,6 +837,44 @@
       "leave_cancel_success": "تم إلغاء طلب الإجازة بنجاح!",
       "leave_cancel_fail": "فشل في إلغاء طلب الإجازة.",
 
+      "leave_cancel_modal_title": "إلغاء طلب الإجازة",
+      "leave_cancel_modal_message": "هل أنت متأكد أنك تريد إلغاء طلب الإجازة هذا؟",
+      "cancel": "تراجع",
+      "confirm_cancel": "نعم، قم بإلغاء الطلب",
+
+      "form": {
+        "employee_label": "الموظف",
+        "employee_placeholder": "اختر الموظف",
+        "employee_error": "الموظف مطلوب",
+
+        "leave_type_label": "نوع الإجازة",
+        "leave_type_placeholder": "اختر نوع الإجازة",
+        "leave_type_error": "نوع الإجازة مطلوب",
+
+        "start_date_label": "تاريخ البداية",
+        "start_date_placeholder": "اختر تاريخ البداية",
+        "start_date_error": "تاريخ البداية مطلوب",
+
+        "end_date_label": "تاريخ النهاية",
+        "end_date_placeholder": "اختر تاريخ النهاية",
+        "end_date_error": "تاريخ النهاية مطلوب",
+
+        "reason_label": "السبب",
+        "reason_placeholder": "اكتب سبب الإجازة",
+
+        "additional_notes_label": "ملاحظات إضافية",
+        "additional_notes_placeholder": "اكتب ملاحظات إضافية",
+
+        "date_invalid_error": "يجب أن يكون تاريخ النهاية بعد تاريخ البداية",
+        "balance_exceeded_error": "عدد الأيام المطلوبة يتجاوز رصيد الإجازات المتاح"
+      },
+
+      "actions": {
+        "approve": "موافقة",
+        "reject": "رفض",
+        "cancel": "إلغاء"
+      },
+
       "form_labels": {
         "leave_type": "نوع الإجازة",
         "start_date": "تاريخ البداية",
@@ -858,12 +898,14 @@
       },
 
       "table_headers": {
+        "employee": "الموظف",
         "leave_type": "نوع الإجازة",
         "start_date": "تاريخ البداية",
         "end_date": "تاريخ النهاية",
         "total_days": "الأيام",
         "status": "الحالة",
         "created_at": "تاريخ التقديم",
+        "reason": "السبب",
         "actions": "الإجراءات"
       }
     },
@@ -968,5 +1010,11 @@
     "leave": "في إجازة",
     "holiday": "عطلة رسمية",
     "weekend": "عطلة نهاية الأسبوع"
+  },
+  "leave_statuses": {
+    "pending": "قيد الانتظار",
+    "approved": "تمت الموافقة",
+    "rejected": "مرفوض",
+    "cancelled": "ملغي"
   }
 }

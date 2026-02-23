@@ -26,6 +26,8 @@
     "work_schedules": "Work Schedules",
     "attendances": "Attendances",
     "leaves": "Leaves",
+    "leave_requests": "Leave Requests",
+    "leave_approvals": "Leave Approvals",
     "payrolls": "Payrolls",
     "leave_types": "Leave Types"
   },
@@ -833,6 +835,44 @@
       "leave_cancel_success": "Leave request canceled successfully!",
       "leave_cancel_fail": "Failed to cancel leave request.",
 
+      "leave_cancel_modal_title": "Cancel Leave Request",
+      "leave_cancel_modal_message": "Are you sure you want to cancel this leave request?",
+      "cancel": "Cancel",
+      "confirm_cancel": "Yes, Cancel Request",
+
+      "form": {
+        "employee_label": "Employee",
+        "employee_placeholder": "Select employee",
+        "employee_error": "Employee is required",
+
+        "leave_type_label": "Leave Type",
+        "leave_type_placeholder": "Select leave type",
+        "leave_type_error": "Leave type is required",
+
+        "start_date_label": "Start Date",
+        "start_date_placeholder": "Select start date",
+        "start_date_error": "Start date is required",
+
+        "end_date_label": "End Date",
+        "end_date_placeholder": "Select end date",
+        "end_date_error": "End date is required",
+
+        "reason_label": "Reason",
+        "reason_placeholder": "Enter leave reason",
+
+        "additional_notes_label": "Additional Notes",
+        "additional_notes_placeholder": "Enter additional notes",
+
+        "date_invalid_error": "End date must be after start date",
+        "balance_exceeded_error": "Requested days exceed available leave balance"
+      },
+
+      "actions": {
+        "approve": "Approve",
+        "reject": "Reject",
+        "cancel": "Cancel"
+      },
+
       "form_labels": {
         "leave_type": "Leave Type",
         "start_date": "Start Date",
@@ -856,12 +896,14 @@
       },
 
       "table_headers": {
+        "employee": "Employee",
         "leave_type": "Leave Type",
         "start_date": "Start Date",
         "end_date": "End Date",
         "total_days": "Days",
         "status": "Status",
         "created_at": "Submitted At",
+        "reason": "Reason",
         "actions": "Actions"
       }
     },
@@ -965,5 +1007,11 @@
     "leave": "On Leave",
     "holiday": "Holiday",
     "weekend": "Weekend"
+  },
+  "leave_statuses": {
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "cancelled": "Cancelled"
   }
 }

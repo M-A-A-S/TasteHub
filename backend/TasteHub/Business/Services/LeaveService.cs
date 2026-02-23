@@ -1,4 +1,5 @@
-﻿using TasteHub.Business.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TasteHub.Business.Interfaces;
 using TasteHub.DataAccess;
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.Leave;
@@ -46,7 +47,11 @@ namespace TasteHub.Business.Services
         #region Get
         public async Task<Result<IEnumerable<LeaveDTO>>> GetAllAsync()
         {
-            var suppliers = await _unitOfWork.Leaves.GetAllAsync();
+            var suppliers = await _unitOfWork.Leaves
+                .GetAllAsync(include: q => q
+                    .Include(x => x.LeaveType)
+                    .Include(x => x.Employee)
+                        .ThenInclude(x => x.Person));
 
             if (!suppliers.IsSuccess || suppliers.Data == null)
             {
@@ -152,8 +157,12 @@ namespace TasteHub.Business.Services
                     x.Year == year);
 
             if (!balanceResult.IsSuccess ||
-                balanceResult.Data != null ||
-                totalDays > balanceResult.Data.VacationBalance)
+                balanceResult.Data == null)
+            {
+                return Result<bool>.Failure(ResultCodes.LeaveBalanceNotFound);
+            }
+
+            if (totalDays > balanceResult.Data.VacationBalance)
             {
                 return Result<bool>.Failure(ResultCodes.InsufficientLeaveBalance);
             }
@@ -167,6 +176,8 @@ namespace TasteHub.Business.Services
                 LeaveTypeId = dto.LeaveTypeId,
                 Reason = dto.Reason,
             };
+
+            await _unitOfWork.Leaves.AddAsync(leave);
 
             var saveResult = await _unitOfWork.SaveChangesAsync();
             if (!saveResult.IsSuccess)
@@ -193,7 +204,7 @@ namespace TasteHub.Business.Services
             }
 
             var balanceResult = await _unitOfWork.LeaveBalances
-                .FindByAsync(x => x.EmployeeId == dto.EmployeeId &&
+                .FindByAsync(x => x.EmployeeId == leaveResult.Data.EmployeeId &&
                 x.Year == DateTime.UtcNow.Year);
 
             if (balanceResult.Data == null)

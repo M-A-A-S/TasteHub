@@ -75,3 +75,17 @@ export const AttendanceStatus = [
   { value: 4, key: "holiday" },
   { value: 5, key: "weekend" },
 ];
+
+export const LeaveStatuses = [
+  { value: 0, key: "pending" },
+  { value: 1, key: "approved" },
+  { value: 2, key: "rejected" },
+  { value: 3, key: "cancelled" },
+];
+
+export const LeaveStatus = {
+  pending: 0,
+  approved: 1,
+  rejected: 2,
+  cancelled: 3,
+};

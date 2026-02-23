@@ -1,4 +1,5 @@
-﻿using TasteHub.DTOs.Leave;
+﻿using TasteHub.DTOs.Employee;
+using TasteHub.DTOs.Leave;
 using TasteHub.Entities;
 using TasteHub.Enums;
 
@@ -28,6 +29,16 @@ namespace TasteHub.Utilities.Extensions
                 AdditionalNotes = entity.AdditionalNotes,
                 CreatedAt = entity.CreatedAt,
                 UpdatedAt = entity.UpdatedAt,
+                LeaveType = entity.LeaveType.ToDTO(),
+                Employee = new EmployeeDTO
+                {
+                    Id = entity?.Employee.Id,
+                    EmploymentStatus = entity.Employee.EmploymentStatus,
+                    HireDate = entity.Employee.HireDate,
+                    TerminationDate = entity.Employee.TerminationDate,
+                    BaseSalary = entity.Employee.BaseSalary,
+                    Person = entity.Employee.Person.ToDTO(),
+                }
             };
         }
 

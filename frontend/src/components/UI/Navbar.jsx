@@ -31,7 +31,10 @@ const Navbar = () => {
     "/hr/leave-types": "leave_types",
     "/hr/work-schedules": "work_schedules",
     "/hr/attendances": "attendances",
-    "/hr/leaves": "leaves",
+    // "/hr/leaves": "leaves",
+    "/hr/leave-requests": "leave_requests",
+    "/hr/leave-approvals": "leave_approvals",
+
     "/hr/payrolls": "payrolls",
 
     "/point-of-sale": "point_of_sale",
