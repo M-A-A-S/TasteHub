@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TasteHub.Enums;
 
 namespace TasteHub.Entities
 {
@@ -11,8 +12,8 @@ namespace TasteHub.Entities
         [Required]
         public int EmployeeId { get; set; }
 
-        [Required]
-        public DateOnly PayrollDate { get; set; }
+        //[Required]
+        //public DateOnly PayrollDate { get; set; }
 
         [Required]
         [Range(1, 12)]
@@ -32,6 +33,9 @@ namespace TasteHub.Entities
         public decimal NetSalary { get; set; }
 
         public string? AdditionalNotes { get; set; }
+
+        public PayrollStatus PayrollStatus { get; set; } = PayrollStatus.Draft;
+        public DateTime? PaidAt { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

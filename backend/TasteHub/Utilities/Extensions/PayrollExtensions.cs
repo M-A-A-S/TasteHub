@@ -17,7 +17,7 @@ namespace TasteHub.Utilities.Extensions
             {
                 Id = entity.Id,
                 EmployeeId = entity.EmployeeId,
-                PayrollDate = entity.PayrollDate,
+                //PayrollDate = entity.PayrollDate,
                 PayrollMonth = entity.PayrollMonth,
                 PayrollYear = entity.PayrollYear,
                 Allowances = entity.Allowances,
@@ -25,6 +25,8 @@ namespace TasteHub.Utilities.Extensions
                 Deductions = entity.Deductions,
                 NetSalary = entity.NetSalary,
                 AdditionalNotes = entity.AdditionalNotes,
+                PayrollStatus = entity.PayrollStatus,
+                PaidAt = entity.PaidAt,
                 CreatedAt = entity.CreatedAt,
                 UpdatedAt = entity.UpdatedAt,
             };
@@ -41,7 +43,7 @@ namespace TasteHub.Utilities.Extensions
             {
                 Id = DTO.Id ?? default,
                 EmployeeId = DTO.EmployeeId,
-                PayrollDate = DTO.PayrollDate,
+                //PayrollDate = DTO.PayrollDate,
                 PayrollMonth = DTO.PayrollMonth,
                 PayrollYear = DTO.PayrollYear,
                 Allowances = DTO.Allowances,
@@ -49,6 +51,8 @@ namespace TasteHub.Utilities.Extensions
                 Deductions = DTO.Deductions,
                 NetSalary = DTO.NetSalary,
                 AdditionalNotes = DTO.AdditionalNotes,
+                PayrollStatus = DTO.PayrollStatus,
+                PaidAt = DTO.PaidAt,
             };
         }
 
@@ -61,7 +65,7 @@ namespace TasteHub.Utilities.Extensions
             }
 
             entity.EmployeeId = DTO.EmployeeId;
-            entity.PayrollDate = DTO.PayrollDate;
+            //entity.PayrollDate = DTO.PayrollDate;
             entity.PayrollMonth = DTO.PayrollMonth;
             entity.PayrollYear = DTO.PayrollYear;
             entity.Allowances = DTO.Allowances;
@@ -69,6 +73,8 @@ namespace TasteHub.Utilities.Extensions
             entity.Deductions = DTO.Deductions;
             entity.NetSalary = DTO.NetSalary;
             entity.AdditionalNotes = DTO.AdditionalNotes;
+            entity.PayrollStatus = DTO.PayrollStatus;
+            entity.PaidAt = DTO.PaidAt;
 
             entity.UpdatedAt = DateTime.UtcNow;
         }

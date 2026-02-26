@@ -9,6 +9,9 @@ namespace TasteHub.Business.Interfaces
         Task<Result<PayrollDTO>> UpdateAsync(int id, PayrollDTO dto);
         Task<Result<bool>> DeleteAsync(int id);
         Task<Result<PayrollDTO>> GetByIdAsync(int id);
-        Task<Result<IEnumerable<PayrollDTO>>> GetAllAsync();
+        Task<Result<IEnumerable<PayrollDTO>>> GetAllAsync(PayrollFiltersDTO filters);
+        Task<Result<bool>> GeneratePayrollAsync(byte month, short year);
+        Task<Result<bool>> ApprovePayrollAsync(int payrollId);
+        Task<Result<bool>> MarkAsPaidAsync(int payrollId);
     }
 }

@@ -26,6 +26,7 @@ namespace TasteHub.DataAccess
         public ILeaveRepository Leaves { get; }
         public ILeaveTypeRepository LeaveTypes { get; }
         public  ILeaveBalanceRepository LeaveBalances { get; }
+        public  IPayrollRepository Payrolls { get; }
 
         public UnitOfWork(AppDbContext context, 
             ILogger<UnitOfWork> logger, 
@@ -44,7 +45,8 @@ namespace TasteHub.DataAccess
             IWorkScheduleRepository workSchedules,
             ILeaveRepository leaves,
             ILeaveTypeRepository leaveTypes,
-            ILeaveBalanceRepository leaveBalances
+            ILeaveBalanceRepository leaveBalances,
+            IPayrollRepository payrolls
             )
         {
             _context = context;
@@ -65,6 +67,7 @@ namespace TasteHub.DataAccess
             Leaves = leaves;
             LeaveTypes = leaveTypes;
             LeaveBalances = leaveBalances;
+            Payrolls = payrolls;
         }
 
         //public async Task<int> SaveChangesAsync()

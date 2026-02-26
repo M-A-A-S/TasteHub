@@ -33,6 +33,7 @@ namespace TasteHub.Business
             services.AddScoped<ILeaveService, LeaveService>();
             services.AddScoped<ILeaveTypeService, LeaveTypeService>();
             services.AddScoped<IPayrollService, PayrollService>();
+            services.AddScoped<IPayrollCalculatorService, PayrollCalculatorService>();
             return services;
         }
     }

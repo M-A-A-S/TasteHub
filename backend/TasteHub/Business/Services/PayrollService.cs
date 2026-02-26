@@ -1,7 +1,9 @@
 ﻿using TasteHub.Business.Interfaces;
+using TasteHub.DataAccess;
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.Payroll;
 using TasteHub.Entities;
+using TasteHub.Enums;
 using TasteHub.Utilities;
 using TasteHub.Utilities.Extensions;
 using TasteHub.Utilities.ResultCodes;
@@ -10,11 +12,14 @@ namespace TasteHub.Business.Services
 {
     public class PayrollService : IPayrollService
     {
-        private readonly IPayrollRepository _repo;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IPayrollCalculatorService _payrollCalculatorService;
 
-        public PayrollService(IPayrollRepository repo)
+        public PayrollService(IUnitOfWork unitOfWork,
+            IPayrollCalculatorService payrollCalculatorService)
         {
-            _repo = repo;
+            _unitOfWork = unitOfWork;
+            _payrollCalculatorService = payrollCalculatorService;
         }
 
         #region Add
@@ -22,7 +27,7 @@ namespace TasteHub.Business.Services
         {
             var entity = dto.ToEntity();
 
-            var addResult = await _repo.AddAndSaveAsync(entity);
+            var addResult = await _unitOfWork.Payrolls.AddAndSaveAsync(entity);
             if (!addResult.IsSuccess || addResult.Data == null)
             {
                 return Result<PayrollDTO>.Failure();
@@ -42,9 +47,11 @@ namespace TasteHub.Business.Services
 
 
         #region Get
-        public async Task<Result<IEnumerable<PayrollDTO>>> GetAllAsync()
+        public async Task<Result<IEnumerable<PayrollDTO>>> GetAllAsync(PayrollFiltersDTO filters)
         {
-            var suppliers = await _repo.GetAllAsync();
+            var suppliers = await _unitOfWork.Payrolls.GetAllAsync(predicate: l => 
+            l.PayrollMonth == filters.PayrollMonth && 
+            l.PayrollYear == filters.PayrollYear);
 
             if (!suppliers.IsSuccess || suppliers.Data == null)
             {
@@ -64,7 +71,7 @@ namespace TasteHub.Business.Services
 
         public async Task<Result<PayrollDTO>> GetByIdAsync(int id)
         {
-            var findResult = await _repo.FindByAsync(i => i.Id == id);
+            var findResult = await _unitOfWork.Payrolls.FindByAsync(i => i.Id == id);
             if (!findResult.IsSuccess || findResult.Data == null)
             {
                 return Result<PayrollDTO>.Failure();
@@ -82,16 +89,36 @@ namespace TasteHub.Business.Services
             if (!existingResult.IsSuccess || existingResult.Data == null)
             {
                 return Result<PayrollDTO>.Failure(
-                    ResultCodes.SupplierNotFound,
+                    ResultCodes.PayrollNotFound,
                     existingResult.StatusCode,
-                    "Supplier not found");
+                    "Payroll not found");
             }
 
             var entity = existingResult.Data;
 
+            // Business Rule: Only Draft payrolls can be edited
+            if (entity.PayrollStatus != PayrollStatus.Draft)
+            {
+                return Result<PayrollDTO>.Failure(
+                    ResultCodes.OnlyDraftPayrollCanBeEdited,
+                    400,
+                    "Only draft payrolls can be edited");    
+            }
+
+            // Prevent editing system-generated fields
+            if (dto.PayrollMonth != entity.PayrollMonth ||
+                dto.PayrollYear != entity.PayrollYear ||
+                dto.EmployeeId != entity.EmployeeId)
+            {
+                return Result<PayrollDTO>.Failure(
+                    ResultCodes.InvalidOperation,
+                    400,
+                    "Cannot change payroll month, year, or employee");
+            }
+
             entity.UpdateFromDTO(dto);
 
-            var updateResult = await _repo.UpdateAndSaveAsync(entity);
+            var updateResult = await _unitOfWork.Payrolls.UpdateAndSaveAsync(entity);
             if (!updateResult.IsSuccess)
             {
                 return Result<PayrollDTO>.Failure();
@@ -113,14 +140,145 @@ namespace TasteHub.Business.Services
         #region Delete
         public async Task<Result<bool>> DeleteAsync(int id)
         {
-            return await _repo.DeleteAndSaveAsync(id);
+            return await _unitOfWork.Payrolls.DeleteAndSaveAsync(id);
         }
         #endregion
 
+        #region Generate, Get, Approve make mark paid Payroll
+
+        public async Task<Result<bool>> GeneratePayrollAsync(byte month, short year)
+        {
+            // Prevent Duplicate Payroll
+            var payrollsResult = await _unitOfWork.Payrolls
+                    .GetAllAsync(predicate: p => p.PayrollMonth == month && 
+                    p.PayrollYear == year);
+
+            if (payrollsResult.IsSuccess && payrollsResult.Data.Any())
+            {
+                return Result<bool>.Failure(ResultCodes.PayrollAlreadyGenerated);
+            }
+
+            var employeesResult = await _unitOfWork.Employees
+            .GetAllAsync(predicate: e =>
+                e.EmploymentStatus == EmploymentStatus.Active);
+
+            var attendanceResult = await _unitOfWork.Attendances
+            .GetAllAsync(predicate: a =>
+                a.AttendanceDate.Month == month &&
+                a.AttendanceDate.Year == year &&
+                a.IsApproved);
+
+            var leavesResult = await _unitOfWork.Leaves
+                .GetAllAsync(predicate: l =>
+                l.LeaveStatus == LeaveStatus.Approved &&
+                l.StartDate.Month == month &&
+                l.StartDate.Year == year);
+
+            var attendanceDictionary = attendanceResult.IsSuccess && attendanceResult.Data != null
+                ? attendanceResult.Data
+                .GroupBy(a => a.EmployeeId)
+                .ToDictionary(g => g.Key, g => g.AsEnumerable())
+                : new Dictionary<int, IEnumerable<Attendance>>();
+
+            var leavesDictionary = leavesResult.IsSuccess && leavesResult.Data != null
+                ? leavesResult.Data
+                .GroupBy(a => a.EmployeeId)
+                .ToDictionary(g => g.Key, g => g.AsEnumerable())
+                : new Dictionary<int, IEnumerable<Leave>>();
+
+
+            if (!employeesResult.IsSuccess || !employeesResult.Data.Any())
+            {
+                return Result<bool>.Failure(ResultCodes.EmployeesNotFound);
+            }
+
+
+            foreach (var employee in employeesResult.Data)
+            {
+                var payroll = _payrollCalculatorService.Calculate(
+                    employee,
+                    attendanceDictionary,
+                    leavesDictionary,
+                    month,
+                    year);
+                if (payroll != null)
+                {
+                    await _unitOfWork.Payrolls.AddAsync(payroll);
+                }
+
+                
+            }
+
+            var saveResult = await _unitOfWork.SaveChangesAsync();
+            if (!saveResult.IsSuccess)
+            {
+                return Result<bool>.Failure();
+            }
+
+            return Result<bool>.Success(true);
+        }
+
+        public async Task<Result<bool>> ApprovePayrollAsync(int payrollId)
+        {
+            var payrollResult = await FindByIdAsync(payrollId);
+
+            if (!payrollResult.IsSuccess || payrollResult.Data == null)
+            {
+                return Result<bool>.Failure(ResultCodes.PayrollNotFound);
+            }
+
+            if (payrollResult.Data.PayrollStatus != PayrollStatus.Draft)
+            {
+                return Result<bool>.Failure(ResultCodes.OnlyDraftPayrollCanBeApproved);
+            }
+            payrollResult.Data.PayrollStatus = PayrollStatus.Approved;
+            payrollResult.Data.UpdatedAt = DateTime.UtcNow;
+
+            var saveResult = await _unitOfWork.SaveChangesAsync();
+            if (!saveResult.IsSuccess)
+            {
+                return Result<bool>.Failure();
+            }
+
+            return Result<bool>.Success(true);
+        }
+
+        public async Task<Result<bool>> MarkAsPaidAsync(int payrollId)
+        {
+            var payrollResult = await FindByIdAsync(payrollId);
+
+            if (!payrollResult.IsSuccess || payrollResult.Data == null)
+            {
+                return Result<bool>.Failure(ResultCodes.PayrollNotFound);
+            }
+
+            if (payrollResult.Data.PayrollStatus != PayrollStatus.Approved)
+            {
+                return Result<bool>.Failure(ResultCodes.PayrollMustBeApprovedFirst);
+            }
+
+            payrollResult.Data.PayrollStatus = PayrollStatus.Paid;
+            payrollResult.Data.PaidAt = DateTime.UtcNow;
+            payrollResult.Data.UpdatedAt = DateTime.UtcNow;
+
+            var saveResult = await _unitOfWork.SaveChangesAsync();
+            if (!saveResult.IsSuccess)
+            {
+                return Result<bool>.Failure();
+            }
+
+            return Result<bool>.Success(true);
+        }
+        
+
+        #endregion
+
         #region Private Helpers
+
+
         private async Task<Result<Payroll>> FindByIdAsync(int id)
         {
-            return await _repo.FindByAsync(item => item.Id, id);
+            return await _unitOfWork.Payrolls.FindByAsync(item => item.Id == id);
         }
         #endregion
     }
