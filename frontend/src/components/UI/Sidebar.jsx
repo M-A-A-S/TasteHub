@@ -264,8 +264,8 @@ const Sidebar = () => {
   return (
     <aside
       className={`bg-white dark:bg-slate-800 shadow-lg  transition-all duration-300 
-        fixed z-20 top-0 ${language == "en" ? "left-0" : "right-0"}  
-        min-h-screen flex flex-col  ${sidebarOpen ? "w-64" : "w-20"} `}
+        fixed z-20 top-0  ${language == "en" ? "left-0" : "right-0"}  
+        h-screen flex flex-col  ${sidebarOpen ? "w-64" : "w-20"} `}
     >
       {/* Top */}
       <SidebarHeader
@@ -275,7 +275,7 @@ const Sidebar = () => {
       {/* Links */}
       <SidebarNav sidebarOpen={sidebarOpen} links={links} />
       {/* Bottom */}
-      <div className="bg-green-300">{/* Bottom */}</div>
+      {/* <div className="bg-green-300 p-10">Bottom</div> */}
     </aside>
   );
 };

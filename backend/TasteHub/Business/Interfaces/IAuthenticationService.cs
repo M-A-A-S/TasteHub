@@ -7,5 +7,6 @@ namespace TasteHub.Business.Interfaces
     {
         Task<Result<LoginResult>> LogInAsync(LoginDTO request);
         Task<Result<LoginResult>> RefreshTokenAsync(string refreshToken);
+        Task<Result<bool>> LogoutAsync(string refreshToken);
     }
 }

@@ -996,6 +996,21 @@
         "status": "الحالة",
         "actions": "الإجراءات"
       }
+    },
+    "login_page": {
+      "login_success": "مرحباً بعودتك",
+      "login_failed": "فشل تسجيل الدخول",
+      "form": {
+        "login_title": "TasteHub",
+        "login_subtitle": "مرحبًا بعودتك! الرجاء تسجيل الدخول إلى حسابك.",
+        "email": "البريد الإلكتروني",
+        "password": "كلمة المرور",
+        "login_button": "تسجيل الدخول",
+        "remember_me": "تذكرني",
+        "forgot_password": "هل نسيت كلمة المرور؟",
+        "register_title": "إنشاء حساب",
+        "no_account": "ليس لديك حساب؟"
+      }
     }
   },
   "server_codes": {
@@ -1012,7 +1027,14 @@
     "payroll_must_be_approved_first": "يجب اعتماد الراتب أولاً قبل تسجيله كمدفوع.",
     "only_draft_payroll_can_be_approved": "يمكن اعتماد الرواتب التي حالتها مسودة فقط.",
     "only_draft_payroll_can_be_edited": "يمكن تعديل الرواتب التي حالتها مسودة فقط.",
-    "cannot_change_payroll_month_year_employee": "لا يمكن تغيير شهر أو سنة أو موظف الراتب."
+    "cannot_change_payroll_month_year_employee": "لا يمكن تغيير شهر أو سنة أو موظف الراتب.",
+
+    "invalid_username_or_password": "اسم المستخدم أو كلمة المرور غير صحيحة.",
+    "invalid_email_or_password": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+    "user_disabled": "تم تعطيل حساب المستخدم.",
+    "user_has_no_active_roles": "لا توجد أدوار نشطة مخصصة لهذا المستخدم.",
+    "successfully_logged_in": "تم تسجيل الدخول بنجاح.",
+    "invalid_token": "الرمز غير صالح أو منتهي الصلاحية."
   },
   "validations": {
     "required": "هذا الحقل مطلوب",

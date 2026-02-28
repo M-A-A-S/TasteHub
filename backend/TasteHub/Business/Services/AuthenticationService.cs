@@ -70,6 +70,7 @@ namespace TasteHub.Business.Services
             { 
                 Token = refreshToken,
                 UserId = userResult.Data.Id,
+                IsUsed = false,
                 Expires = DateTime.UtcNow.AddDays(_jwtOptions.RefreshTokenExpirationDays),
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
@@ -110,6 +111,8 @@ namespace TasteHub.Business.Services
                     storedTokenResult.Data.User.ToDTO());
             var newRefreshToken = _tokenService.GenerateRefreshToken();
 
+            storedTokenResult.Data.IsUsed = true;
+
             await _unitOfWork.RefreshTokens.AddAsync(new RefreshToken
             {
                 Token = refreshToken,
@@ -134,6 +137,27 @@ namespace TasteHub.Business.Services
                 },
                 RefreshToken = newRefreshToken,
             });
+        }
+
+        public async Task<Result<bool>> LogoutAsync(string refreshToken)
+        {
+            var storedTokenResult = await _unitOfWork.RefreshTokens
+                .FindByAsync(r =>
+                    r.Token == refreshToken &&
+                    !r.IsUsed);
+
+            if (storedTokenResult.IsSuccess && storedTokenResult.Data != null)
+            {
+                storedTokenResult.Data.IsUsed = true;
+
+                var saveResult = await _unitOfWork.SaveChangesAsync();
+                if (!saveResult.IsSuccess)
+                {
+                    return Result<bool>.Failure(saveResult.Code);
+                }
+            }
+
+            return Result<bool>.Success(true);
         }
 
     }

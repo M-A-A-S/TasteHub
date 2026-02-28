@@ -23,6 +23,7 @@ import AttendancePage from "./pages/AttendancePage";
 import LeaveRequestsPage from "./pages/LeaveRequestsPage";
 import LeaveApprovalsPage from "./pages/LeaveApprovalsPage";
 import PayrollPage from "./pages/PayrollPage";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
+            <Route path="/login" element={<LoginPage />} />
+
             <Route path="/" element={<Home />} />
             <Route path="/point-of-sale" element={<PointOfSalePage />} />
             <Route path="/menu-categories" element={<MenuCategoriesPage />} />

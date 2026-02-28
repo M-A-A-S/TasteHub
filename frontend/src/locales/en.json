@@ -986,6 +986,21 @@
         "status": "Status",
         "actions": "Actions"
       }
+    },
+    "login_page": {
+      "login_success": "Welcome back",
+      "login_failed": "Login failed",
+      "form": {
+        "login_title": "TasteHub",
+        "login_subtitle": "Welcome back! Please log in to your account.",
+        "email": "Email",
+        "password": "Password",
+        "login_button": "Login",
+        "remember_me": "Remember me",
+        "forgot_password": "Forgot Password?",
+        "register_title": "TasteHub",
+        "no_account": "Don't have an account?"
+      }
     }
   },
   "server_codes": {
@@ -1002,7 +1017,14 @@
     "payroll_must_be_approved_first": "Payroll must be approved before marking it as paid.",
     "only_draft_payroll_can_be_approved": "Only draft payrolls can be approved.",
     "only_draft_payroll_can_be_edited": "Only draft payrolls can be edited.",
-    "cannot_change_payroll_month_year_employee": "Cannot change payroll month, year, or employee."
+    "cannot_change_payroll_month_year_employee": "Cannot change payroll month, year, or employee.",
+
+    "invalid_username_or_password": "Invalid username or password.",
+    "invalid_email_or_password": "Invalid email or password.",
+    "user_disabled": "This user account has been disabled.",
+    "user_has_no_active_roles": "User has no active roles assigned.",
+    "successfully_logged_in": "Successfully logged in.",
+    "invalid_token": "Invalid or expired token."
   },
   "validations": {
     "required": "This field is required",

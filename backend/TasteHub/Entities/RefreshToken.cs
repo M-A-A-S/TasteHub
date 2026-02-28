@@ -16,6 +16,8 @@ namespace TasteHub.Entities
         [Required]
         public DateTime Expires { get; set; }
 
+        public bool IsUsed { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 

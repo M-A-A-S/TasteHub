@@ -34,8 +34,10 @@ namespace TasteHub.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.UtcNow.AddDays(_jwtOptions.RefreshTokenExpirationDays)
                 });
+
+                return FromResult(Result<LoginResponseDTO>.Success(result.Data?.LoginResponse));
             }
-            return FromResult(Result<LoginResponseDTO>.Success(result.Data?.LoginResponse));
+            return FromResult(Result<LoginResponseDTO>.Failure(result.Code, result.StatusCode));
         }
 
         [HttpPost("refresh")]
@@ -67,5 +69,33 @@ namespace TasteHub.Controllers
             }
             return FromResult(Result<LoginResponseDTO>.Success(result.Data?.LoginResponse));
         }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var refreshToken = Request.Cookies["tasteHub_refreshToken"];
+
+            if (!string.IsNullOrEmpty(refreshToken))
+            {
+                await _service.LogoutAsync(refreshToken);
+            }
+
+            var result = await _service.RefreshTokenAsync(refreshToken);
+
+            if (!result.IsSuccess)
+            {
+                return Unauthorized();
+            }
+
+            Response.Cookies.Delete("tasteHub_refreshToken", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+            });
+
+            return FromResult(Result<bool>.Success(true));
+        }
+
     }
 }

@@ -3,7 +3,7 @@ import SidebarItem from "./SidebarItem";
 
 const SidebarNav = ({ sidebarOpen, links = [] }) => {
   return (
-    <nav className="mt-6 px-2 flex-1">
+    <nav className="mt-6 px-2 flex-1 overflow-y-auto">
       <ul>
         {links?.map((link) =>
           link?.children ? (

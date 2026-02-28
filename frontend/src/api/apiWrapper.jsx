@@ -6,6 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
+  withCredentials: true,
 });
 
 export const setAuthToken = (token) => {
@@ -14,13 +15,48 @@ export const setAuthToken = (token) => {
     : undefined;
 };
 // Interceptor: return only the response data
+// api.interceptors.response.use(
+//   (response) => response.data,
+//   (error) => {
+//     if (error.response && error.response.data) {
+//       return Promise.reject(error.response.data);
+//     }
+//     return Promise.reject(error);
+//   },
+// );
+
 api.interceptors.response.use(
   (response) => response.data,
-  (error) => {
-    if (error.response && error.response.data) {
-      return Promise.reject(error.response.data);
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const refreshResponse = await axios.post(
+          `${API_BASE_URL}/auth/refresh`,
+          {},
+          { withCredentials: true },
+        );
+
+        const newAccessToken = refreshResponse.data.accessToken.token;
+
+        localStorage.setItem("accessToken", newAccessToken);
+
+        api.defaults.headers.common["Authorization"] =
+          `Bearer ${newAccessToken}`;
+
+        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+
+        return api(originalRequest);
+      } catch (refreshError) {
+        localStorage.removeItem("accessToken");
+        window.location.href = "/login";
+      }
     }
-    return Promise.reject(error);
+
+    return Promise.reject(error.response?.data || error);
   },
 );
 
