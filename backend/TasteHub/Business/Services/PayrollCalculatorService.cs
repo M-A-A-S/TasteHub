@@ -7,6 +7,7 @@ namespace TasteHub.Business.Services
     public class PayrollCalculatorService : IPayrollCalculatorService
     {
         private const int StandardWorkHoursPerDay = 8;
+        private const decimal OvertimeMultiplier = 1.5m;
 
         public Payroll Calculate(Employee employee, 
             IDictionary<int, IEnumerable<Attendance>> attendanceDictionary,
@@ -14,6 +15,12 @@ namespace TasteHub.Business.Services
             byte month, 
             short year)
         {
+
+            if (employee == null || employee.BaseSalary <= 0)
+            {
+                return null;
+            }
+
             var monthStart = GetMonthStart(year, month);
             var monthEnd = GetMonthEnd(year, month);
 
@@ -27,6 +34,8 @@ namespace TasteHub.Business.Services
 
             int workedDays = CalculateWorkedDays(effectiveStart, effectiveEnd);
 
+            // Salary Calculations
+
             decimal dailySalary = 
                 CalculateDailySalary(employee.BaseSalary, year, month);
 
@@ -34,6 +43,7 @@ namespace TasteHub.Business.Services
 
             decimal proratedSalary = dailySalary * workedDays;
 
+            // Attendances
 
             var employeeAttendance =
                 attendanceDictionary.ContainsKey(employee.Id)
@@ -47,10 +57,12 @@ namespace TasteHub.Business.Services
                 employeeAttendance.Sum(a => a.LateMinutes);
 
             decimal overtimeAmount =
-                (totalOvertimeMinutes / 60m) * hourlyRate * 1.5m;
+                (totalOvertimeMinutes / 60m) * hourlyRate * OvertimeMultiplier;
 
             decimal lateDeduction =
                 (totalLateMinutes / 60m) * hourlyRate;
+
+            // Leaves
 
             var employeeLeaves =
            leavesDictionary.ContainsKey(employee.Id)
@@ -68,18 +80,22 @@ namespace TasteHub.Business.Services
             decimal totalDeductions = lateDeduction + unpaidDeduction;
 
             decimal netSalary = 
-                proratedSalary + overtimeAmount  - totalDeductions;
+                proratedSalary + overtimeAmount  - totalDeductions;           
 
             return new Payroll
             {
                 EmployeeId = employee.Id,
                 PayrollMonth = month,
                 PayrollYear = year,
-                BaseSalary = proratedSalary,
+
+                BaseSalary = employee.BaseSalary,
+
+                ProratedSalary = proratedSalary,
                 Overtime = overtimeAmount,
                 Allowances = 0,
                 Deductions = totalDeductions,
                 NetSalary = netSalary,
+
                 PayrollStatus = PayrollStatus.Draft,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,

@@ -23,13 +23,25 @@ namespace TasteHub.Entities
         [Range(2000, 2100)]
         public short PayrollYear { get; set; } // e.g., 2026
 
+        // Contract Salary
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal BaseSalary { get; set; }
 
+        // Actual Calculated Salary
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal ProratedSalary { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Allowances { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Overtime { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Deductions { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal NetSalary { get; set; }
 
         public string? AdditionalNotes { get; set; }

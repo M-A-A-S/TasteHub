@@ -28,7 +28,7 @@
     "leaves": "Leaves",
     "leave_requests": "Leave Requests",
     "leave_approvals": "Leave Approvals",
-    "payrolls": "Payrolls",
+    "payroll": "Payrolls",
     "leave_types": "Leave Types"
   },
   "common": {
@@ -958,6 +958,34 @@
         "approved_at": "Approved At",
         "actions": "Actions"
       }
+    },
+    "payroll_page": {
+      "title": "Payroll Management",
+      "description": "Generate, review, approve, and mark employee payrolls as paid.",
+
+      "generate_btn": "Generate Payroll",
+
+      "generate_success": "Payroll generated successfully!",
+      "generate_fail": "Failed to generate payroll.",
+
+      "approve_btn": "Approve",
+      "approve_success": "Payroll approved successfully!",
+      "approve_fail": "Failed to approve payroll.",
+
+      "mark_paid_btn": "Mark as Paid",
+      "paid_success": "Payroll marked as paid successfully!",
+      "paid_fail": "Failed to mark payroll as paid.",
+
+      "table_headers": {
+        "employee": "Employee",
+        "base_salary": "Base Salary",
+        "prorated_salary": "Prorated Salary",
+        "overtime": "Overtime",
+        "deductions": "Deductions",
+        "net_salary": "Net Salary",
+        "status": "Status",
+        "actions": "Actions"
+      }
     }
   },
   "server_codes": {
@@ -966,7 +994,15 @@
     "already_checked_out": "Employee already checked out today",
     "no_active_work_schedule_for_today": "No active work schedule found for today",
     "not_within_shift_time": "You can only check in during your assigned shift time",
-    "early_checkout_not_allowed": "Early check-out is not allowed before shift end time"
+    "early_checkout_not_allowed": "Early check-out is not allowed before shift end time",
+
+    "payroll_already_generated_for_this_month": "Payroll has already been generated for this month.",
+    "all_attendance_must_be_approved": "All attendance records must be approved before generating payroll.",
+    "payroll_not_found": "Payroll record not found.",
+    "payroll_must_be_approved_first": "Payroll must be approved before marking it as paid.",
+    "only_draft_payroll_can_be_approved": "Only draft payrolls can be approved.",
+    "only_draft_payroll_can_be_edited": "Only draft payrolls can be edited.",
+    "cannot_change_payroll_month_year_employee": "Cannot change payroll month, year, or employee."
   },
   "validations": {
     "required": "This field is required",
@@ -1021,5 +1057,10 @@
     "approved": "Approved",
     "rejected": "Rejected",
     "cancelled": "Cancelled"
+  },
+  "payroll_status": {
+    "draft": "Draft",
+    "approved": "Approved",
+    "paid": "Paid"
   }
 }

@@ -89,3 +89,15 @@ export const LeaveStatus = {
   rejected: 2,
   cancelled: 3,
 };
+
+export const PayrollStatuses = [
+  { value: 1, key: "draft" },
+  { value: 2, key: "approved" },
+  { value: 3, key: "paid" },
+];
+
+export const PayrollStatus = {
+  draft: 1,
+  approved: 2,
+  paid: 3,
+};

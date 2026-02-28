@@ -15,6 +15,7 @@ namespace TasteHub.DTOs.Payroll
         [Range(2000, 2100)]
         public short PayrollYear { get; set; } // e.g., 2026
         public decimal BaseSalary { get; set; }
+        public decimal ProratedSalary { get; set; }
         public decimal Allowances { get; set; }
         public decimal Overtime { get; set; }
         public decimal Deductions { get; set; }

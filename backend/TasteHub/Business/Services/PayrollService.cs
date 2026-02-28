@@ -1,4 +1,5 @@
-﻿using TasteHub.Business.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TasteHub.Business.Interfaces;
 using TasteHub.DataAccess;
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.Payroll;
@@ -51,7 +52,7 @@ namespace TasteHub.Business.Services
         {
             var suppliers = await _unitOfWork.Payrolls.GetAllAsync(predicate: l => 
             l.PayrollMonth == filters.PayrollMonth && 
-            l.PayrollYear == filters.PayrollYear);
+            l.PayrollYear == filters.PayrollYear, include: q => q.Include(l => l.Employee).ThenInclude(e => e.Person));
 
             if (!suppliers.IsSuccess || suppliers.Data == null)
             {

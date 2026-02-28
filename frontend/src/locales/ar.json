@@ -28,7 +28,7 @@
     "leaves": "الإجازات",
     "leave_requests": "طلبات الإجازة",
     "leave_approvals": "الموافقة على الإجازات",
-    "payrolls": "الرواتب",
+    "payroll": "الرواتب",
     "leave_types": "أنواع الإجازات"
   },
   "common": {
@@ -968,6 +968,34 @@
         "approved_at": "تاريخ الموافقة",
         "actions": "الإجراءات"
       }
+    },
+    "payroll_page": {
+      "title": "إدارة الرواتب",
+      "description": "إنشاء ومراجعة واعتماد وصرف رواتب الموظفين.",
+
+      "generate_btn": "إنشاء الرواتب",
+
+      "generate_success": "تم إنشاء الرواتب بنجاح!",
+      "generate_fail": "فشل في إنشاء الرواتب.",
+
+      "approve_btn": "اعتماد",
+      "approve_success": "تم اعتماد الراتب بنجاح!",
+      "approve_fail": "فشل في اعتماد الراتب.",
+
+      "mark_paid_btn": "تسجيل كمدفوع",
+      "paid_success": "تم تسجيل الراتب كمدفوع بنجاح.",
+      "paid_fail": "تعذر تسجيل الراتب كمدفوع. يرجى المحاولة مرة أخرى.",
+
+      "table_headers": {
+        "employee": "الموظف",
+        "base_salary": "الراتب الأساسي",
+        "prorated_salary": "الراتب النسبي",
+        "overtime": "العمل الإضافي",
+        "deductions": "الخصومات",
+        "net_salary": "صافي الراتب",
+        "status": "الحالة",
+        "actions": "الإجراءات"
+      }
     }
   },
   "server_codes": {
@@ -976,7 +1004,15 @@
     "already_checked_out": "تم تسجيل الانصراف مسبقاً اليوم",
     "no_active_work_schedule_for_today": "لا يوجد جدول عمل نشط لهذا اليوم",
     "not_within_shift_time": "يمكنك تسجيل الحضور فقط خلال وقت الدوام المحدد",
-    "early_checkout_not_allowed": "لا يمكن تسجيل الانصراف قبل انتهاء وقت الدوام"
+    "early_checkout_not_allowed": "لا يمكن تسجيل الانصراف قبل انتهاء وقت الدوام",
+
+    "payroll_already_generated_for_this_month": "تم إنشاء الرواتب لهذا الشهر مسبقًا.",
+    "all_attendance_must_be_approved": "يجب اعتماد جميع سجلات الحضور قبل إنشاء الرواتب.",
+    "payroll_not_found": "لم يتم العثور على سجل الراتب.",
+    "payroll_must_be_approved_first": "يجب اعتماد الراتب أولاً قبل تسجيله كمدفوع.",
+    "only_draft_payroll_can_be_approved": "يمكن اعتماد الرواتب التي حالتها مسودة فقط.",
+    "only_draft_payroll_can_be_edited": "يمكن تعديل الرواتب التي حالتها مسودة فقط.",
+    "cannot_change_payroll_month_year_employee": "لا يمكن تغيير شهر أو سنة أو موظف الراتب."
   },
   "validations": {
     "required": "هذا الحقل مطلوب",
@@ -1032,5 +1068,10 @@
     "approved": "تمت الموافقة",
     "rejected": "مرفوض",
     "cancelled": "ملغي"
+  },
+  "payroll_status": {
+    "draft": "مسودة",
+    "approved": "معتمد",
+    "paid": "مدفوع"
   }
 }

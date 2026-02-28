@@ -204,7 +204,7 @@ const menus = {
           path: "/hr/leave-approvals",
           icon: <FileText />,
         },
-        { key: "payrolls", path: "/hr/payrolls", icon: <DollarSign /> },
+        { key: "payroll", path: "/hr/payroll", icon: <DollarSign /> },
       ],
     },
   ],

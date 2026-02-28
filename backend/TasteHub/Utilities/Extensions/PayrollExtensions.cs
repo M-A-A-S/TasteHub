@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TasteHub.DTOs.Employee;
 using TasteHub.DTOs.Payroll;
 using TasteHub.Entities;
 
@@ -21,6 +22,8 @@ namespace TasteHub.Utilities.Extensions
                 PayrollMonth = entity.PayrollMonth,
                 PayrollYear = entity.PayrollYear,
                 Allowances = entity.Allowances,
+                BaseSalary = entity.BaseSalary,
+                ProratedSalary = entity.ProratedSalary,
                 Overtime = entity.Overtime,
                 Deductions = entity.Deductions,
                 NetSalary = entity.NetSalary,
@@ -29,6 +32,11 @@ namespace TasteHub.Utilities.Extensions
                 PaidAt = entity.PaidAt,
                 CreatedAt = entity.CreatedAt,
                 UpdatedAt = entity.UpdatedAt,
+                Employee = new EmployeeDTO
+                {
+                    Id = entity.Employee?.Id,
+                    Person = entity.Employee?.Person.ToDTO(),
+                }
             };
         }
 
@@ -46,6 +54,8 @@ namespace TasteHub.Utilities.Extensions
                 //PayrollDate = DTO.PayrollDate,
                 PayrollMonth = DTO.PayrollMonth,
                 PayrollYear = DTO.PayrollYear,
+                BaseSalary = DTO.BaseSalary,
+                ProratedSalary = DTO.ProratedSalary,
                 Allowances = DTO.Allowances,
                 Overtime = DTO.Overtime,
                 Deductions = DTO.Deductions,
@@ -69,6 +79,8 @@ namespace TasteHub.Utilities.Extensions
             entity.PayrollMonth = DTO.PayrollMonth;
             entity.PayrollYear = DTO.PayrollYear;
             entity.Allowances = DTO.Allowances;
+            entity.BaseSalary = DTO.BaseSalary;
+            entity.ProratedSalary = DTO.ProratedSalary;
             entity.Overtime = DTO.Overtime;
             entity.Deductions = DTO.Deductions;
             entity.NetSalary = DTO.NetSalary;

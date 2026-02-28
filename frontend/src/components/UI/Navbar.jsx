@@ -35,7 +35,7 @@ const Navbar = () => {
     "/hr/leave-requests": "leave_requests",
     "/hr/leave-approvals": "leave_approvals",
 
-    "/hr/payrolls": "payrolls",
+    "/hr/payroll": "payroll",
 
     "/point-of-sale": "point_of_sale",
     "/orders": "orders",
