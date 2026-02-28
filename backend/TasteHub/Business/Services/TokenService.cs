@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -62,6 +63,12 @@ namespace TasteHub.Business.Services
             using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomBytes);
             return Convert.ToBase64String(randomBytes);
+        }
+
+        public string GenerateResetToken(int length = 32)
+        {
+            var bytes = RandomNumberGenerator.GetBytes(length);
+            return WebEncoders.Base64UrlEncode(bytes);
         }
     }
 }

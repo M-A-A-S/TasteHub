@@ -13,6 +13,7 @@ namespace TasteHub.DataAccess
 
         public DbSet<UserRole> UserRoles { get; set; } = null!;
         public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
+        public DbSet<ConfirmationToken> ConfirmationTokens { get; set; } = null!;
 
         // Customers & Suppliers
         public DbSet<Customer> Customers { get; set; } = null!;

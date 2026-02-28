@@ -24,6 +24,7 @@ namespace TasteHub.DataAccess
         public IPayrollRepository Payrolls { get; }
 
         public IRefreshTokenRepository RefreshTokens { get; }
+        public IConfirmationTokenRepository ConfirmationTokens { get; }
 
         //Task<int> SaveChangesAsync();
         Task<Result<int>> SaveChangesAsync();

@@ -7,5 +7,6 @@ namespace TasteHub.Business.Interfaces
     {
         AccessTokenDTO GenerateAccessToken(UserDTO DTO);
         string GenerateRefreshToken();
+        string GenerateResetToken(int length = 32);
     }
 }

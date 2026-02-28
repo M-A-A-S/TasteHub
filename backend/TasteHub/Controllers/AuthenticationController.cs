@@ -97,5 +97,35 @@ namespace TasteHub.Controllers
             return FromResult(Result<bool>.Success(true));
         }
 
+        [HttpPost("forget-password")]
+        public async Task<IActionResult> ForgetPassword([FromBody] ForgetPasswordRequestDTO request)
+        {
+
+            return FromResult(await _service.ForgetPasswordAsync(request.Email));
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO request)
+        {
+
+            return FromResult(await _service.ResetPasswordAsync(request));
+        }
+
+        [HttpPost("verify-code")]
+        public async Task<IActionResult> VerifyCode([FromBody] VerifyCodeRequestDTO request)
+        {
+
+            return FromResult(await _service.VerifyCodeAsync(request.Code));
+        }
+
+
+        [HttpPost("resend-code")]
+        public async Task<IActionResult> ResendVerificationCode([FromBody] ResendVerificationCodeRequestDTO request)
+        {
+
+            return FromResult(await _service.ResendVerificationCodeAsync(request.Email));
+        }
+
+
     }
 }

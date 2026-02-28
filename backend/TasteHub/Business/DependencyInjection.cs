@@ -36,6 +36,9 @@ namespace TasteHub.Business
             services.AddScoped<IPayrollCalculatorService, PayrollCalculatorService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IEmailSenderService, EmailSenderService>();
+            services.AddScoped<IConfirmationService, ConfirmationService>();
+            services.AddScoped<ICodeService, CodeService>();
             return services;
         }
     }

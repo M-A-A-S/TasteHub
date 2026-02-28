@@ -1,11 +1,13 @@
 ﻿using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Org.BouncyCastle.Asn1.Ocsp;
 using TasteHub.Business.Interfaces;
 using TasteHub.DataAccess;
 using TasteHub.DTOs.Authentication;
 using TasteHub.DTOs.User;
 using TasteHub.Entities;
+using TasteHub.Enums;
 using TasteHub.Utilities;
 using TasteHub.Utilities.Extensions;
 using TasteHub.Utilities.ResultCodes;
@@ -18,17 +20,20 @@ namespace TasteHub.Business.Services
         private readonly IPasswordService _passwordService;
         private readonly ITokenService _tokenService;
         private readonly JwtOptions _jwtOptions;
+        private readonly IConfirmationService _confirmationService;
 
         public AuthenticationService(IUnitOfWork unitOfWork,
             IPasswordService passwordService,
             ITokenService tokenService,
-            IOptions<JwtOptions> jwtOptions
+            IOptions<JwtOptions> jwtOptions,
+            IConfirmationService confirmationService
             )
         {
             _unitOfWork = unitOfWork;
             _passwordService = passwordService;
             _tokenService = tokenService;
             _jwtOptions = jwtOptions.Value;
+            _confirmationService = confirmationService;
         }
 
         public async Task<Result<LoginResult>> LogInAsync(LoginDTO request)
@@ -115,7 +120,7 @@ namespace TasteHub.Business.Services
 
             await _unitOfWork.RefreshTokens.AddAsync(new RefreshToken
             {
-                Token = refreshToken,
+                Token = newRefreshToken,
                 UserId = storedTokenResult.Data.User.Id,
                 Expires = DateTime.UtcNow.AddDays(_jwtOptions.RefreshTokenExpirationDays),
                 CreatedAt = DateTime.UtcNow,
@@ -158,6 +163,116 @@ namespace TasteHub.Business.Services
             }
 
             return Result<bool>.Success(true);
+        }
+
+        public async Task<Result<bool>> ForgetPasswordAsync(string email)
+        {
+            var userResult = await _unitOfWork.Users
+            .FindByAsync(predicate: u =>
+                u.Email == email
+                );
+
+            if (!userResult.IsSuccess || userResult.Data == null)
+            {
+                return Result<bool>.Failure(ResultCodes.UserNotFound);
+            }
+
+            var sendingForgetPasswordConfirmationResult =
+               await _confirmationService
+                    .SendForgetPasswordConfirmationAsync(userResult.Data.ToDTO());
+
+            if (!sendingForgetPasswordConfirmationResult.IsSuccess)
+            {
+                return Result<bool>.Failure(sendingForgetPasswordConfirmationResult.Code);
+            }
+
+            return Result<bool>.Success(true, ResultCodes.ResetLinkSent);
+        }
+
+        public async Task<Result<bool>> ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)
+        {
+            var validatingTokenResult = 
+                await _confirmationService.ValidateTokenAsync(resetPasswordDTO.Token);
+
+
+            if (!validatingTokenResult.IsSuccess || validatingTokenResult.Data == null)
+            {
+                return Result<bool>.Failure(validatingTokenResult.Code);
+            }
+
+            validatingTokenResult.Data.User.Password = _passwordService.HashPassword(validatingTokenResult.Data.User.ToDTO(), resetPasswordDTO.NewPassword);
+
+            validatingTokenResult.Data.IsUsed = true;
+
+            var saveResult = await _unitOfWork.SaveChangesAsync();
+            if (!saveResult.IsSuccess)
+            {
+                return Result<bool>.Failure(saveResult.Code);
+            }
+
+            return Result<bool>.Success(true);
+        }
+
+        public async Task<Result<VerifyCodeResponseDTO>> VerifyCodeAsync(string code)
+        {
+            var validatingCodeResult =
+                await _confirmationService.ValidateTokenAsync(code);
+
+            if (!validatingCodeResult.IsSuccess)
+            {
+                return Result<VerifyCodeResponseDTO>.Failure(validatingCodeResult.Code);
+            }
+
+            return Result<VerifyCodeResponseDTO>.Success(new VerifyCodeResponseDTO
+            {
+                Purpose = validatingCodeResult.Data.Purpose,
+                Token = validatingCodeResult.Data.Token,
+            }, ResultCodes.VerificationSuccess);
+        }
+
+        public async Task<Result<bool>> ResendVerificationCodeAsync(string email)
+        {
+            var confirmationTokenResult = 
+                await _unitOfWork.ConfirmationTokens
+                .FindByAsync(c => c.User.Email == email && 
+                    !c.IsUsed && 
+                    c.ExpireAt > DateTime.UtcNow, 
+                    q => q.Include(x => x.User));
+
+            if (!confirmationTokenResult.IsSuccess || confirmationTokenResult.Data == null)
+            {
+                return Result<bool>.Success(true, ResultCodes.SuccessfullyResendVerificationCode);
+            }
+
+            confirmationTokenResult.Data.IsUsed = true;
+
+            if (confirmationTokenResult.Data.Purpose == ConfirmationPurpose.ResetPassword)
+            {                
+
+                var sendingForgetPasswordConfirmationResult =
+                await _confirmationService
+                    .SendForgetPasswordConfirmationAsync(confirmationTokenResult.Data.User.ToDTO());
+
+                if (!sendingForgetPasswordConfirmationResult.IsSuccess)
+                {
+                    return Result<bool>.Failure(sendingForgetPasswordConfirmationResult.Code);
+                }
+
+                return Result<bool>.Success(true, ResultCodes.SuccessfullyResendVerificationCode);
+            } 
+            //else
+            //{
+            //    return Result<bool>.Failure(ResultCodes.UnsupportedConfirmationType);
+            //}
+
+            var saveResult = await _unitOfWork.SaveChangesAsync();
+            if (!saveResult.IsSuccess)
+            {
+                return Result<bool>.Failure(saveResult.Code);
+            }
+
+            return Result<bool>.Success(true, ResultCodes.SuccessfullyResendVerificationCode);
+
         }
 
     }

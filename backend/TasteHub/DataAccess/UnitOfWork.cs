@@ -29,6 +29,7 @@ namespace TasteHub.DataAccess
         public  IPayrollRepository Payrolls { get; }
 
         public IRefreshTokenRepository RefreshTokens { get; }
+        public IConfirmationTokenRepository ConfirmationTokens { get; }
 
         public UnitOfWork(AppDbContext context, 
             ILogger<UnitOfWork> logger, 
@@ -49,7 +50,8 @@ namespace TasteHub.DataAccess
             ILeaveTypeRepository leaveTypes,
             ILeaveBalanceRepository leaveBalances,
             IPayrollRepository payrolls,
-            IRefreshTokenRepository refreshTokens
+            IRefreshTokenRepository refreshTokens,
+            IConfirmationTokenRepository confirmationTokens
             )
         {
             _context = context;
@@ -72,6 +74,7 @@ namespace TasteHub.DataAccess
             LeaveBalances = leaveBalances;
             Payrolls = payrolls;
             RefreshTokens = refreshTokens;
+            ConfirmationTokens = confirmationTokens;
         }
 
         //public async Task<int> SaveChangesAsync()
