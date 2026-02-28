@@ -23,6 +23,8 @@ namespace TasteHub.DataAccess
         public ILeaveBalanceRepository LeaveBalances { get; }
         public IPayrollRepository Payrolls { get; }
 
+        public IRefreshTokenRepository RefreshTokens { get; }
+
         //Task<int> SaveChangesAsync();
         Task<Result<int>> SaveChangesAsync();
 

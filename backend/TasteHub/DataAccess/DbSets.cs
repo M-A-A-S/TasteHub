@@ -9,7 +9,10 @@ namespace TasteHub.DataAccess
         public DbSet<Person> People { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Role> Roles { get; set; } = null!;
+
+
         public DbSet<UserRole> UserRoles { get; set; } = null!;
+        public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
 
         // Customers & Suppliers
         public DbSet<Customer> Customers { get; set; } = null!;

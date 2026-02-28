@@ -34,6 +34,8 @@ namespace TasteHub.Business
             services.AddScoped<ILeaveTypeService, LeaveTypeService>();
             services.AddScoped<IPayrollService, PayrollService>();
             services.AddScoped<IPayrollCalculatorService, PayrollCalculatorService>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             return services;
         }
     }
