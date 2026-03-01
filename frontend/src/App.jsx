@@ -24,6 +24,9 @@ import LeaveRequestsPage from "./pages/LeaveRequestsPage";
 import LeaveApprovalsPage from "./pages/LeaveApprovalsPage";
 import PayrollPage from "./pages/PayrollPage";
 import LoginPage from "./pages/LoginPage";
+import ForgetPasswordPage from "./pages/ForgetPasswordPage";
+import VerifyCodePage from "./pages/VerifyCodePage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
   return (
@@ -33,6 +36,9 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/forget-password" element={<ForgetPasswordPage />} />
+            <Route path="/verify-code" element={<VerifyCodePage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
 
             <Route path="/" element={<Home />} />
             <Route path="/point-of-sale" element={<PointOfSalePage />} />

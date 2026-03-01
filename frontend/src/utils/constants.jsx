@@ -101,3 +101,13 @@ export const PayrollStatus = {
   approved: 2,
   paid: 3,
 };
+
+export const ConfirmationPurposes = [
+  { value: 1, key: "reset_password" },
+  { value: 2, key: "verify_email" },
+];
+
+export const ConfirmationPurpose = {
+  resetPassword: 1,
+  verifyEmail: 2,
+};

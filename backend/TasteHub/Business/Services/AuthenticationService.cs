@@ -216,7 +216,7 @@ namespace TasteHub.Business.Services
         public async Task<Result<VerifyCodeResponseDTO>> VerifyCodeAsync(string code)
         {
             var validatingCodeResult =
-                await _confirmationService.ValidateTokenAsync(code);
+                await _confirmationService.ValidateCodeAsync(code);
 
             if (!validatingCodeResult.IsSuccess)
             {
