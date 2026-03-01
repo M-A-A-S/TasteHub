@@ -1033,6 +1033,16 @@
         "weak_password": "Password must be at least 8 characters long and include a number and a special character",
         "passwords_do_not_match": "Passwords do not match"
       }
+    },
+    "not_found": {
+      "title": "Page Not Found",
+      "subtitle": "The page you are looking for does not exist.",
+      "home_button": "Go to Home"
+    },
+    "unauthorized": {
+      "title": "Access Denied",
+      "subtitle": "You do not have permission to view this page.",
+      "back_to_login": "Back to Login"
     }
   },
   "server_codes": {

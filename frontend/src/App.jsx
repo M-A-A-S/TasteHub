@@ -27,6 +27,8 @@ import LoginPage from "./pages/LoginPage";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import VerifyCodePage from "./pages/VerifyCodePage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import UnauthorizedPage from "./pages/UnauthorizedPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -35,40 +37,77 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
+            {/* AUTH  */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/forget-password" element={<ForgetPasswordPage />} />
             <Route path="/verify-code" element={<VerifyCodePage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-            <Route path="/" element={<Home />} />
-            <Route path="/point-of-sale" element={<PointOfSalePage />} />
-            <Route path="/menu-categories" element={<MenuCategoriesPage />} />
-            <Route path="/menu-items" element={<MenuItemsPage />} />
-            <Route path="/extras-groups" element={<ExtrasGroupsPage />} />
-            <Route path="/extras" element={<ExtrasPage />} />
-            <Route path="/sizes" element={<SizePage />} />
-            <Route path="/orders" element={<OrdersPage />} />
-            <Route path="/ingredients" element={<IngredientsPage />} />
-            <Route path="/suppliers" element={<SuppliersPage />} />
+            {/* POS  */}
             <Route
-              path="/inventory-transactions"
-              element={<InventoryTransactionsPage />}
-            />
+              element={
+                <ProtectedRoute
+                  allowedRoles={["cashier", "administrator", "manager"]}
+                />
+              }
+            >
+              <Route path="/point-of-sale" element={<PointOfSalePage />} />
+            </Route>
+
+            {/* MANAGEMENT  */}
             <Route
-              path="/inventory-batches"
-              element={<IngredientBatchesPage />}
-            />
-            <Route path="/hr/employees" element={<EmployeesPage />} />
-            <Route path="/hr/shift-types" element={<ShiftTypesPage />} />
-            <Route path="/hr/leave-types" element={<LeaveTypesPage />} />
-            <Route path="/hr/work-schedules" element={<WorkSchedulesPage />} />
-            <Route path="/hr/attendances" element={<AttendancePage />} />
-            <Route path="/hr/leave-requests" element={<LeaveRequestsPage />} />
+              element={
+                <ProtectedRoute allowedRoles={["administrator", "manager"]} />
+              }
+            >
+              <Route path="/" element={<Home />} />
+
+              <Route path="/menu-categories" element={<MenuCategoriesPage />} />
+              <Route path="/menu-items" element={<MenuItemsPage />} />
+              <Route path="/extras-groups" element={<ExtrasGroupsPage />} />
+              <Route path="/extras" element={<ExtrasPage />} />
+              <Route path="/sizes" element={<SizePage />} />
+              <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/ingredients" element={<IngredientsPage />} />
+              <Route path="/suppliers" element={<SuppliersPage />} />
+              <Route
+                path="/inventory-transactions"
+                element={<InventoryTransactionsPage />}
+              />
+              <Route
+                path="/inventory-batches"
+                element={<IngredientBatchesPage />}
+              />
+            </Route>
+
+            {/* HR */}
             <Route
-              path="/hr/leave-approvals"
-              element={<LeaveApprovalsPage />}
-            />
-            <Route path="/hr/payroll" element={<PayrollPage />} />
+              element={
+                <ProtectedRoute
+                  allowedRoles={["administrator", "manager", "hr"]}
+                />
+              }
+            >
+              <Route path="/hr/employees" element={<EmployeesPage />} />
+              <Route path="/hr/shift-types" element={<ShiftTypesPage />} />
+              <Route path="/hr/leave-types" element={<LeaveTypesPage />} />
+              <Route
+                path="/hr/work-schedules"
+                element={<WorkSchedulesPage />}
+              />
+              <Route path="/hr/attendances" element={<AttendancePage />} />
+              <Route
+                path="/hr/leave-requests"
+                element={<LeaveRequestsPage />}
+              />
+              <Route
+                path="/hr/leave-approvals"
+                element={<LeaveApprovalsPage />}
+              />
+              <Route path="/hr/payroll" element={<PayrollPage />} />
+            </Route>
+
+            <Route path="/unauthorized" element={<UnauthorizedPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
