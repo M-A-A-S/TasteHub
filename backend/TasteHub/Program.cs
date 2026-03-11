@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -19,7 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
 
 builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("ImageSettings"));
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+//builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 
 builder.Services.AddApplicationServices();
 builder.Services.AddApplicationRepositories();
@@ -31,31 +32,109 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
+var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
 
-//builder.Services.AddSingleton(jwtOptions);
+builder.Services.AddSingleton(jwtOptions);
 
 
-builder.Services.AddAuthentication()
-    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        var jwtOptions = builder.Configuration
-        .GetSection("Jwt")
-        .Get<JwtOptions>();
+        options.UseSecurityTokenValidators = true;
+
+        var jwtSection = builder.Configuration.GetSection("Jwt");
+
+        options.Events = new JwtBearerEvents
+        {
+            //OnMessageReceived = context =>
+            //{
+            //    var authHeader = context.Request.Headers["Authorization"].ToString();
+
+            //    if (!string.IsNullOrEmpty(authHeader) &&
+            //        authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        context.Token = authHeader.Substring("Bearer ".Length).Trim();
+            //    }
+
+            //    return Task.CompletedTask;
+            //},
+
+            //OnMessageReceived = context =>
+            //{
+            //    // Get the header
+            //    var authHeader = context.Request.Headers["Authorization"].ToString();
+
+            //    Console.WriteLine($"Incoming Header: '{authHeader}'");
+            //    Console.WriteLine(jwtOptions);
+
+            //    if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        // Manually extract and TRIM the token to remove hidden spaces/newlines
+            //        context.Token = authHeader.Substring("Bearer ".Length).Trim();
+            //    }
+            //    return Task.CompletedTask;
+            //},
+
+            OnAuthenticationFailed = context =>
+            {
+                //var authHeader = context.Request.Headers["Authorization"].ToString();
+                //Console.WriteLine($"Incoming Header Length: {authHeader.Length}");
+                //Console.WriteLine($"Incoming Header Raw: [{authHeader}]");
+
+                var authHeader = context.Request.Headers["Authorization"].ToString();
+                Console.WriteLine($"Incoming Header: '{authHeader}'");
+                Console.WriteLine(jwtOptions);
+                // This will print the real reason to your Debug/Output window
+                Console.WriteLine("Auth Failed: " + context.Exception.Message);
+                Console.WriteLine(context.Exception.StackTrace);
+                return Task.CompletedTask;
+            },
+
+        };
+
+        options.Events.OnTokenValidated = (context) =>
+        {
+            // Replace your cast to JwtSecurityToken.
+            //JsonWebToken token = context.SecurityToken as JsonWebToken;
+            // Do something ...
+
+            var jwtToken = context.SecurityToken as JsonWebToken;
+            Console.WriteLine("Token validated: " + jwtToken?.EncodedPayload);
+            return Task.CompletedTask;
+        };
+        //var jwtOptions = builder.Configuration
+        //.GetSection("Jwt")
+        //.Get<JwtOptions>();
+
+        //var jwtSection = builder.Configuration.GetSection("Jwt");
 
         options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = jwtOptions.Issuer,
             ValidateAudience = true,
-            ValidAudience = jwtOptions.Audience,
             ValidateIssuerSigningKey = true,
-            ValidateLifetime = true,
+
+            ValidIssuer = jwtOptions.Issuer,
+            ValidAudience = jwtOptions.Audience,
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwtOptions.SigningKey))
+            Encoding.UTF8.GetBytes(jwtOptions.SigningKey)),
+
+            ClockSkew = TimeSpan.Zero
+
+            //ValidateLifetime = true,
+
+            //ClockSkew = TimeSpan.Zero,
+
+            //RoleClaimType = ClaimTypes.Role,
+            //NameClaimType = ClaimTypes.Email
+
+
         };
     });
+
+builder.Services.AddAuthorization();
 
 var allowedOrigins = builder.Configuration
     .GetSection("Cors:AllowedOrigins")
@@ -71,6 +150,7 @@ builder.Services.AddCors(options =>
               .AllowCredentials();
     });
 });
+
 
 var app = builder.Build();
 
@@ -92,10 +172,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseCors("AllowCors");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseStaticFiles();
 
 app.MapControllers();

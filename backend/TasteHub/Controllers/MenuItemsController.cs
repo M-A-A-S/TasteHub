@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Business.Interfaces;
 using TasteHub.DTOs.MenuItem;
 
 namespace TasteHub.Controllers
 {
+    [Authorize(Roles = "administrator,manager")]
     [Route("api/menu-items")]
     public class MenuItemsController : BaseController
     {
@@ -16,6 +18,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "administrator,manager,cashier")]
         public async Task<IActionResult> GetAll(
           [FromQuery] MenuItemFiltersDTO filters)
         {

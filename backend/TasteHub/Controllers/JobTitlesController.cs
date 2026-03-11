@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Business.Interfaces;
 using TasteHub.DTOs.JobTitle;
@@ -6,6 +7,7 @@ using TasteHub.DTOs.Supplier;
 
 namespace TasteHub.Controllers
 {
+    [Authorize(Roles = "administrator,manager,hr")]
     [Route("api/job-titles")]
     public class JobTitlesController : BaseController
     {

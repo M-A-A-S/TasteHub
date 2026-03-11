@@ -10,9 +10,13 @@ const api = axios.create({
 });
 
 export const setAuthToken = (token) => {
-  api.defaults.headers.common["Authorization"] = token
-    ? `Bearer ${token}`
-    : undefined;
+  console.log("Setting auth token:", token);
+
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete api.defaults.headers.common["Authorization"];
+  }
 };
 // Interceptor: return only the response data
 // api.interceptors.response.use(
@@ -35,24 +39,22 @@ api.interceptors.response.use(
 
       try {
         const refreshResponse = await axios.post(
-          `${API_BASE_URL}/auth/refresh`,
+          `${API_BASE_URL}auth/refresh`,
           {},
           { withCredentials: true },
         );
 
         const newAccessToken = refreshResponse.data.accessToken.token;
 
-        localStorage.setItem("accessToken", newAccessToken);
-
-        api.defaults.headers.common["Authorization"] =
-          `Bearer ${newAccessToken}`;
+        setAuthToken(newAccessToken);
 
         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
 
         return api(originalRequest);
       } catch (refreshError) {
-        localStorage.removeItem("accessToken");
-        window.location.href = "/login";
+        // localStorage.removeItem("accessToken");
+        console.error("Token refresh failed:", refreshError);
+        // window.location.href = "/login";
       }
     }
 

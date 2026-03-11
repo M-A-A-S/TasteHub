@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Business.Interfaces;
 using TasteHub.DTOs.Extra;
@@ -6,6 +7,7 @@ using TasteHub.DTOs.MenuItemSize;
 
 namespace TasteHub.Controllers
 {
+    [Authorize(Roles = "administrator,manager")]
     [Route("api/menu-item-sizes")]
     public class MenuItemSizesController : BaseController
     {

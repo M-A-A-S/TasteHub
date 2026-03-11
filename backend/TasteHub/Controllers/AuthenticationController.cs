@@ -15,14 +15,14 @@ namespace TasteHub.Controllers
         private readonly JwtOptions _jwtOptions;
 
         public AuthenticationController(IAuthenticationService service, 
-            IOptions<JwtOptions> jwtOptions)
+            JwtOptions jwtOptions)
         {
             _service = service;
-            _jwtOptions = jwtOptions.Value;
+            _jwtOptions = jwtOptions;
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Create([FromBody] LoginDTO DTO)
+        public async Task<IActionResult> Login([FromBody] LoginDTO DTO)
         {
             var result = await _service.LogInAsync(DTO);
             if (result.IsSuccess)
@@ -31,7 +31,8 @@ namespace TasteHub.Controllers
                 {
                     HttpOnly = true,
                     Secure = true,
-                    SameSite = SameSiteMode.Strict,
+                    //SameSite = SameSiteMode.Strict,
+                    SameSite = SameSiteMode.None,
                     Expires = DateTime.UtcNow.AddDays(_jwtOptions.RefreshTokenExpirationDays)
                 });
 
@@ -63,7 +64,8 @@ namespace TasteHub.Controllers
                 {
                     HttpOnly = true,
                     Secure = true,
-                    SameSite = SameSiteMode.Strict,
+                    //SameSite = SameSiteMode.Strict,
+                    SameSite = SameSiteMode.None,
                     Expires = DateTime.UtcNow.AddDays(_jwtOptions.RefreshTokenExpirationDays)
                 });
             }
@@ -91,7 +93,8 @@ namespace TasteHub.Controllers
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict
+                //SameSite = SameSiteMode.Strict
+                SameSite = SameSiteMode.None
             });
 
             return FromResult(Result<bool>.Success(true));

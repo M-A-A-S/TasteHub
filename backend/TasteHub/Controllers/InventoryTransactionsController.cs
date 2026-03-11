@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Business.Interfaces;
 using TasteHub.DTOs.InventoryTransaction;
@@ -8,6 +9,7 @@ using TasteHub.Utilities;
 
 namespace TasteHub.Controllers
 {
+    [Authorize(Roles = "administrator,manager")]
     [Route("api/inventory-transactions")]
     public class InventoryTransactionsController : BaseController
     {

@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Business.Interfaces;
 
 namespace TasteHub.Controllers
 {
+    [Authorize(Roles = "manager")]
+    [Authorize]
     [Route("api/dashboard")]
-    [ApiController]
     public class DashboardController : BaseController
     {
         private readonly IDashboardService _service;

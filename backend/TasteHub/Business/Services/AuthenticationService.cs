@@ -25,14 +25,14 @@ namespace TasteHub.Business.Services
         public AuthenticationService(IUnitOfWork unitOfWork,
             IPasswordService passwordService,
             ITokenService tokenService,
-            IOptions<JwtOptions> jwtOptions,
+            JwtOptions jwtOptions,
             IConfirmationService confirmationService
             )
         {
             _unitOfWork = unitOfWork;
             _passwordService = passwordService;
             _tokenService = tokenService;
-            _jwtOptions = jwtOptions.Value;
+            _jwtOptions = jwtOptions;
             _confirmationService = confirmationService;
         }
 
@@ -103,7 +103,7 @@ namespace TasteHub.Business.Services
             var storedTokenResult = await _unitOfWork.RefreshTokens
                 .FindByAsync(r =>
                     r.Token == refreshToken &&
-                    r.Expires > DateTime.UtcNow,
+                    r.Expires > DateTime.Now,
                     q => q.Include(r => r.User));
 
             if (!storedTokenResult.IsSuccess || storedTokenResult.Data == null)

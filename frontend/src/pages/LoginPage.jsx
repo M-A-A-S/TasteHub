@@ -60,8 +60,10 @@ const LoginPage = () => {
 
       const result = await create("auth/login", { email, password });
 
-      login(result.data.user, result.data.accessToken);
-      setAuthToken(result.data.accessToken.token);
+      const accessToken = result.data.accessToken.token;
+
+      login(result.data.user, accessToken);
+      setAuthToken(accessToken);
       navigateBasedOnRole(
         result?.data?.user?.roles[0]?.role?.nameEn?.toLowerCase(),
       );

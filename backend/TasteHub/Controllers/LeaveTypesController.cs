@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TasteHub.Business.Interfaces;
 using TasteHub.DTOs.LeaveType;
 
 namespace TasteHub.Controllers
 {
+    [Authorize(Roles = "administrator,manager,hr")]
     [Route("api/leave-types")]
     public class LeaveTypesController : BaseController
     {

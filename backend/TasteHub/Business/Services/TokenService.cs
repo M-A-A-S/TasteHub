@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -15,43 +14,53 @@ namespace TasteHub.Business.Services
     public class TokenService : ITokenService
     {
         private readonly JwtOptions _jwtOptions;
-        public TokenService(IOptions<JwtOptions> jwtOptions)
+        public TokenService(JwtOptions jwtOptions)
         {
-            _jwtOptions = jwtOptions.Value;
+            _jwtOptions = jwtOptions;
         }
 
         public AccessTokenDTO GenerateAccessToken(UserDTO DTO)
         {
+
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, DTO.Id.ToString()),
-                new Claim(ClaimTypes.Email, DTO.Email)
+                new Claim(ClaimTypes.Email, DTO.Email),
             };
 
             foreach (var role in DTO.Roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role.Role.NameEn));
+                //claims.Add(new Claim(ClaimTypes.Role, role.Role.NameEn));
+                claims.Add(new Claim(ClaimTypes.Role, role.Role.NameEn.ToLower()));
             }
 
             var signingKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_jwtOptions.SigningKey));
+            var signingCredentials = new SigningCredentials(
+                signingKey, 
+                SecurityAlgorithms.HmacSha256);
 
             var tokenHandler = new JwtSecurityTokenHandler();
+            //var tokenHandler = new Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = _jwtOptions.Issuer,
                 Audience = _jwtOptions.Audience,
                 IssuedAt = DateTime.UtcNow,
                 Expires = DateTime.UtcNow.AddMinutes(_jwtOptions.AccessTokenExpirationMinutes),
-                SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
+                SigningCredentials = signingCredentials,
                 Subject = new ClaimsIdentity(claims)
             };
 
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+            var accessToken = tokenHandler.WriteToken(securityToken);
+            //var accessToken = tokenHandler.CreateToken(tokenDescriptor);
+
 
             return new AccessTokenDTO
             {
-                Token = new JwtSecurityTokenHandler().WriteToken(securityToken),
+                Token = accessToken,
                 IssuedAt = DateTime.UtcNow,
                 Expires = DateTime.UtcNow.AddMinutes(_jwtOptions.AccessTokenExpirationMinutes)
             };
