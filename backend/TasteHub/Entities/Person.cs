@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using TasteHub.Enums;
 
 namespace TasteHub.Entities
 {
+    [Index(nameof(Phone), IsUnique = true)]
     public class Person
     {
         [Key]

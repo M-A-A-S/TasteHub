@@ -39,6 +39,8 @@ namespace TasteHub.Business
             services.AddScoped<IEmailSenderService, EmailSenderService>();
             services.AddScoped<IConfirmationService, ConfirmationService>();
             services.AddScoped<ICodeService, CodeService>();
+            services.AddScoped<ITableService, TableService>();
+
             return services;
         }
     }

@@ -37,6 +37,7 @@ namespace TasteHub.DataAccess
             services.AddScoped<ILeaveBalanceRepository, LeaveBalanceRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<IConfirmationTokenRepository, ConfirmationTokenRepository>();
+            services.AddScoped<ITableRepository, TableRepository>();
 
             return services;
         }

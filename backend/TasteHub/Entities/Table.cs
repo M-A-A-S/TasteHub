@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using TasteHub.Enums;
 
 namespace TasteHub.Entities
 {
+    [Index(nameof(TableNumber), IsUnique = true)]
     public class Table
     {
         [Key]
