@@ -29,7 +29,9 @@
     "leave_requests": "Leave Requests",
     "leave_approvals": "Leave Approvals",
     "payroll": "Payrolls",
-    "leave_types": "Leave Types"
+    "leave_types": "Leave Types",
+
+    "tables": "Tables"
   },
   "common": {
     "save": "Save",
@@ -1043,6 +1045,45 @@
       "title": "Access Denied",
       "subtitle": "You do not have permission to view this page.",
       "back_to_login": "Back to Login"
+    },
+    "tables_page": {
+      "title": "Tables",
+      "description": "Manage tables and their seat numbers.",
+      "add_new_table": "Add New Table",
+      "edit_table": "Edit Table",
+
+      "table_add_success": "Table added successfully!",
+      "table_add_fail": "Failed to add table.",
+      "table_update_success": "Table updated successfully!",
+      "table_update_fail": "Failed to update table.",
+      "table_delete_success": "Table deleted successfully!",
+      "table_delete_fail": "Failed to delete table.",
+
+      "table_delete_modal_title": "Delete Table",
+      "table_delete_modal_message": "Are you sure you want to delete this table?",
+      "table_delete_modal_confirm": "Delete",
+
+      "table_headers": {
+        "table_number": "Table Number",
+        "seats": "Seats",
+        "location": "Location",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "form": {
+        "table_number_label": "Table Number",
+        "table_number_placeholder": "Enter table number",
+        "table_number_error": "Table number is required",
+
+        "seats_label": "Number of Seats",
+        "seats_placeholder": "Enter number of seats",
+        "seats_error": "Number of seats is required",
+
+        "location_label": "Location",
+        "location_placeholder": "Enter table location",
+
+        "status_label": "Status"
+      }
     }
   },
   "server_codes": {
@@ -1139,5 +1180,10 @@
     "draft": "Draft",
     "approved": "Approved",
     "paid": "Paid"
+  },
+  "table_statuses": {
+    "available": "Available",
+    "occupied": "Occupied",
+    "reserved": "Reserved"
   }
 }

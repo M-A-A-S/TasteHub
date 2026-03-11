@@ -275,6 +275,13 @@ const menus = [
     roles: ["administrator", "manager"],
   },
 
+  {
+    key: "tables",
+    path: "/tables",
+    icon: <UtensilsCrossed />,
+    roles: ["administrator", "manager"],
+  },
+
   // {
   //   key: "analytics",
   //   path: "/analytics",

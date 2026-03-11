@@ -111,3 +111,9 @@ export const ConfirmationPurpose = {
   resetPassword: 1,
   verifyEmail: 2,
 };
+
+export const TableStatuses = [
+  { value: 0, key: "available" },
+  { value: 1, key: "occupied" },
+  { value: 2, key: "reserved" },
+];

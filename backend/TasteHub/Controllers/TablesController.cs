@@ -7,7 +7,7 @@ using TasteHub.DTOs.WorkSchedule;
 
 namespace TasteHub.Controllers
 {
-    [Authorize(Roles = "administrator,manager,hr")]
+    [Authorize(Roles = "administrator,manager")]
     [Route("api/tables")]
     [ApiController]
     public class TablesController : BaseController
@@ -20,6 +20,7 @@ namespace TasteHub.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "administrator,manager,cashier")]
         public async Task<IActionResult> GetAll()
         {
             return FromResult(await _service.GetAllAsync());

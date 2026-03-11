@@ -29,6 +29,7 @@ import VerifyCodePage from "./pages/VerifyCodePage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import TablesPage from "./pages/TablesPage";
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
               <Route path="/extras" element={<ExtrasPage />} />
               <Route path="/sizes" element={<SizePage />} />
               <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/tables" element={<TablesPage />} />
               <Route path="/ingredients" element={<IngredientsPage />} />
               <Route path="/suppliers" element={<SuppliersPage />} />
               <Route

@@ -29,7 +29,9 @@
     "leave_requests": "طلبات الإجازة",
     "leave_approvals": "الموافقة على الإجازات",
     "payroll": "الرواتب",
-    "leave_types": "أنواع الإجازات"
+    "leave_types": "أنواع الإجازات",
+
+    "tables": "الطاولات"
   },
   "common": {
     "save": "حفظ",
@@ -1053,6 +1055,45 @@
       "title": "الوصول مرفوض",
       "subtitle": "ليس لديك الصلاحية لعرض هذه الصفحة.",
       "back_to_login": "العودة لتسجيل الدخول"
+    },
+    "tables_page": {
+      "title": "الطاولات",
+      "description": "إدارة الطاولات وعدد المقاعد.",
+      "add_new_table": "إضافة طاولة جديدة",
+      "edit_table": "تعديل الطاولة",
+
+      "table_add_success": "تمت إضافة الطاولة بنجاح!",
+      "table_add_fail": "فشل في إضافة الطاولة.",
+      "table_update_success": "تم تحديث الطاولة بنجاح!",
+      "table_update_fail": "فشل في تحديث الطاولة.",
+      "table_delete_success": "تم حذف الطاولة بنجاح!",
+      "table_delete_fail": "فشل في حذف الطاولة.",
+
+      "table_delete_modal_title": "حذف الطاولة",
+      "table_delete_modal_message": "هل أنت متأكد أنك تريد حذف هذه الطاولة؟",
+      "table_delete_modal_confirm": "حذف",
+
+      "table_headers": {
+        "table_number": "رقم الطاولة",
+        "seats": "عدد المقاعد",
+        "location": "الموقع",
+        "status": "الحالة",
+        "actions": "الإجراءات"
+      },
+      "form": {
+        "table_number_label": "رقم الطاولة",
+        "table_number_placeholder": "أدخل رقم الطاولة",
+        "table_number_error": "رقم الطاولة مطلوب",
+
+        "seats_label": "عدد المقاعد",
+        "seats_placeholder": "أدخل عدد المقاعد",
+        "seats_error": "عدد المقاعد مطلوب",
+
+        "location_label": "الموقع",
+        "location_placeholder": "أدخل موقع الطاولة",
+
+        "status_label": "الحالة"
+      }
     }
   },
   "server_codes": {
@@ -1150,5 +1191,10 @@
     "draft": "مسودة",
     "approved": "معتمد",
     "paid": "مدفوع"
+  },
+  "table_statuses": {
+    "available": "متاح",
+    "occupied": "مشغول",
+    "reserved": "محجوز"
   }
 }
