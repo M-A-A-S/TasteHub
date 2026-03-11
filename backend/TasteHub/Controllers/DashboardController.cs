@@ -6,7 +6,6 @@ using TasteHub.Business.Interfaces;
 namespace TasteHub.Controllers
 {
     [Authorize(Roles = "manager")]
-    [Authorize]
     [Route("api/dashboard")]
     public class DashboardController : BaseController
     {

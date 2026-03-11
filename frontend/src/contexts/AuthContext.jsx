@@ -12,6 +12,8 @@ export const AuthProvider = ({ children }) => {
     return savedRole || "unknown_user";
   });
 
+  const [userRoles, setUserRoles] = useState([]);
+
   useEffect(() => {
     if (token) {
       setAuthToken(token);
@@ -26,6 +28,7 @@ export const AuthProvider = ({ children }) => {
     if (user?.roles?.length) {
       const defaultRole = user?.roles[0].role?.nameEn?.toLowerCase();
       setCurrentRole(defaultRole);
+      setUserRoles(user.roles.map((r) => r.role.nameEn.toLowerCase()));
       localStorage.setItem("currentRole", defaultRole);
     }
   }, [user]);
@@ -67,6 +70,7 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         changeRole,
+        userRoles,
       }}
     >
       {children}

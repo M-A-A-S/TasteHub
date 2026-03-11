@@ -23,6 +23,7 @@ import { NavLink } from "react-router-dom";
 import { useLanguage } from "../../hooks/useLanguage";
 import SidebarHeader from "../Sidebar/SidebarHeader";
 import SidebarNav from "../Sidebar/SidebarNav";
+import { useAuth } from "../../hooks/useAuth";
 
 // analytics: "Analytics";
 // categories: "Categories Management";
@@ -87,128 +88,128 @@ import SidebarNav from "../Sidebar/SidebarNav";
 //   ],
 // };
 
-const menus = {
-  admin: [
-    {
-      key: "dashboard",
-      path: "/",
-      icon: <LayoutDashboard />,
-    },
+// const menus = {
+//   admin: [
+//     {
+//       key: "dashboard",
+//       path: "/",
+//       icon: <LayoutDashboard />,
+//     },
 
-    {
-      key: "point_of_sale",
-      path: "/point-of-sale",
-      icon: <UtensilsCrossed />,
-    },
+//     {
+//       key: "point_of_sale",
+//       path: "/point-of-sale",
+//       icon: <UtensilsCrossed />,
+//     },
 
-    {
-      key: "orders",
-      path: "/orders",
-      icon: <Package />,
-    },
+//     {
+//       key: "orders",
+//       path: "/orders",
+//       icon: <Package />,
+//     },
 
-    {
-      key: "analytics",
-      path: "/analytics",
-      icon: <ChartColumn />,
-    },
+//     {
+//       key: "analytics",
+//       path: "/analytics",
+//       icon: <ChartColumn />,
+//     },
 
-    {
-      key: "menu_management",
-      icon: <ChefHat />,
-      children: [
-        {
-          key: "categories",
-          path: "/menu-categories",
-          icon: <ChefHat />,
-        },
-        {
-          key: "menu_items",
-          path: "/menu-items",
-          icon: <ChefHat />,
-        },
-        {
-          key: "extras_groups",
-          path: "/extras-groups",
-          icon: <ChefHat />,
-        },
-        {
-          key: "extras",
-          path: "/extras",
-          icon: <ChefHat />,
-        },
-        {
-          key: "sizes",
-          path: "/sizes",
-          icon: <PencilRuler />,
-        },
-      ],
-    },
+//     {
+//       key: "menu_management",
+//       icon: <ChefHat />,
+//       children: [
+//         {
+//           key: "categories",
+//           path: "/menu-categories",
+//           icon: <ChefHat />,
+//         },
+//         {
+//           key: "menu_items",
+//           path: "/menu-items",
+//           icon: <ChefHat />,
+//         },
+//         {
+//           key: "extras_groups",
+//           path: "/extras-groups",
+//           icon: <ChefHat />,
+//         },
+//         {
+//           key: "extras",
+//           path: "/extras",
+//           icon: <ChefHat />,
+//         },
+//         {
+//           key: "sizes",
+//           path: "/sizes",
+//           icon: <PencilRuler />,
+//         },
+//       ],
+//     },
 
-    {
-      key: "inventory_management",
-      icon: <Package />,
-      children: [
-        {
-          key: "suppliers",
-          path: "/suppliers",
-          icon: <Truck />,
-        },
-        {
-          key: "ingredients",
-          path: "/ingredients",
-          icon: <Package />,
-        },
-        {
-          key: "inventory_transactions",
-          path: "/inventory-transactions",
-          icon: <Package />,
-        },
-        {
-          key: "inventory_batches",
-          path: "/inventory-batches",
-          icon: <Package />,
-        },
-      ],
-    },
+//     {
+//       key: "inventory_management",
+//       icon: <Package />,
+//       children: [
+//         {
+//           key: "suppliers",
+//           path: "/suppliers",
+//           icon: <Truck />,
+//         },
+//         {
+//           key: "ingredients",
+//           path: "/ingredients",
+//           icon: <Package />,
+//         },
+//         {
+//           key: "inventory_transactions",
+//           path: "/inventory-transactions",
+//           icon: <Package />,
+//         },
+//         {
+//           key: "inventory_batches",
+//           path: "/inventory-batches",
+//           icon: <Package />,
+//         },
+//       ],
+//     },
 
-    {
-      key: "hr_management",
-      icon: <Users />,
-      children: [
-        { key: "employees", path: "/hr/employees", icon: <User /> },
-        {
-          key: "shift_types",
-          path: "/hr/shift-types",
-          icon: <Calendar />,
-        },
-        {
-          key: "leave_types",
-          path: "/hr/leave-types",
-          icon: <FileText />,
-        },
-        {
-          key: "work_schedules",
-          path: "/hr/work-schedules",
-          icon: <Calendar />,
-        },
-        { key: "attendances", path: "/hr/attendances", icon: <Clock /> },
-        // { key: "leaves", path: "/hr/leaves", icon: <FileText /> },
-        {
-          key: "leave_requests",
-          path: "/hr/leave-requests",
-          icon: <FileText />,
-        },
-        {
-          key: "leave_approvals",
-          path: "/hr/leave-approvals",
-          icon: <FileText />,
-        },
-        { key: "payroll", path: "/hr/payroll", icon: <DollarSign /> },
-      ],
-    },
-  ],
-};
+//     {
+//       key: "hr_management",
+//       icon: <Users />,
+//       children: [
+//         { key: "employees", path: "/hr/employees", icon: <User /> },
+//         {
+//           key: "shift_types",
+//           path: "/hr/shift-types",
+//           icon: <Calendar />,
+//         },
+//         {
+//           key: "leave_types",
+//           path: "/hr/leave-types",
+//           icon: <FileText />,
+//         },
+//         {
+//           key: "work_schedules",
+//           path: "/hr/work-schedules",
+//           icon: <Calendar />,
+//         },
+//         { key: "attendances", path: "/hr/attendances", icon: <Clock /> },
+//         // { key: "leaves", path: "/hr/leaves", icon: <FileText /> },
+//         {
+//           key: "leave_requests",
+//           path: "/hr/leave-requests",
+//           icon: <FileText />,
+//         },
+//         {
+//           key: "leave_approvals",
+//           path: "/hr/leave-approvals",
+//           icon: <FileText />,
+//         },
+//         { key: "payroll", path: "/hr/payroll", icon: <DollarSign /> },
+//       ],
+//     },
+//   ],
+// };
 
 // const menus = {
 // unknown_user: [
@@ -252,14 +253,209 @@ const menus = {
 // ],
 // };
 
+const menus = [
+  {
+    key: "dashboard",
+    path: "/",
+    icon: <LayoutDashboard />,
+    roles: ["administrator", "manager"],
+  },
+
+  {
+    key: "point_of_sale",
+    path: "/point-of-sale",
+    icon: <UtensilsCrossed />,
+    roles: ["administrator", "manager", "cashier"],
+  },
+
+  {
+    key: "orders",
+    path: "/orders",
+    icon: <Package />,
+    roles: ["administrator", "manager"],
+  },
+
+  // {
+  //   key: "analytics",
+  //   path: "/analytics",
+  //   icon: <ChartColumn />,
+  //   roles: ["administrator"],
+  // },
+
+  {
+    key: "menu_management",
+    icon: <ChefHat />,
+    roles: ["administrator", "manager"],
+    children: [
+      {
+        key: "categories",
+        path: "/menu-categories",
+        icon: <ChefHat />,
+        roles: ["administrator", "manager"],
+      },
+      {
+        key: "menu_items",
+        path: "/menu-items",
+        icon: <ChefHat />,
+        roles: ["administrator", "manager"],
+      },
+      {
+        key: "extras_groups",
+        path: "/extras-groups",
+        icon: <ChefHat />,
+        roles: ["administrator", "manager"],
+      },
+      {
+        key: "extras",
+        path: "/extras",
+        icon: <ChefHat />,
+        roles: ["administrator", "manager"],
+      },
+      {
+        key: "sizes",
+        path: "/sizes",
+        icon: <PencilRuler />,
+        roles: ["administrator", "manager"],
+      },
+    ],
+  },
+
+  {
+    key: "inventory_management",
+    icon: <Package />,
+    roles: ["administrator", "manager"],
+    children: [
+      {
+        key: "suppliers",
+        path: "/suppliers",
+        icon: <Truck />,
+        roles: ["administrator", "manager"],
+      },
+      {
+        key: "ingredients",
+        path: "/ingredients",
+        icon: <Package />,
+        roles: ["administrator", "manager"],
+      },
+      {
+        key: "inventory_transactions",
+        path: "/inventory-transactions",
+        icon: <Package />,
+        roles: ["administrator", "manager"],
+      },
+      {
+        key: "inventory_batches",
+        path: "/inventory-batches",
+        icon: <Package />,
+        roles: ["administrator", "manager"],
+      },
+    ],
+  },
+
+  {
+    key: "hr_management",
+    icon: <Users />,
+    roles: ["administrator", "manager", "hr"],
+    children: [
+      {
+        key: "employees",
+        path: "/hr/employees",
+        icon: <User />,
+        roles: ["administrator", "manager", "hr"],
+      },
+      {
+        key: "shift_types",
+        path: "/hr/shift-types",
+        icon: <Calendar />,
+        roles: ["administrator", "manager", "hr"],
+      },
+      {
+        key: "leave_types",
+        path: "/hr/leave-types",
+        icon: <FileText />,
+        roles: ["administrator", "manager", "hr"],
+      },
+      {
+        key: "work_schedules",
+        path: "/hr/work-schedules",
+        icon: <Calendar />,
+        roles: ["administrator", "manager", "hr"],
+      },
+      {
+        key: "attendances",
+        path: "/hr/attendances",
+        icon: <Clock />,
+        roles: ["administrator", "manager", "hr"],
+      },
+
+      // { key: "leaves", path: "/hr/leaves", icon: <FileText /> },
+      {
+        key: "leave_requests",
+        path: "/hr/leave-requests",
+        icon: <FileText />,
+        roles: ["administrator", "manager", "hr"],
+      },
+      {
+        key: "leave_approvals",
+        path: "/hr/leave-approvals",
+        icon: <FileText />,
+        roles: ["administrator", "manager", "hr"],
+      },
+      {
+        key: "payroll",
+        path: "/hr/payroll",
+        icon: <DollarSign />,
+        roles: ["administrator", "manager", "hr"],
+      },
+    ],
+  },
+];
+
 const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { language, translations } = useLanguage();
+  const { language } = useLanguage();
+  const { currentRole, userRoles } = useAuth();
 
-  console.log("translations -> ", translations);
-  console.log("language -> ", language);
+  // const filterLinksByRole = (links, role) => {
+  //   return links
+  //     .filter((menu) => !menu.roles || menu.roles.includes(role))
+  //     .map((menu) => {
+  //       if (!menu.children) {
+  //         return menu;
+  //       }
 
-  let links = menus.admin;
+  //       const children = menu.children.filter(
+  //         (child) => !child.roles || child.roles.includes(role),
+  //       );
+
+  //       return { ...menu, children };
+  //     })
+  //     .filter((menu) => !menu.children || menu.children.length > 0);
+  // };
+
+  const filterLinksByRole = (links, roles) => {
+    return links
+      .filter(
+        (menu) =>
+          !menu.roles || menu.roles.some((role) => roles.includes(role)),
+      )
+      .map((menu) => {
+        if (!menu.children) {
+          return menu;
+        }
+
+        const children = menu.children.filter(
+          (child) =>
+            !child.roles || child.roles.some((role) => roles.includes(role)),
+        );
+
+        return { ...menu, children };
+      })
+      .filter((menu) => !menu.children || menu.children.length > 0);
+  };
+
+  // const links = filterLinksByRole(menus, currentRole);
+  const links = filterLinksByRole(menus, userRoles);
 
   return (
     <aside
