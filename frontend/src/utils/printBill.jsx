@@ -1,4 +1,5 @@
 import { translationsFiles } from "../locales/index.js";
+import { OrderTypes } from "./constants.jsx";
 import { formatMoney } from "./utils.jsx";
 
 const getTranslations = () => {
@@ -24,6 +25,13 @@ export const printBill = (order) => {
 
   const { name, qty, price, billTitle, table, subtotal, tax, total } =
     translations.pages.point_of_sale_page.bill;
+
+  const { order_type } = translations.pages.point_of_sale_page;
+
+  const getOrderTypeName = (type) => {
+    const orderType = OrderTypes?.find((g) => g.value === type);
+    return orderType ? translations.order_types[orderType.key] : "-";
+  };
 
   let html = `
     <html dir="${dir}">
@@ -59,7 +67,8 @@ export const printBill = (order) => {
         </style>
       </head>
       <body>
-        <h3>${table || "Table"}: ${order.tableId}</h3>
+        <h3>${table || "Table"}: ${order.tableId ? order?.table?.tableNumber : "-"} </h3>
+        <h3>${order_type || "Order Type"}: ${getOrderTypeName(order.orderType)}</h3>
         <table>
           <thead>
             <tr>

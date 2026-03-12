@@ -37,7 +37,6 @@ namespace TasteHub.DataAccess
         public DbSet<OrderItem> OrderItems { get; set; } = null!;
         public DbSet<OrderItemExtra> OrderItemExtras { get; set; } = null!;
         public DbSet<Payment> Payments { get; set; } = null!;
-        public DbSet<PaymentMethod> PaymentMethods { get; set; } = null!;
 
         // Tables & Reservations
         public DbSet<Table> Tables { get; set; } = null!;

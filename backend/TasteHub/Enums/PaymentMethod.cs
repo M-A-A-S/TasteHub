@@ -2,7 +2,8 @@
 {
     public enum PaymentMethod
     {
-        Cash,
-        Bankak
+        Cash = 1,
+        Bankak = 2,
+        Fawry = 3
     }
 }

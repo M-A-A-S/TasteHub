@@ -31,6 +31,7 @@ namespace TasteHub.Utilities.Extensions
                 DiscountAmount = order.DiscountAmount,
                 TaxAmount = order.TaxAmount,
                 GrandTotal = order.GrandTotal,
+                Table = order.Table.ToDTO(),
                 OrderItems = order.OrderItems?.Select(oi => new OrderItemDTO
                 {
                     Id = oi.Id,

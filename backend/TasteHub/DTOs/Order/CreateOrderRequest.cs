@@ -9,5 +9,9 @@ namespace TasteHub.DTOs.Order
         public int? UserId { get; set; } = 1; // TODO: get it form logged in user
         public OrderType? OrderType { get; set; } = Enums.OrderType.DineIn;
         public IEnumerable<CreateOrderItemRequest> Items { get; set; }
+
+        // Payments
+        public PaymentMethod PaymentMethod { get; set; } = Enums.PaymentMethod.Cash;
+        public string? TransactionReference { get; set; }
     }
 }

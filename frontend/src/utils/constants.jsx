@@ -117,3 +117,33 @@ export const TableStatuses = [
   { value: 1, key: "occupied" },
   { value: 2, key: "reserved" },
 ];
+
+export const TableStatus = {
+  AVAILABLE: 0,
+  OCCUPIED: 1,
+  RESERVED: 2,
+};
+
+export const OrderTypes = [
+  { value: 0, key: "dine_in" },
+  { value: 1, key: "takeaway" },
+  { value: 2, key: "delivery" },
+];
+
+export const OrderType = {
+  DINE_IN: 0,
+  TAKEAWAY: 1,
+  DELIVERY: 2,
+};
+
+export const PaymentMethods = [
+  { value: 1, key: "cash" },
+  { value: 2, key: "Bankak" },
+  { value: 3, key: "fawry" },
+];
+
+export const PaymentMethod = {
+  CASH: 1,
+  BANKAK: 2,
+  FAWRY: 3,
+};

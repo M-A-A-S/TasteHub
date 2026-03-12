@@ -13,8 +13,8 @@ namespace TasteHub.Entities
         public int UserId { get; set; } // Staff who took the order
 
         [Required]
-        public OrderStatus OrderStatus { get; set; } = Enums.OrderStatus.Pending;
-        public OrderType OrderType { get; set; } = Enums.OrderType.DineIn;
+        public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
+        public OrderType OrderType { get; set; } = OrderType.DineIn;
         public DateTime OrderDateTime { get; set; } = DateTime.UtcNow;
 
         [Required]

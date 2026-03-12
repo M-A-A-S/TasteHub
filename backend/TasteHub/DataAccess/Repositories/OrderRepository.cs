@@ -23,6 +23,7 @@ namespace TasteHub.DataAccess.Repositories
             try
             {
                 var order = await _context.Orders
+                .Include(o => o.Table)
                 .Include(o => o.OrderItems).ThenInclude(oi => oi.MenuItem)
                 .Include(o => o.OrderItems).ThenInclude(oi => oi.MenuItemSize).ThenInclude(ms => ms.Size)
                 .Include(o => o.OrderItems).ThenInclude(oi => oi.MenuItemSize).ThenInclude(ms => ms.MenuItem)
@@ -47,6 +48,7 @@ namespace TasteHub.DataAccess.Repositories
             try
             {
                 var query = _context.Orders
+                .Include(o => o.Table)
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.MenuItem)
                 .Include(o => o.OrderItems)

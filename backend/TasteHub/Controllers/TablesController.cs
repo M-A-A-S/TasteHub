@@ -21,9 +21,9 @@ namespace TasteHub.Controllers
 
         [HttpGet]
         [Authorize(Roles = "administrator,manager,cashier")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] TableFiltersDTO filters)
         {
-            return FromResult(await _service.GetAllAsync());
+            return FromResult(await _service.GetAllAsync(filters));
         }
 
         [HttpGet("{id}")]

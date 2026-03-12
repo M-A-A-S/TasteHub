@@ -16,8 +16,9 @@ namespace TasteHub.Entities
         public decimal PaidAmount { get; set; }
 
         [Required]
-        public int PaymentMethodId { get; set; }
+        public Enums.PaymentMethod PaymentMethod { get; set; } = Enums.PaymentMethod.Cash;
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
+        public Enums.PaymentStatus PaymentStatus { get; set; } 
 
         [StringLength(100)]
         [Column(TypeName = "varchar(100)")]
@@ -27,6 +28,5 @@ namespace TasteHub.Entities
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public Order? Order { get; set; } = null!;
-        public PaymentMethod? PaymentMethod { get; set; } = null!;
     }
 }

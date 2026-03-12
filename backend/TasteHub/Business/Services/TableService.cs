@@ -1,4 +1,6 @@
-﻿using TasteHub.Business.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
+using TasteHub.Business.Interfaces;
 using TasteHub.DataAccess.Interfaces;
 using TasteHub.DTOs.Table;
 using TasteHub.Entities;
@@ -42,9 +44,19 @@ namespace TasteHub.Business.Services
 
 
         #region Get
-        public async Task<Result<IEnumerable<TableDTO>>> GetAllAsync()
+        public async Task<Result<IEnumerable<TableDTO>>> GetAllAsync(TableFiltersDTO filters)
         {
-            var tables = await _repo.GetAllAsync();
+
+            Expression<Func<Table, bool>>? predicate = null;
+
+            if (filters?.TableStatus != null)
+            {
+                predicate = x => x.TableStatus == filters.TableStatus;
+            }
+
+            var tables = await _repo.GetAllAsync(predicate: predicate);
+
+
 
             if (!tables.IsSuccess || tables.Data == null)
             {

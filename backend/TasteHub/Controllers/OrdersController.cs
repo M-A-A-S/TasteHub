@@ -5,6 +5,8 @@ using TasteHub.Business.Interfaces;
 using TasteHub.DTOs.Extra;
 using TasteHub.DTOs.MenuItem;
 using TasteHub.DTOs.Order;
+using TasteHub.Utilities;
+using TasteHub.Utilities.Extensions;
 
 namespace TasteHub.Controllers
 {
@@ -33,6 +35,15 @@ namespace TasteHub.Controllers
         [Authorize(Roles = "administrator,manager,cashier")]
         public async Task<IActionResult> Create([FromBody] CreateOrderRequest request)
         {
+            var userIdResult = User.TryGetUserId();
+
+            if (!userIdResult.IsSuccess)
+            {
+                return Unauthorized(Result<bool>.Failure("unauthorized"));
+            }
+
+            request.UserId = userIdResult.Data;
+
             return FromResult(await _service.CreateOrderAsync(request));
         }
 

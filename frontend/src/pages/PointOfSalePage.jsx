@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
 import { create, read } from "../api/apiWrapper";
-import { SORTING_TERMS } from "../utils/constants";
+import { OrderType, PaymentMethod, SORTING_TERMS } from "../utils/constants";
 import FiltersContainer from "../components/PointOfSalePage/FiltersContainer";
 import CardView from "../components/PointOfSalePage/CardView";
 import Pagination from "../components/UI/Pagination";
@@ -102,6 +102,12 @@ const PointOfSalePage = () => {
   // const [cartItems, setCartItems] = useState([]);
   const [cartItems, setCartItems] = useState(() => loadCart() || []);
   const [tableNumber, setTableNumber] = useState(null);
+
+  const [tableId, setTableId] = useState("");
+  const [orderType, setOrderType] = useState(OrderType.DINE_IN);
+  const [paymentMethod, setPaymentMethod] = useState(PaymentMethod.CASH);
+  const [transactionReference, setTransactionReference] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
   const [errorCode, setErrorCode] = useState("");
@@ -294,6 +300,8 @@ const PointOfSalePage = () => {
     //   })),
     // };
     const payload = {
+      orderType: Number(orderType),
+      paymentMethod: Number(paymentMethod),
       items: cartItems.map((item) => ({
         menuItemId: item?.menuItem?.id,
         menuItemSizeId: item?.menuItemSize?.id,
@@ -301,7 +309,14 @@ const PointOfSalePage = () => {
         quantity: item.quantity,
       })),
     };
-    console.log("Payload to API:", payload);
+
+    if (tableId) {
+      payload.tableId = parseInt(tableId);
+    }
+
+    if (transactionReference) {
+      payload.transactionReference = transactionReference;
+    }
 
     createOrder(payload);
   };
@@ -343,6 +358,8 @@ const PointOfSalePage = () => {
           handleClearFilters={handleClearFilters}
           tableNumber={tableNumber}
           handleTableNumberChange={setTableNumber}
+          tableId={tableId}
+          setTableId={setTableId}
           className="flex-1 p-3"
         />
         {loading ? (
@@ -385,6 +402,12 @@ const PointOfSalePage = () => {
         onClearCart={handleClearCart}
         onSubmit={handleSubmit}
         actionLoading={actionLoading}
+        orderType={orderType}
+        setOrderType={setOrderType}
+        paymentMethod={paymentMethod}
+        setPaymentMethod={setPaymentMethod}
+        transactionReference={transactionReference}
+        setTransactionReference={setTransactionReference}
       />
       <AddToCardModal
         show={isAddToCartModalOpen}

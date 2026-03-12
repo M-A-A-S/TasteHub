@@ -136,15 +136,43 @@ OrderFiltersDTO filters)
                 }
             }
 
+            var orderPayments = new List<Payment>();
+
+            var payment = new Payment
+            {
+                OrderId = order.Id,
+                PaymentMethod = request.PaymentMethod,
+                PaidAmount = order.GrandTotal,
+                TransactionReference = request.TransactionReference,
+                PaymentStatus = PaymentStatus.Paid,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+            };
+
+            orderPayments.Add(payment);
+
+            order.Payments = orderPayments;
 
             // Save Order
             var createOrderResult = await _unitOfWork.Orders.AddAsync(order);
-            if (!createOrderResult.IsSuccess)
-            {
-                return Result<OrderDTO>.Failure(createOrderResult.Code);
-            }
+            //if (!createOrderResult.IsSuccess)
+            //{
+            //    return Result<OrderDTO>.Failure(createOrderResult.Code);
+            //}
 
-            await _unitOfWork.SaveChangesAsync();
+            // add payment
+
+
+
+            var addPaymentResult = await _unitOfWork.Payments.AddAsync(payment);
+            
+
+            var saveResult = await _unitOfWork.SaveChangesAsync();
+
+            if (!saveResult.IsSuccess)
+            {
+                return Result<OrderDTO>.Failure();
+            }
 
             // Get order details 
 

@@ -266,7 +266,11 @@
         "subtotal": "المجموع الفرعي",
         "tax": "الضريبة",
         "total": "الإجمالي"
-      }
+      },
+
+      "order_type": "نوع الطلب",
+      "payment_method": "طريقة الدفع",
+      "reference_number": "رقم المرجع"
     },
     "sizes_page": {
       "title": "الأحجام",
@@ -1196,5 +1200,15 @@
     "available": "متاح",
     "occupied": "مشغول",
     "reserved": "محجوز"
+  },
+  "order_types": {
+    "dine_in": "تناول الطعام في المطعم",
+    "takeaway": "طلب للمنزل",
+    "delivery": "توصيل"
+  },
+  "payment_methods": {
+    "cash": "كاش",
+    "Bankak": "بنكك",
+    "fawry": "فوري"
   }
 }

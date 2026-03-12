@@ -264,7 +264,11 @@
         "subtotal": "Subtotal",
         "tax": "Tax",
         "total": "Total"
-      }
+      },
+
+      "order_type": "Order Type",
+      "payment_method": "Payment Method",
+      "reference_number": "Reference Number"
     },
     "sizes_page": {
       "title": "Sizes",
@@ -1185,5 +1189,15 @@
     "available": "Available",
     "occupied": "Occupied",
     "reserved": "Reserved"
+  },
+  "order_types": {
+    "dineIn": "Dine In",
+    "takeaway": "Takeaway",
+    "delivery": "Delivery"
+  },
+  "payment_methods": {
+    "cash": "Cash",
+    "Bankak": "Bankak",
+    "fawry": "Mobile Payment"
   }
 }

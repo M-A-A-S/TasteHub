@@ -12,6 +12,12 @@ const Cart = ({
   onClearCart,
   onSubmit,
   actionLoading,
+  orderType,
+  setOrderType,
+  paymentMethod,
+  setPaymentMethod,
+  transactionReference,
+  setTransactionReference,
 }) => {
   const handleQuantityChange = safeCall(onQuantityChange);
   const handleClearCart = safeCall(onClearCart);
@@ -60,6 +66,12 @@ const Cart = ({
         onClearCart={handleClearCart}
         cartItemsCount={cartItems.length}
         actionLoading={actionLoading}
+        orderType={orderType}
+        setOrderType={setOrderType}
+        paymentMethod={paymentMethod}
+        setPaymentMethod={setPaymentMethod}
+        transactionReference={transactionReference}
+        setTransactionReference={setTransactionReference}
       />
     </div>
   );

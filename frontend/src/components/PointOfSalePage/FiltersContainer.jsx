@@ -1,5 +1,6 @@
 import { useLanguage } from "../../hooks/useLanguage";
 import CategoryFilterButtons from "../CategoryFilterButtons";
+import TableSelect from "../TableSelect";
 import Input from "../UI/Input";
 import SortingFilter from "./SortingFilter";
 
@@ -18,8 +19,8 @@ const FiltersContainer = ({
   handleSortByChange,
   categoryId,
   handleCategoryChange,
-  tableNumber,
-  handleTableNumberChange,
+  tableId,
+  setTableId,
   className,
 }) => {
   const { translations } = useLanguage();
@@ -27,7 +28,7 @@ const FiltersContainer = ({
 
   return (
     <div className={className}>
-      <div className="flex gap-1">
+      <div className="flex gap-1 items-center">
         <Input
           className="flex-1"
           label={Search}
@@ -37,13 +38,21 @@ const FiltersContainer = ({
           value={searchText}
           onChange={handleSearchInputChange}
         />
-        <Input
+        {/* <Input
           className="w-fit"
           type="number"
           value={tableNumber}
           placeholder="T#"
           onChange={(e) => handleTableNumberChange(e.target.value)}
           label={"table_number"}
+        /> */}
+
+        <TableSelect
+          name="menuCategoryId"
+          value={tableId}
+          onChange={(e) => setTableId(e.target.value)}
+          label={"table_number"}
+          // errorMessage={errors.tableId}
         />
       </div>
 
